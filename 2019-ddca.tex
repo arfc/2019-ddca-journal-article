@@ -23,6 +23,7 @@
 
 \usepackage{booktabs}
 \usepackage{threeparttable, tablefootnote}
+\usepackage{floatrow}
 
 \usepackage{tabularx}
 \newcolumntype{b}{>{\hsize=1.0\hsize}X}
@@ -48,6 +49,11 @@
 \usepackage{datatool}
 \usepackage[acronym,toc]{glossaries}
 \include{acros}
+
+\newcommand{\Cyclus}{\textsc{Cyclus}\xspace}%
+\newcommand{\Cycamore}{\textsc{Cycamore}\xspace}%
+\newcommand{\deploy}{\texttt{d3ploy}\xspace}%
+\newcommand{\Deploy}{\texttt{D3ploy}\xspace}%
 
 \makeglossaries
 
@@ -80,8 +86,8 @@ python
 \FloatBarrier
 \input{results}
 \FloatBarrier
-%\input{discussion}
-%\FloatBarrier
+\input{discussion}
+\FloatBarrier
 \input{conclusion}
 \FloatBarrier
 \input{acks}
