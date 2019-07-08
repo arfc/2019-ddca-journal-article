@@ -1,2 +1,2 @@
-# 2018-msbr-reproc
+# 2019-ddca-journal-article
 holds a paper describing demand driven deployment capabilities in Cyclus. 
