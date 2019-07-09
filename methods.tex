@@ -5,8 +5,7 @@ predicts demand and supply of each commodity for the next time
 step. 
 If there is an undersupply of any commodity based 
 on the predicted values, \deploy deploys the fewest number 
-of available facilities to meet the predicted demand 
-with minimal oversupply.  
+of available facilities to meet the predicted demand.  
 Figure \ref{fig:flow} shows the logic flow of \deploy 
 at every time step. 
 
@@ -17,8 +16,8 @@ at every time step.
 	\node (Start) [bblock] {\textbf{Start of time step ($t$).}};
 	\node (Predict) [bblock, below of=Start] {\textbf{Calculate \\ $D_p(t+1)$ and $S_p(t+1)$ for a commodity}};
 	\node (IsThere) [oblock, below of=Predict]{\textbf{$U(t+1) = S_p(t+1)-D_p(t+1)$}};
-	\node (Deploy) [bblock, below of=IsThere, xshift = -3.5cm]{\textbf{Deploy}};
-    \node (NoDeploy) [bblock, right of=Deploy, xshift = 3.5cm]{\textbf{No Deploy} };
+	\node (Deploy) [bblock, below of=IsThere, xshift = -3.5cm]{\textbf{Deployment of facility}};
+    \node (NoDeploy) [bblock, right of=Deploy, xshift = 3.5cm]{\textbf{No Deployment} };
     \node (All) [oblock, below of=Deploy, xshift = 3.5cm] {\textbf{Is this done for all commodities?}};
     \node (End) [bblock, below of=All] {\textbf{Proceed to next time step.}};
 	
@@ -36,20 +35,138 @@ at every time step.
     \caption{\Deploy logic flow at every time step in \Cyclus \cite{chee_demonstration_2019}.}
 \end{figure}
 
-\Deploy's overall objective is to minimize the number of time 
-steps where there is a undersupply of any commodity. 
-However, the ultimate objective is to ensure that there is no 
+\Deploy's overall objective is to ensure that there is no 
 undersupply of power. 
+The sub-objectives are : (1) to minimize the number of time 
+steps of undersupply or under capacity of any 
+commodity, (2): to minimize excessive oversupply of all commodities.
+This is a reflection of reality in which it is important to 
+never have an undersupply of power on the grid by ensuring power 
+plants are never undersupplied of fuel, while not 
+having excessive over supply resulting in a burden to store unused 
+supplies. 
 One of the key issues that \gls{NFCSim}s face is that despite
 sufficient installed reactor capacity to meet the power 
 demand, there is insufficient supply of fabricated/reprocessed 
 fuel at certain time steps, resulting in idle capacity.  
 
-
 \subsection{Structure}
 %Description of front end and back end of fuel cycle 
 %Demand Driven vs. Supply Driven 
+In \deploy, two different institutions were implemented for 
+front-end and back-end fuel cycle facilities: 
+\texttt{DemandDrivenDeploymentInst} and 
+\texttt{SupplyDriven} 
+\noindent
+\texttt{DeploymentInst} respectively. 
+This distinction was made because front-end facilities 
+are deployed to meet demand for the commodity they produce. 
+Whereas, back-end facility are deployed to meet supply for the 
+commodity they provide capacity for. 
+For example, for front end facilities, a reactor facility 
+demands fuel and \texttt{DemandDrivenDeploymentInst} 
+triggers deployment of fuel fabrication facilities to create 
+supply meeting demand for fuel to prevent undersupply. 
+For back end facilities, the reactor generates spent fuel and 
+\texttt{SupplyDrivenDeploymentInst} triggers deployment of 
+waste storage facilities to create capacity meeting the supply 
+of spent fuel to prevent under capacity. 
 
-\subsection{Basic Input Variables}
+\subsection{Input Variables}
+Table \ref{tab:inputs} describes the input variables that a user 
+uses to customize their simulation. 
+Essentially, the user must define the facilities controlled by 
+\deploy, their capacities, the simulation driving commodity, 
+its demand equation, deployment driving method, and which method
+predicts supply and demand. 
+The user also has the option to define supply/capacity buffers for 
+each commodity, facility preferences, and facility constraints. 
+
+In-depth descriptions of each input variable are found in the 
+subsequent sections. 
+
+
+\begin{table}[H]
+	\resizebox{\textwidth}{!}{%
+	\begin{tabular}{|l|l|p{7cm}|}
+	\hline
+											  & \textbf{Input Parameter}                                                           & \textbf{Examples}                                                                                                          \\ \hline
+	\multirow{5}{*}{\textbf{Required}} & Demand driving commodity                                                           & Power, Fuel, Plutonium, etc.                                                                                                                      \\ \cline{2-3} 
+											  & Demand equation                                                                    & P(t) = 10000, sin(t), 10000*t                                                                                                                 \\ \cline{2-3} 
+											  & Facilities it controls                                                             & Fuel Fab, LWR reactor, SFR reactor, Waste repository, etc.                                                                                                      \\ \cline{2-3} 
+											  & Capacities of the facilities                                                       & 3000 kg, 1000 MW, 50000 kg                                                                                                     \\ \cline{2-3} 
+											  & Prediction algorithm                                                                  & \begin{tabular}[c]{@{}l@{}}Power: fast fourier transform\\ Fuel: moving average\\ Spent fuel: moving average\end{tabular} \\ \cline{2-3} 
+											  & Deployment driven by & Installed Capacity/Supply                                                                                                                    \\ \hline
+	\multirow{4}{*}{\textbf{Optional}} & Supply/Capacity Buffer type                                                                        & Absolute                                                                                                                  \\ \cline{2-3} 
+											  & Supply/Capacity Buffer size                                                                        & \begin{tabular}[c]{@{}l@{}}Power: 3000 MW\\ Fuel: 0 kg \\ Spent fuel: 0 kg\end{tabular}                                   \\ \cline{2-3} 
+											  & Facility preferences                                                               & \begin{tabular}[c]{@{}l@{}}LWR reactor = 100-t\\ SFR reactor = t-100 \end{tabular}          \\ \cline{2-3} 
+											  & Facility constraint                                                              & SFR reactor constraint = 5000kg of Pu            \\ \hline	
+			
+											\end{tabular}%
+	}
+	\caption{\Deploy's required and optional input parameters with examples.}
+	\label{tab:inputs}
+	\end{table}
+
+\subsubsection{Deployment Driving Method}
+The user has the choice of deploying facilities based on difference 
+between predicted demand and supply, or predicted demand and 
+installed capacity. 
+There are two advantages of using installed capacity over predicted 
+supply. 
+First, to prevent over deployment of facilities that have an
+intermittent supply. 
+For example, reactor facilities have a designated refueling time. 
+A user might not want \deploy to deploy more reactor facilities 
+to make up for the lack of power supply caused by a gap in 
+supply during refueling. 
+Second, to prevent infinite deployment of a facility that provides 
+a commodity that is no longer available in the simulation. 
+For example, in a transition scenario from \gls{LWR}s to \gls{SFR}s, 
+the reprocessing plant that fabricates \gls{SFR} fuel might demand 
+for Pu after the inventory accumulated by \gls{LWR}s was used up 
+and there are no more \gls{LWR} facilities to generate Pu. 
+This will result in \deploy deploying infinite reprocessing 
+facilities to generate \gls{SFR} fuel despite the lack of Pu 
+to generate the fuel. 
+This can be avoided by constraining \gls{SFR} deployment until a 
+sizable inventory of Pu is accumulated in the simulation. 
+
+\subsubsection{Supply/Capacity Buffer}
+In \texttt{DemandDrivenDeploymentInst}, the user has the option 
+to provide a supply buffer to specific commodities so that 
+\deploy will deploy facilities to meet predicted demand and the
+additional buffer. 
+In \texttt{SupplyDrivenDeploymentInst}, the user has the option 
+to provide a capacity buffer to specific commodities so that 
+\deploy will deploy facilities to meet predicted supply and the
+additional buffer.
+The buffer can be defined as a percentage (equation \ref{eq:perc}) 
+or absolute value (equation \ref{eq:abs}). 
+
+\begin{equation}
+    \label{eq:perc}
+    S_{pwb} = S_{p}*(1+d)
+\end{equation}
+\begin{equation}
+    \label{eq:abs}
+    S_{pwb} = S_{p}+a
+\end{equation}
+where $S_{pwb}$ is predicted supply/capacity with buffer, 
+$S_p$ is the predicted supply/capacity without buffer, 
+$d$ is the percentage value in decimal form, 
+and $a$ is the absolute value of the buffer. 
+
+Using a combination of this buffer capability with the 
+installed capacity deployment driving method is 
+effective in minimizing undersupply of a commodity without 
+having excessive over supply. 
+This is demonstrated in section . 
+
 \subsection{Prediction Algorithms}
+To effectively meet the objectives of \deploy, we looked to 
+prediction analysis/time-forecasting techniques that are 
+commonly used in other fields that use prediction analysis. 
+This is a novel approach that has never been applied to 
+\gls{NFCSim}s. 
 \subsection{}
