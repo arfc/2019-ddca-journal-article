@@ -1,9 +1,11 @@
 \section{Introduction}
 % This is taken from my global paper (how to cite?/Should i paraphrase)
-For many fuel cycle simulators, it is currently up to the user 
-to define a deployment scheme of supporting facilities to ensure 
-that there is no gap in the supply chain. 
-To ease setting up nuclear fuel cycle simulations, a \gls{NFCSim}
+For many fuel cycle simulators, reactor facilities are automatically 
+deployed to meet a user-defined power demand. 
+However, it is up to the user to define a deployment scheme of 
+supporting facilities to ensure that there is no gap in the supply 
+chain that results in idle reactor capacity. 
+To ease setting up of realistic \gls{NFC} simulations, a \gls{NFCSim}
 should bring demand responsive deployment decisions into 
 the dynamics of the simulation logic \cite{huff_current_2017}. 
 Thus, a next generation \gls{NFCSim} should predictively and 
@@ -22,7 +24,7 @@ and represents legal operating organizations such as a
 utility, government, etc. \cite{huff_fundamental_2016}. 
 Facility agents represent nuclear fuel cycle facilities. 
 \Cycamore \cite{carlsen_cycamore_2014}
-provides agents to represent process physics of various 
+provides facility agents to represent process physics of various 
 components in the nuclear fuel cycle (e.g. mine, fuel enrichment 
 facility, reactor). 
 
@@ -36,8 +38,7 @@ overall performance involved continuous recycling
 of co-extracted U/Pu or U/TRU in fast spectrum critical reactors. 
 In the study, these fuel cycles were referred to as EG23, EG24, 
 EG29 and EG30. 
-Table \ref{tab:eg} provides a description of each of these fuel 
-cycles. 
+Table \ref{tab:eg} provides a description of these fuel cycles. 
 
 \floatsetup[table]{capposition=top}
 \begin{table}[!htb]
@@ -54,16 +55,16 @@ cycles.
     \label{tab:eg}
 \end{table}
 
-The evaluation and screening study was performed assuming that 
-the nuclear energy system is at an equilibrium to understand 
-the end-state benefits. 
-Therefore, based on the results from the study, the next step is 
+The evaluation and screening study assumed that 
+the nuclear energy system was at an equilibrium to understand 
+the end-state benefits of each evaluation group (EG). 
+Based on the results from the study, the next step is 
 to understand and evaluate the transition from the initial EG01
 state to these promising future end-states 
 \cite{feng_standardized_2016}. 
 To successfully conduct analysis of the time-dependent transition
 analyses, it is necessary to develop \gls{NFCSim} tools to  
-ease the setting up of transition scenarios. 
+automate setting up of transition scenarios. 
 Therefore, Demand-Driven Cycamore Archetypes project
 (NEUP-FY16-10512) was initiated to develop demand-driven deployment 
 capabilities in \Cyclus. 

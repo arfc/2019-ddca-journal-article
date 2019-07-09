@@ -1,8 +1,55 @@
 \section{Methodology}
-Description of D3ploy
+%Description of D3ploy
+In a \Cyclus \gls{NFC} simulation, at every time step, \deploy 
+predicts demand and supply of each commodity for the next time 
+step. 
+If there is an undersupply of any commodity based 
+on the predicted values, \deploy deploys the fewest number 
+of available facilities to meet the predicted demand 
+with minimal oversupply.  
+Figure \ref{fig:flow} shows the logic flow of \deploy 
+at every time step. 
+
+\begin{figure}[H]
+	\centering
+    \begin{tikzpicture}[node distance=2.5cm]
+    \tikzstyle{every node}=[font=\large]
+	\node (Start) [bblock] {\textbf{Start of time step ($t$).}};
+	\node (Predict) [bblock, below of=Start] {\textbf{Calculate \\ $D_p(t+1)$ and $S_p(t+1)$ for a commodity}};
+	\node (IsThere) [oblock, below of=Predict]{\textbf{$U(t+1) = S_p(t+1)-D_p(t+1)$}};
+	\node (Deploy) [bblock, below of=IsThere, xshift = -3.5cm]{\textbf{Deploy}};
+    \node (NoDeploy) [bblock, right of=Deploy, xshift = 3.5cm]{\textbf{No Deploy} };
+    \node (All) [oblock, below of=Deploy, xshift = 3.5cm] {\textbf{Is this done for all commodities?}};
+    \node (End) [bblock, below of=All] {\textbf{Proceed to next time step.}};
+	
+	\draw [arrow] (Start) -- (Predict); 
+	\draw [arrow] (Predict) -- (IsThere);
+    \draw [arrow] (IsThere) -- node[anchor=east] {$U(t+1) <$ buffer} (Deploy);
+    \draw [arrow] (IsThere) -- node[anchor=west] {$U(t+1) \geq$ buffer} (NoDeploy);
+    \draw [arrow] (Deploy) -- (All);
+    \draw [arrow] (NoDeploy) -- (All);
+    \draw [arrow] (All) -- node[anchor=west] {yes} (End);
+    \draw [arrow] (All) -- ([shift={(-3.9cm,0.7cm)}]All.south west)-- node[anchor=east] {no} ([shift={(-3.9cm,-1cm)}]Predict.north west)--(Predict);
+    \draw [arrow] (End) |-([shift={(3cm,-0.5cm)}]End.south east)-- ([shift={(3cm,0.5cm)}]Start.north east)-|(Start);
+    \end{tikzpicture}
+    \label{fig:flow}
+    \caption{\Deploy logic flow at every time step in \Cyclus \cite{chee_demonstration_2019}.}
+\end{figure}
+
+\Deploy's overall objective is to minimize the number of time 
+steps where there is a undersupply of any commodity. 
+However, the ultimate objective is to ensure that there is no 
+undersupply of power. 
+One of the key issues that \gls{NFCSim}s face is that despite
+sufficient installed reactor capacity to meet the power 
+demand, there is insufficient supply of fabricated/reprocessed 
+fuel at certain time steps, resulting in idle capacity.  
+
+
 \subsection{Structure}
-Description of front end and back end of fuel cycle 
-Demand Driven vs. Supply Driven 
+%Description of front end and back end of fuel cycle 
+%Demand Driven vs. Supply Driven 
+
 \subsection{Basic Input Variables}
 \subsection{Prediction Algorithms}
 \subsection{}
