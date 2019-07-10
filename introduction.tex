@@ -5,6 +5,9 @@ deployed to meet a user-defined power demand.
 However, it is up to the user to define a deployment scheme of 
 supporting facilities to ensure that there is no gap in the supply 
 chain that results in idle reactor capacity. 
+It is straightforward to manually determine a deployment scheme 
+for a once-through fuel cycle, however, it is difficult to effectively 
+implement for complex closed fuel cycle scenarios.  
 To ease setting up of realistic \gls{NFC} simulations, a \gls{NFCSim}
 should bring demand responsive deployment decisions into 
 the dynamics of the simulation logic \cite{huff_current_2017}. 
@@ -74,6 +77,14 @@ agent that deploys facilities to meet the front-end and back-end
 fuel cycle demands based on a user-defined commodity demand. 
 This demand-driven deployment capability is called 
 \deploy. 
+
+\subsection{Novelty}
+To effectively predict supply and demand of commodities in 
+\deploy, we looked to time series forecasting methods that are 
+commonly used in other fields for making future predictions 
+based on past time series data. 
+This is a novel approach that has never been applied to 
+\gls{NFCSim}s. 
 
 \subsection{Objectives}
 The main objectives of this paper are: 

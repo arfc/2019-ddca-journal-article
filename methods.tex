@@ -1,7 +1,7 @@
 \section{Methodology}
 %Description of D3ploy
 In a \Cyclus \gls{NFC} simulation, at every time step, \deploy 
-predicts demand and supply of each commodity for the next time 
+predicts supply and demand of each commodity for the next time 
 step. 
 If there is an undersupply of any commodity based 
 on the predicted values, \deploy deploys the fewest number 
@@ -95,7 +95,7 @@ subsequent sections.
 											  & Demand equation                                                                    & P(t) = 10000, sin(t), 10000*t                                                                                                                 \\ \cline{2-3} 
 											  & Facilities it controls                                                             & Fuel Fab, LWR reactor, SFR reactor, Waste repository, etc.                                                                                                      \\ \cline{2-3} 
 											  & Capacities of the facilities                                                       & 3000 kg, 1000 MW, 50000 kg                                                                                                     \\ \cline{2-3} 
-											  & Prediction algorithm                                                                  & \begin{tabular}[c]{@{}l@{}}Power: fast fourier transform\\ Fuel: moving average\\ Spent fuel: moving average\end{tabular} \\ \cline{2-3} 
+											  & Prediction method                                                                  & \begin{tabular}[c]{@{}l@{}}Power: fast fourier transform\\ Fuel: moving average\\ Spent fuel: moving average\end{tabular} \\ \cline{2-3} 
 											  & Deployment driven by & Installed Capacity/Supply                                                                                                                    \\ \hline
 	\multirow{4}{*}{\textbf{Optional}} & Supply/Capacity Buffer type                                                                        & Absolute                                                                                                                  \\ \cline{2-3} 
 											  & Supply/Capacity Buffer size                                                                        & \begin{tabular}[c]{@{}l@{}}Power: 3000 MW\\ Fuel: 0 kg \\ Spent fuel: 0 kg\end{tabular}                                   \\ \cline{2-3} 
@@ -110,7 +110,7 @@ subsequent sections.
 
 \subsubsection{Deployment Driving Method}
 The user has the choice of deploying facilities based on difference 
-between predicted demand and supply, or predicted demand and 
+between predicted supply and demand, or predicted demand and 
 installed capacity. 
 There are two advantages of using installed capacity over predicted 
 supply. 
@@ -161,12 +161,13 @@ Using a combination of this buffer capability with the
 installed capacity deployment driving method is 
 effective in minimizing undersupply of a commodity without 
 having excessive over supply. 
-This is demonstrated in section . 
+This is demonstrated in section \ref{sec:demo}. 
 
-\subsection{Prediction Algorithms}
-To effectively meet the objectives of \deploy, we looked to 
-prediction analysis/time-forecasting techniques that are 
-commonly used in other fields that use prediction analysis. 
-This is a novel approach that has never been applied to 
-\gls{NFCSim}s. 
+\subsection{Prediction Methods}
+\Deploy records supply and demand values for all commodities
+to provide time series data for use in the time series forecasting 
+methods to predict future supply and demand for each commodity. 
+Two main types of methods are investigated: non-optimizing and 
+deterministic time series forecasting methods.
+
 \subsection{}
