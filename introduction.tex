@@ -5,6 +5,9 @@ deployed to meet a user-defined power demand.
 However, it is up to the user to define a deployment scheme of 
 supporting facilities to ensure that there is no gap in the supply 
 chain that results in idle reactor capacity. 
+Some users choose to set support facilities to have an infinite 
+capacity to avoid this issue, but this is an inaccurate 
+representation of reality. 
 It is straightforward to manually determine a deployment scheme 
 for a once-through fuel cycle, however, it is difficult to effectively 
 implement for complex closed fuel cycle scenarios.  
@@ -87,6 +90,7 @@ This is a novel approach that has never been applied to
 \gls{NFCSim}s. 
 
 \subsection{Objectives}
+\label{sec:obj}
 The main objectives of this paper are: 
 (1) to describe the demand driven deployment capabilities of 
 \Cyclus, (2) to describe the prediction methods available in 

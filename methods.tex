@@ -9,7 +9,7 @@ of available facilities to meet the predicted demand.
 Figure \ref{fig:flow} shows the logic flow of \deploy 
 at every time step. 
 
-\begin{figure}[H]
+\begin{figure}[]
 	\centering
     \begin{tikzpicture}[node distance=2.5cm]
     \tikzstyle{every node}=[font=\large]
@@ -76,14 +76,13 @@ of spent fuel to prevent under capacity.
 Table \ref{tab:inputs} describes the input variables that a user 
 uses to customize their simulation. 
 Essentially, the user must define the facilities controlled by 
-\deploy, their capacities, the simulation driving commodity, 
-its demand equation, deployment driving method, and which method
-predicts supply and demand. 
-The user also has the option to define supply/capacity buffers for 
-each commodity, facility preferences, and facility constraints. 
-
-In-depth descriptions of each input variable are found in the 
-subsequent sections. 
+\deploy, their respective capacities, the driving commodity, 
+its demand equation, deployment driving method, and prediction method 
+for supply and demand. 
+The user also has the optional option to define supply/capacity buffers 
+for each commodity, facility preferences, and facility constraints. 
+In-depth descriptions of the deployment driving method, prediction 
+methods, and buffers are provided in the subsequent sections. 
 
 
 \begin{table}[H]
@@ -109,38 +108,44 @@ subsequent sections.
 	\end{table}
 
 \subsubsection{Deployment Driving Method}
-The user has the choice of deploying facilities based on difference 
+The user has the choice of deploying facilities based on the difference 
 between predicted supply and demand, or predicted demand and 
 installed capacity. 
 There are two advantages of using installed capacity over predicted 
 supply. 
 First, to prevent over deployment of facilities that have an
 intermittent supply. 
-For example, reactor facilities have a designated refueling time. 
+For example, reactor facilities have a periodic refueling time. 
 A user might not want \deploy to deploy more reactor facilities 
-to make up for the lack of power supply caused by a gap in 
+to make up for the lack of power supply caused by the gap in 
 supply during refueling. 
-Second, to prevent infinite deployment of a facility that provides 
+Second, to prevent infinite deployment of a facility that uses 
 a commodity that is no longer available in the simulation. 
 For example, in a transition scenario from \gls{LWR}s to \gls{SFR}s, 
 the reprocessing plant that fabricates \gls{SFR} fuel might demand 
-for Pu after the inventory accumulated by \gls{LWR}s was used up 
+Pu after the inventory accumulated by \gls{LWR}s is used up 
 and there are no more \gls{LWR} facilities to generate Pu. 
 This will result in \deploy deploying infinite reprocessing 
-facilities to generate \gls{SFR} fuel despite the lack of Pu 
-to generate the fuel. 
-This can be avoided by constraining \gls{SFR} deployment until a 
-sizable inventory of Pu is accumulated in the simulation. 
+facilities to generate \gls{SFR} fuel despite the lack of input Pu 
+to generate it. 
+This can be avoided by using \deploy's facility constraint capability 
+to constrain \gls{SFR} deployment until a sizable inventory of Pu 
+is accumulated in the simulation. 
 
 \subsubsection{Supply/Capacity Buffer}
 In \texttt{DemandDrivenDeploymentInst}, the user has the option 
-to provide a supply buffer to specific commodities so that 
+to provide a supply buffer for each commodity so that 
 \deploy will deploy facilities to meet predicted demand and the
-additional buffer. 
+additional buffer value. 
 In \texttt{SupplyDrivenDeploymentInst}, the user has the option 
 to provide a capacity buffer to specific commodities so that 
 \deploy will deploy facilities to meet predicted supply and the
 additional buffer.
+For example, the user could set the power commodity's supply buffer 
+to be 2000 MW. 
+If predicted demand is 10000 MW, \deploy will deploy reactor 
+facilities to meet the predicted demand and supply buffer, resulting 
+in a power supply of 12000 MW.  
 The buffer can be defined as a percentage (equation \ref{eq:perc}) 
 or absolute value (equation \ref{eq:abs}). 
 
@@ -158,15 +163,16 @@ $d$ is the percentage value in decimal form,
 and $a$ is the absolute value of the buffer. 
 
 Using a combination of this buffer capability with the 
-installed capacity deployment driving method is 
-effective in minimizing undersupply of a commodity without 
-having excessive over supply. 
+installed capacity deployment driving method in a transition 
+scenario simulation is effective in minimizing undersupply of a 
+commodity without having excessive over supply. 
 This is demonstrated in section \ref{sec:demo}. 
 
 \subsection{Prediction Methods}
-\Deploy records supply and demand values for all commodities
-to provide time series data for use in the time series forecasting 
-methods to predict future supply and demand for each commodity. 
+\Deploy records supply and demand values at every time step for all 
+commodities to provide time series data for use in the time series 
+forecasting methods to predict future supply and demand for each 
+commodity.  
 Two main types of methods are investigated: non-optimizing and 
 deterministic time series forecasting methods.
 

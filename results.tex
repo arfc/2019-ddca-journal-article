@@ -1,6 +1,7 @@
 \section{Results}
 To demonstrate \deploy's capability to effectively conduct transition
-scenario analysis, this section will (1) demonstrate 
+scenario analysis and meet the objectives described in section 
+\ref{sec:obj}, this section will (1) demonstrate 
 \deploy's capability in simple transition scenarios, (2) set up 
 EG01-EG23, EG01-EG24, EG01-EG29, and EG01-EG30 transition scenarios
 and compare the results of using each prediction methods for each 
@@ -20,13 +21,15 @@ three types of facilities: \texttt{source}, \texttt{reactor}, and
 \texttt{sink}. 
 All simulations have ten initial \texttt{reactor} facilities 
 (\texttt{reactor1} to \texttt{reactor10}). 
-These reactors have staggered cycle lengths and lifetimes so that they
-do not refuel all at once and the decommissioning occurs gradually. 
-\Deploy is set up so that it deploys \texttt{new reactor} facilities
+These reactors have staggered cycle lengths and lifetimes to prevent 
+simultaneous refueling and set up gradual decommissioning. 
+\Deploy is set up to deploy \texttt{new reactor} facilities
 to meet the loss of power supply introduced from the decommissioning 
 of the initial \texttt{reactor} facilities. 
 The \deploy input parameters for each simulation is shown in Table 
 \ref{tab:demonstrations}. 
+Figure \ref{fig:powerplots} shows the user-defined power demand curves 
+that \deploy needs to deploy facilities meet for each simulation.
 
 \begin{table}[H]
     \resizebox{\textwidth}{!}{%
@@ -46,7 +49,59 @@ The \deploy input parameters for each simulation is shown in Table
     \caption{\Deploy's input parameters for the basic transition scenarios.}
     \label{tab:demonstrations}
     \end{table}
-    
+
+    \begin{figure}[H]
+        \begin{center}
+            \includegraphics[scale=0.37]{./figures/powerplots.png}
+        \end{center}
+            \caption{Power demand curves for basic transition scenarios.}
+        \label{fig:powerplots}
+    \end{figure}
+
+    \begin{figure}[H]
+        \centering
+        \begin{subfigure}[t]{\textwidth}
+        \centering
+            \includegraphics[width=0.8\linewidth]{figures/constanttransition-power.png} 
+            \caption{The power demand is a user-defined equation and power is supplied by the reactors.}
+            \label{fig:constanttransition-power}
+        \end{subfigure}
+        \begin{subfigure}[t]{0.65\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{figures/constanttransition-fuel.png} 
+            \caption{Fuel is demanded by reactors and supplied by source facilities.}
+            \label{fig:constanttransition-fuel}
+        \end{subfigure}
+        \begin{subfigure}[t]{0.65\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{figures/constanttransition-spentfuel.png} 
+            \caption{Spent Fuel is supplied by reactors and the capacity is provided by sink facilities.}
+            \label{fig:constanttransition-spentfuel}
+        \end{subfigure}
+        \caption{Transition Scenario: Constant Power Demand of 10000MW}
+    \end{figure}
+
+The undersupply results of these simulations is shown in Table 
+\ref{tab:transition-scenario-results}. 
+\begin{table}[H]
+    \centering
+    \caption {Undersupply results for each commodity in each scenario}
+	\label{tab:transition-scenario-results}
+    \begin{tabular}{|l|l|p{4cm}|}
+    \hline
+    \textbf{Basic Transition Scenario}    & \textbf{Commodity}    & \textbf{No. of time steps with undersupply} \\ \hline
+    \multirow{2}{*}{\textbf{Constant Power}} & Fuel & 1 \\ \cline{2-3}
+                                             & Power & 0 \\ \cline{2-3}
+                                             & Spent Fuel & 0 \\ \hline
+    \multirow{2}{*}{\textbf{Linearly Increasing Power}} & Fuel & 1 \\ \cline{2-3}
+                                             & Power & 0 \\ \cline{2-3}
+                                             & Spent Fuel & 0 \\ \hline
+    \multirow{2}{*}{\textbf{Sinusoidal Power}} & Fuel & 1 \\ \cline{2-3}
+                                             & Power & 1 \\ \cline{2-3}
+                                             & Spent Fuel & 0 \\ \hline
+    \end{tabular}
+\end{table}
+
 \subsubsection{Basic Transition Scenario: Constant Demand}
 
 \subsection{Comparison of Prediction Methods}
