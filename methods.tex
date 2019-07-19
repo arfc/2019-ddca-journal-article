@@ -1,25 +1,25 @@
 \section{Methodology}
 %Description of D3ploy
-In a \Cyclus \gls{NFC} simulation, at every time step, \deploy 
+In a \Cyclus \gls{NFC} simulation, at every timestep, \deploy 
 predicts supply and demand of each commodity for the next time 
 step. 
 If there is an undersupply of any commodity based 
-on the predicted values, \deploy deploys the fewest number 
-of available facilities to meet the predicted demand.  
+on the predicted values, \deploy deploys facilities to meet 
+the predicted demand.  
 Figure \ref{fig:flow} shows the logic flow of \deploy 
-at every time step. 
+at every timestep. 
 
-\begin{figure}[]
+\begin{figure}[H]
 	\centering
     \begin{tikzpicture}[node distance=2.5cm]
     \tikzstyle{every node}=[font=\large]
-	\node (Start) [bblock] {\textbf{Start of time step ($t$).}};
+	\node (Start) [bblock] {\textbf{Start of timestep ($t$).}};
 	\node (Predict) [bblock, below of=Start] {\textbf{Calculate \\ $D_p(t+1)$ and $S_p(t+1)$ for a commodity}};
 	\node (IsThere) [oblock, below of=Predict]{\textbf{$U(t+1) = S_p(t+1)-D_p(t+1)$}};
 	\node (Deploy) [bblock, below of=IsThere, xshift = -3.5cm]{\textbf{Deployment of facility}};
     \node (NoDeploy) [bblock, right of=Deploy, xshift = 3.5cm]{\textbf{No Deployment} };
     \node (All) [oblock, below of=Deploy, xshift = 3.5cm] {\textbf{Is this done for all commodities?}};
-    \node (End) [bblock, below of=All] {\textbf{Proceed to next time step.}};
+    \node (End) [bblock, below of=All] {\textbf{Proceed to next timestep.}};
 	
 	\draw [arrow] (Start) -- (Predict); 
 	\draw [arrow] (Predict) -- (IsThere);
@@ -32,7 +32,7 @@ at every time step.
     \draw [arrow] (End) |-([shift={(3cm,-0.5cm)}]End.south east)-- ([shift={(3cm,0.5cm)}]Start.north east)-|(Start);
     \end{tikzpicture}
     \label{fig:flow}
-    \caption{\Deploy logic flow at every time step in \Cyclus \cite{chee_demonstration_2019}.}
+    \caption{\Deploy logic flow at every timestep in \Cyclus \cite{chee_demonstration_2019}.}
 \end{figure}
 
 \Deploy's overall objective is to ensure that there is no 
@@ -48,7 +48,7 @@ supplies.
 One of the key issues that \gls{NFCSim}s face is that despite
 sufficient installed reactor capacity to meet the power 
 demand, there is insufficient supply of fabricated/reprocessed 
-fuel at certain time steps, resulting in idle capacity.  
+fuel at certain timesteps, resulting in idle capacity.  
 
 \subsection{Structure}
 %Description of front end and back end of fuel cycle 
@@ -73,8 +73,8 @@ waste storage facilities to create capacity meeting the supply
 of spent fuel to prevent under capacity. 
 
 \subsection{Input Variables}
-Table \ref{tab:inputs} describes the input variables that a user 
-uses to customize their simulation. 
+Table \ref{tab:inputs} lists and gives examples of the input 
+variables \deploy accepts. 
 Essentially, the user must define the facilities controlled by 
 \deploy, their respective capacities, the driving commodity, 
 its demand equation, deployment driving method, and prediction method 
@@ -168,12 +168,77 @@ scenario simulation is effective in minimizing undersupply of a
 commodity without having excessive over supply. 
 This is demonstrated in section \ref{sec:demo}. 
 
+\subsection{Preferences}
+% Need to explain the order of preferences for deployment 
+% Constraint, pref, minimize number of facilities and minimize 
+% over supply 
+The user has the option to provide each facility with
+a time dependent preference equation that governs preference for 
+that facility compared to other facilities that provide the same 
+commodity. 
+In the example for facility preferences in table \ref{tab:inputs}, 
+the \gls{LWR} reactor has a preference of $100-t$ and the 
+\gls{SFR} reactor has a preference of $t-100$. 
+Thus, the \gls{LWR} is preferred before time step 100 and \gls{SFR}
+is preferred after. 
+
+The user also has the option to provide each facility with a 
+commodity constraint. 
+In the example for facility constraint in table \ref{tab:inputs}, 
+the \gls{SFR} has a commodity constraint of 5000kg of Pu. 
+This constrains \gls{SFR} deployment by the size of the Pu inventory 
+in the simulation. 
+Once, the 5000kg Pu inventory is first met, \gls{SFR} reactors can 
+henceforth be deployed. 
+
+One of the key issues faced in transition scenarios is the lack 
+of Pu in a scenario that results in idle advanced reactor capacity. 
+Therefore, the facility preferences and constraint capabilities 
+are useful and necessary for modeling transition scenarios. 
+An ideal transition year is selected using the facility 
+preferences, however the transition will only begin when there 
+is sufficient Pu inventory (set by facility constraint) 
+to avoid Pu shortages. 
+
+Therefore, when \deploy predicts an undersupply of a commodity, 
+it deploys available facilities to meet the predicted demand. 
+It will deploy the facility with the highest preference first, 
+unless it does not meet it's constrained criteria, then it will 
+deploy the second most, and so on. 
+If the facilities do not have preferences or constraints, \deploy 
+will deploy the available facilities to minimize the number of 
+deployed facilities while minimizing oversupply of the commodity.
+
 \subsection{Prediction Methods}
-\Deploy records supply and demand values at every time step for all 
-commodities to provide time series data for use in the time series 
+\Deploy records supply and demand values at every timestep for all 
+commodities. 
+This provides time series data for \deploy's time series 
 forecasting methods to predict future supply and demand for each 
 commodity.  
 Two main types of methods are investigated: non-optimizing and 
 deterministic time series forecasting methods.
+
+The reason for implementing multiple methods is that for different 
+user-defined power demand curves, there will be different 
+responses of each commodity. 
+Conducting a comparison of each method for each type of simulation 
+will give a better idea of 
+
+% KEY ISSUE: The variation of prediction method for each commodity?? 
+
+The prediction methods will be described in the following 
+sections. 
+
+\subsubsection{Non-Optimizing Methods}
+Non-optimizing methods include: \gls{MA}, \gls{ARMA}, 
+\gls{ARCH}. 
+The \gls{MA} method calculates the moving average of 
+a user defined number of previous entries in a commodity's 
+time series. 
+
+\subsubsection{Deterministic Methods}
+Deterministic methods include: \gls{FFT}, polynomial fit, 
+exponential smoothing, and triple exponential smoothing 
+(holt-winters). 
 
 \subsection{}

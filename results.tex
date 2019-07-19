@@ -58,7 +58,39 @@ that \deploy needs to deploy facilities meet for each simulation.
         \label{fig:powerplots}
     \end{figure}
 
-    \begin{figure}[H]
+\subsubsection{Basic Transition Scenario Simulation: Constant Demand}
+Figures \ref{fig:constanttransition-power}, \ref{fig:constanttransition-fuel}
+and \ref{fig:constanttransition-spentfuel} demonstrate \deploy's capability 
+to deploy reactor and supporting facilities to meet the user 
+determined constant power demand and subsequently demanded 
+secondary commodities with minimal undersupply. 
+Table \ref{tab:transition-scenario-results} shows the number of 
+undersupplied timesteps. 
+Figure \ref{fig:constanttransition-power} demonstrates that
+the main objective of \deploy was met since there are no timesteps
+in which the supply of power falls under demand.
+By using a combination of the fast fourier transform method for 
+predicting demand and setting the supply buffer to 3000MW 
+(the capacity of 3 reactors), the user minimizes the number of 
+undersupplied timesteps for every commodity.
+
+In figure \ref{fig:constanttransition-fuel},
+a facility with a large fuel throughput is initially
+deployed to meet the large initial fuel demand for the starting
+up of ten reactors. 
+\Deploy is prevented from deploying many supporting
+facilities that end up being redundant at the later parts of 
+the simulation, by having an initial facility with a large throughput
+exist for the first few timesteps in the simulation.
+This is a reflection of reality in which reactor manufacturers will 
+accumulate an appropriate amount of fuel inventory before starting 
+up reactors. 
+There is one timestep where there is an undersupply after the 
+decommissioning of the large initial facility.  
+This is unavoidable since the prediction methods in \deploy are 
+unable to predict this sudden drop in demand. 
+
+    \begin{figure}[]
         \centering
         \begin{subfigure}[t]{\textwidth}
         \centering
@@ -81,15 +113,92 @@ that \deploy needs to deploy facilities meet for each simulation.
         \caption{Transition Scenario: Constant Power Demand of 10000MW}
     \end{figure}
 
-The undersupply results of these simulations is shown in Table 
-\ref{tab:transition-scenario-results}. 
+\subsubsection{Basic Transition Scenario Simulation: Linearly Increasing Demand}
+
+Figures \ref{fig:growingtransition-power}, \ref{fig:growingtransition-fuel}
+and \ref{fig:growingtransition-spentfuel} demonstrate the capability 
+of \deploy to deploy reactor and supporting facilities to meet the
+power demand and subsequently demanded secondary commodities 
+for a linearly increasing power demand. 
+A smaller supply buffer could be used while still minimizing under supply.
+Table \ref{tab:transition-scenario-results} shows the number of 
+undersupplied timesteps. 
+Figure \ref{fig:growingtransition-power} demonstrates that
+the main objective of \deploy was met since there are no timesteps
+in which the supply of power falls under demand.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[t]{\textwidth}
+    \centering
+        \includegraphics[width=0.8\linewidth]{figures/growingtransition-power.png} 
+        \caption{The power demand is a user-defined equation and power is supplied by the reactors.}
+        \label{fig:growingtransition-power}
+    \end{subfigure}
+    \begin{subfigure}[t]{0.65\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/growingtransition-fuel.png} 
+        \caption{Fuel is demanded by reactors and supplied by source facilities.}
+	    \label{fig:growingtransition-fuel}
+    \end{subfigure}
+    \begin{subfigure}[t]{0.65\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/growingtransition-spentfuel.png} 
+        \caption{Spent Fuel is supplied by reactors and the capacity is provided by sink facilities.}
+        \label{fig:growingtransition-spentfuel}
+    \end{subfigure}
+    \caption{Transition Scenario: Linearly increasing power demand.}
+\end{figure}
+
+\subsubsection{Basic Transition Scenario Simulation: Sinusoidal Demand}
+A sinusoidal power demand is the reflection of power demand in 
+the real world where power usage is higher in the winter and summer
+and lower in the spring and fall. 
+Figures \ref{fig:sinetransition-power}, \ref{fig:sinetransition-fuel}
+and \ref{fig:sinetransition-spentfuel} demonstrate the capability 
+of \deploy to deploy reactor and supporting facilities to meet the
+power demand and subsequently demanded secondary commodities 
+for a sinusoidal power demand. 
+Table \ref{tab:transition-scenario-results} shows the number of 
+undersupplied timesteps.
+
+For a sinusoidal power demand, the use of the triple exponential method
+for predicting demand is more effective than the 
+fast fourier transform method which was used for the constant 
+and linearly increasing power demand transition scenarios. 
+This is because the triple exponential smoothing method excels in
+forecasting data points for repetitive seasonal series of data. 
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[t]{\textwidth}
+    \centering
+        \includegraphics[width=0.8\linewidth]{figures/sinetransition-power.png} 
+        \caption{The power demand is a user-defined equation and power is supplied by the reactors.}
+        \label{fig:sinetransition-power}
+    \end{subfigure}
+    \begin{subfigure}[t]{0.65\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/sinetransition-fuel.png} 
+        \caption{Fuel is demanded by reactors and supplied by source facilities.}
+	    \label{fig:sinetransition-fuel}
+    \end{subfigure}
+    \begin{subfigure}[t]{0.65\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/sinetransition-spentfuel.png} 
+        \caption{Spent Fuel is supplied by reactors and the capacity is provided by sink facilities.}
+        \label{fig:sinetransition-spentfuel}
+    \end{subfigure}
+    \caption{Transition Scenario: Sinusoidal Power Demand}
+\end{figure}
+
 \begin{table}[H]
     \centering
     \caption {Undersupply results for each commodity in each scenario}
 	\label{tab:transition-scenario-results}
     \begin{tabular}{|l|l|p{4cm}|}
     \hline
-    \textbf{Basic Transition Scenario}    & \textbf{Commodity}    & \textbf{No. of time steps with undersupply} \\ \hline
+    \textbf{Basic Transition Scenario}    & \textbf{Commodity}    & \textbf{No. of timesteps with undersupply} \\ \hline
     \multirow{2}{*}{\textbf{Constant Power}} & Fuel & 1 \\ \cline{2-3}
                                              & Power & 0 \\ \cline{2-3}
                                              & Spent Fuel & 0 \\ \hline
