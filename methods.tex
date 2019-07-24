@@ -219,22 +219,27 @@ Two main types of methods are investigated: non-optimizing and
 deterministic time series forecasting methods.
 
 The reason for implementing multiple methods is that for different 
-user-defined power demand curves, there will be different 
-responses of each commodity. 
-Conducting a comparison of each method for each type of simulation 
-will give a better idea of 
-
-% KEY ISSUE: The variation of prediction method for each commodity?? 
+user-defined power demand curves, \deploy input parameters
+, and types of supporting facilities in the simulation,
+\gls{NFC} transition scenario simulations will respond differently. 
+Therefore, conducting a comparison of each method for each type of 
+simulation will determine which method is most effective for 
+each simulation. 
 
 The prediction methods will be described in the following 
 sections. 
 
 \subsubsection{Non-Optimizing Methods}
-Non-optimizing methods include: \gls{MA}, \gls{ARMA}, 
+Non-optimizing methods include: Moving Average (MA), \gls{ARMA}, 
 \gls{ARCH}. 
-The \gls{MA} method calculates the moving average of 
+The MA method calculates the moving average of 
 a user defined number of previous entries in a commodity's 
 time series. 
+
+The \gls{ARMA} method is a combination of an autoregressive term, 
+and a moving average term. 
+The \gls{ARMA} method is more accurate than the MA method 
+because of this autoregressive term. xz 
 
 \subsubsection{Deterministic Methods}
 Deterministic methods include: \gls{FFT}, polynomial fit, 
