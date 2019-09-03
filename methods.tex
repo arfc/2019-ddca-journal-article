@@ -1,5 +1,11 @@
 \section{Methodology}
 %Description of D3ploy
+In \Cyclus, developers have the option to design 
+agents using C++ or python. 
+The \deploy \texttt{Institution} agent was 
+implemented in Python to enable the use of 
+well developed time series forecasting Python packages. 
+
 In a \Cyclus \gls{NFC} simulation, at every timestep, \deploy 
 predicts supply and demand of each commodity for the next time 
 step. 
@@ -9,8 +15,9 @@ the predicted demand.
 Figure \ref{fig:flow} shows the logic flow of \deploy 
 at every timestep. 
 
-\begin{figure}[H]
+\begin{figure}[]
 	\centering
+	\resizebox{0.8\textwidth} {0.8\height}{
     \begin{tikzpicture}[node distance=2.5cm]
     \tikzstyle{every node}=[font=\large]
 	\node (Start) [bblock] {\textbf{Start of timestep ($t$).}};
@@ -30,12 +37,13 @@ at every timestep.
     \draw [arrow] (All) -- node[anchor=west] {yes} (End);
     \draw [arrow] (All) -- ([shift={(-3.9cm,0.7cm)}]All.south west)-- node[anchor=east] {no} ([shift={(-3.9cm,-1cm)}]Predict.north west)--(Predict);
     \draw [arrow] (End) |-([shift={(3cm,-0.5cm)}]End.south east)-- ([shift={(3cm,0.5cm)}]Start.north east)-|(Start);
-    \end{tikzpicture}
+	\end{tikzpicture}
+	}
+    \caption{\deploy logic flow at every timestep in \Cyclus \cite{chee_demonstration_2019}.}
     \label{fig:flow}
-    \caption{\Deploy logic flow at every timestep in \Cyclus \cite{chee_demonstration_2019}.}
 \end{figure}
 
-\Deploy's overall objective is to ensure that there is no 
+\deploy's overall objective is to ensure that there is no 
 undersupply of power. 
 The sub-objectives are : (1) to minimize the number of time 
 steps of undersupply or under capacity of any 
@@ -85,7 +93,7 @@ In-depth descriptions of the deployment driving method, prediction
 methods, and buffers are provided in the subsequent sections. 
 
 
-\begin{table}[H]
+\begin{table}[]
 	\resizebox{\textwidth}{!}{%
 	\begin{tabular}{|l|l|p{7cm}|}
 	\hline
@@ -103,7 +111,7 @@ methods, and buffers are provided in the subsequent sections.
 			
 											\end{tabular}%
 	}
-	\caption{\Deploy's required and optional input parameters with examples.}
+	\caption{\deploy's required and optional input parameters with examples.}
 	\label{tab:inputs}
 	\end{table}
 
@@ -210,13 +218,23 @@ will deploy the available facilities to minimize the number of
 deployed facilities while minimizing oversupply of the commodity.
 
 \subsection{Prediction Methods}
-\Deploy records supply and demand values at every timestep for all 
+\deploy records supply and demand values at every timestep for all 
 commodities. 
 This provides time series data for \deploy's time series 
 forecasting methods to predict future supply and demand for each 
 commodity.  
-Two main types of methods are investigated: non-optimizing and 
-deterministic time series forecasting methods.
+Three main types of methods are investigated: non-optimizing, 
+deterministic-optimizing, and stochastic-optimizing
+time series forecasting methods.
+Non-optimizing methods are techniques that make use of 
+simple moving average and autoregression concepts that use 
+historical data to infer future supply and demand values. 
+Deterministic-optimizing and stochastic-optimizing 
+methods are techniques 
+that use an assortment of more complex time series forecasting 
+concepts to predict future supply and demand values. 
+Deterministic-optimizing methods give deterministic solutions,
+while stochastic-optimizing methods give stochastic solutions. 
 
 The reason for implementing multiple methods is that for different 
 user-defined power demand curves, \deploy input parameters
@@ -224,26 +242,91 @@ user-defined power demand curves, \deploy input parameters
 \gls{NFC} transition scenario simulations will respond differently. 
 Therefore, conducting a comparison of each method for each type of 
 simulation will determine which method is most effective for 
-each simulation. 
-
+each type of simulation. 
 The prediction methods will be described in the following 
 sections. 
 
 \subsubsection{Non-Optimizing Methods}
 Non-optimizing methods include: Moving Average (MA), \gls{ARMA}, 
 \gls{ARCH}. 
-The MA method calculates the moving average of 
-a user defined number of previous entries in a commodity's 
-time series. 
+The MA method calculates the average of 
+a user-defined number of previous entries in a commodity's 
+time series and returns it as the predicted value 
+(equation \ref{eq:ma}).
 
-The \gls{ARMA} method is a combination of an autoregressive term, 
-and a moving average term. 
+\begin{equation}
+	\label{eq:ma}
+	Predicted\ Value = \frac{V_1+V_2+...+V_n}{n}
+\end{equation}
+
+The \gls{ARMA} method combines moving average and
+autoregressive models (equation \ref{eq:arma}).
+The first term is a constant, second term is 
+white noise, third term is the autoregressive
+model, and the fourth term is the moving average
+model.
 The \gls{ARMA} method is more accurate than the MA method 
-because of this autoregressive term. xz 
+because of the inclusion of the autoregressive term. 
 
-\subsubsection{Deterministic Methods}
-Deterministic methods include: \gls{FFT}, polynomial fit, 
+\begin{equation}
+	\label{eq:arma}
+	X_t = c + \epsilon_t + 
+	\sum_{i=1}^p\varphi_i X_{t-i} +	
+	\sum_{i=1}^q\theta_i\epsilon_{t-i}
+\end{equation}
+
+The \gls{ARCH} method modifies the original moving 
+average term (described in equation \ref{eq:arma}). 
+This modification makes the \gls{ARCH} method 
+better than the \gls{ARMA} method for volatile systems
+\cite{flanagan_methods_2019}. 
+Both the \gls{ARMA} and \gls{ARCH} methods are 
+implemented in \deploy using the StatsModels 
+\cite{github_community_statsmodels:_2019}
+Python package. 
+
+\subsubsection{Deterministic-Optimizing Methods}
+Deterministic methods include: \gls{FFT}, polynomial fit
+(poly), 
 exponential smoothing, and triple exponential smoothing 
 (holt-winters). 
+The FFT method computes the discrete Fourier transform 
+of the time series to predict future demand and supply 
+values (equation \ref{eq:fft}).
+This method is implemented in \deploy using the 
+SciPy \cite{jones_scipy:_2016} Python package. 
 
-\subsection{}
+\begin{equation}
+	\label{eq:fft}
+	X_k = \sum_{n=0}^{N-1}x_n e^{-i2\pi kn/N}
+\end{equation}
+
+The polynomial fit method models the time series data 
+with a nth degree (user-defined) polynomial to determine 
+future demand and supply values. 
+This method is implemented in \deploy using the 
+NumPy \cite{developers_numpy_2013} Python package. 
+The exponential smoothing and triple exponential smoothing 
+methods use a weighted average 
+of time series data with weights decaying exponentially 
+for older time series values \cite{hyndman_forecasting:_2018}
+to create a model to determine future demand and supply values. 
+The exponential smoothing method excels in 
+modeling univariate time series data without trend or seasonality, 
+whereas the triple exponential smoothing method is favorable for 
+modeling seasonal time series data \cite{flanagan_methods_2019}. 
+Both these methods are implemented in \deploy 
+using the StatsModels \cite{github_community_statsmodels:_2019}
+Python package. 
+
+\subsection{Stochastic-Optimizing Methods}
+There is one stochastic-optimizing method: step-wise 
+seasonal method. 
+The method is implemented in \deploy by the auto \gls{ARIMA} 
+method in the pmdarima \cite{noauthor_pmdarima:_2019}
+Python package. 
+The \gls{ARIMA} model is a generalization of the \gls{ARMA}
+model to make the model fit the time series data better. 
+It replaces the time series values with the difference
+between consecutive values. 
+
