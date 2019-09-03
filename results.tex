@@ -23,7 +23,7 @@ All simulations have ten initial \texttt{reactor} facilities
 (\texttt{reactor1} to \texttt{reactor10}). 
 These reactors have staggered cycle lengths and lifetimes to prevent 
 simultaneous refueling and set up gradual decommissioning. 
-\Deploy is set up to deploy \texttt{new reactor} facilities
+\deploy is set up to deploy \texttt{new reactor} facilities
 to meet the loss of power supply introduced from the decommissioning 
 of the initial \texttt{reactor} facilities. 
 The \deploy input parameters for each simulation is shown in Table 
@@ -31,7 +31,7 @@ The \deploy input parameters for each simulation is shown in Table
 Figure \ref{fig:powerplots} shows the user-defined power demand curves 
 that \deploy needs to deploy facilities meet for each simulation.
 
-\begin{table}[H]
+\begin{table}[]
     \resizebox{\textwidth}{!}{%
     \begin{tabular}{|l|l|c|l|l|}
     \hline
@@ -46,11 +46,11 @@ that \deploy needs to deploy facilities meet for each simulation.
                                               & Buffer size                                                    & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Power: 3000 MW\\ Fuel: 0 kg \\ Spent fuel: 0 kg\end{tabular}} & \begin{tabular}[c]{@{}l@{}}Power: 2000 MW\\ Fuel: 1000 kg \\ Spent fuel: 0 kg\end{tabular}     & \begin{tabular}[c]{@{}l@{}}Power: 2000 MW\\ Fuel: 1000 kg \\ Spent fuel: 0 kg\end{tabular} \\ \hline
     \end{tabular}%
     }
-    \caption{\Deploy's input parameters for the basic transition scenarios.}
+    \caption{\deploy's input parameters for the basic transition scenarios.}
     \label{tab:demonstrations}
     \end{table}
 
-    \begin{figure}[H]
+    \begin{figure}[]
         \begin{center}
             \includegraphics[scale=0.37]{./figures/powerplots.png}
         \end{center}
@@ -78,7 +78,7 @@ In figure \ref{fig:constanttransition-fuel},
 a facility with a large fuel throughput is initially
 deployed to meet the large initial fuel demand for the starting
 up of ten reactors. 
-\Deploy is prevented from deploying many supporting
+\deploy is prevented from deploying many supporting
 facilities that end up being redundant at the later parts of 
 the simulation, by having an initial facility with a large throughput
 exist for the first few timesteps in the simulation.
@@ -127,7 +127,7 @@ Figure \ref{fig:growingtransition-power} demonstrates that
 the main objective of \deploy was met since there are no timesteps
 in which the supply of power falls under demand.
 
-\begin{figure}[H]
+\begin{figure}[]
     \centering
     \begin{subfigure}[t]{\textwidth}
     \centering
@@ -169,7 +169,7 @@ and linearly increasing power demand transition scenarios.
 This is because the triple exponential smoothing method excels in
 forecasting data points for repetitive seasonal series of data. 
 
-\begin{figure}[H]
+\begin{figure}[]
     \centering
     \begin{subfigure}[t]{\textwidth}
     \centering
@@ -192,7 +192,7 @@ forecasting data points for repetitive seasonal series of data.
     \caption{Transition Scenario: Sinusoidal Power Demand}
 \end{figure}
 
-\begin{table}[H]
+\begin{table}[]
     \centering
     \caption {Undersupply results for each commodity in each scenario}
     \label{tab:transition-scenario-results}
