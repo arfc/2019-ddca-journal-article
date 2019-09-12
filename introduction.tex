@@ -1,0 +1,100 @@
+\section{Introduction}
+% This is taken from my global paper (how to cite?/Should i paraphrase)
+For many fuel cycle simulators, reactor facilities are automatically 
+deployed to meet a user-defined power demand. 
+However, it is up to the user to define a deployment scheme of 
+supporting facilities to ensure that there is no gap in the supply 
+chain that results in idle reactor capacity. 
+Some users choose to set support facilities to have an infinite 
+capacity to avoid this issue, but this is an inaccurate 
+representation of reality. 
+It is straightforward to manually determine a deployment scheme 
+for a once-through fuel cycle, however, it is difficult to effectively 
+implement for complex closed fuel cycle scenarios.  
+To ease setting up of realistic \gls{NFC} simulations, a \gls{NFCSim}
+should bring demand responsive deployment decisions into 
+the dynamics of the simulation logic \cite{huff_current_2017}. 
+Thus, a next generation \gls{NFCSim} should predictively and 
+automatically deploy fuel cycle facilities to meet a user defined 
+power demand. 
+
+\Cyclus is an agent-based nuclear fuel cycle simulation framework 
+\cite{huff_fundamental_2016}. 
+In \Cyclus, each entity (i.e. \texttt{Region}, \texttt{Institution}, or \texttt{Facility}) in the 
+fuel cycle is an agent. 
+\texttt{Region} agents represent geographical or political areas that institution
+and facility agents can be grouped into. 
+\texttt{Institution} agents control the 
+deployment and decommission of facility agents 
+and represents legal operating organizations such as a 
+utility, government, etc. \cite{huff_fundamental_2016}. 
+\texttt{Facility} agents represent nuclear fuel cycle facilities. 
+\Cycamore \cite{carlsen_cycamore_2014}
+provides facility agents to represent process physics of various 
+components in the nuclear fuel cycle (e.g. mine, fuel enrichment 
+facility, reactor). 
+
+\subsection{Context of Work}
+An evaluation and screening study of a comprehensive set of nuclear 
+\gls{FCO} \cite{wigeland_nuclear_2014} was conducted to assess 
+for performance improvements compared to the existing once-through 
+fuel cycle (EG01) in the \gls{US} across a wide range of criteria. 
+It was found that fuel cycles that consistently scored high 
+overall performance involved continuous recycling
+of co-extracted U/Pu or U/TRU in fast spectrum critical reactors. 
+In the study, these fuel cycles were referred to as EG23, EG24, 
+EG29 and EG30. 
+Table \ref{tab:eg} provides a description of these fuel cycles. 
+
+    \begin{table}[]
+        \centering
+        \caption{Descriptions of the current and other high performing nuclear fuel cycle evaluation groups described in the evaluation and screening study \cite{wigeland_nuclear_2014}.}
+        \label{tab:eg}
+            \footnotesize
+            \begin{tabularx}{\textwidth}{l|lll}
+                \hline
+            \textbf{Fuel Cycle}                                               & \textbf{Open or Closed} & \textbf{Fuel Type}                                                              & \textbf{Reactor Type}                                                                           \\ \hline
+            \textbf{\begin{tabular}[c]{@{}l@{}}EG01\\ (current)\end{tabular}} & Open                                                               & Enriched-U                                                                      & Thermal critical reactors                                                                       \\ 
+            \textbf{EG23}                                                     & Closed                                                             & \begin{tabular}[c]{@{}l@{}}Recycle of U/Pu \\ with natural-U fuel\end{tabular}  & Fast critical reactors                                                                          \\ 
+            \textbf{EG24}                                                     & Closed                                                             & \begin{tabular}[c]{@{}l@{}}Recycle of U/TRU \\ with natural-U fuel\end{tabular} & Fast critical reactors                                                                          \\ 
+            \textbf{EG29}                                                     & Closed                                                             & \begin{tabular}[c]{@{}l@{}}Recycle of U/Pu \\ with natural-U fuel\end{tabular}  & \begin{tabular}[c]{@{}l@{}}Fast critical reactors and \\ thermal critical reactors\end{tabular} \\ 
+            \textbf{EG30} & Closed                                                             & \begin{tabular}[c]{@{}l@{}}Recycle of U/TRU \\ with natural-U fuel\end{tabular} & \begin{tabular}[c]{@{}l@{}}Fast critical reactors and \\ thermal critical reactors\end{tabular} \\ \hline
+        \end{tabularx}
+    \end{table}
+
+The evaluation and screening study assumed that 
+the nuclear energy system was at an equilibrium to understand 
+the end-state benefits of each \gls{EG}. 
+Based on the results from the study, the next step is 
+to understand and evaluate the transition from the initial EG01
+state to these promising future end-states 
+\cite{feng_standardized_2016}. 
+To successfully conduct analysis of the time-dependent transition
+analyses, it is necessary to develop \gls{NFCSim} tools to  
+automate setting up of transition scenarios. 
+Therefore, Demand-Driven Cycamore Archetypes project
+(NEUP-FY16-10512) was initiated to develop demand-driven deployment 
+capabilities in \Cyclus. 
+
+This capability is added as a \Cyclus \texttt{Institution}
+agent that deploys facilities to meet the front-end and back-end 
+fuel cycle demands based on a user-defined commodity demand. 
+This demand-driven deployment capability is called 
+\deploy. 
+
+\subsection{Novelty}
+To effectively predict supply and demand of commodities in 
+\deploy, we looked to time series forecasting methods that are 
+commonly used in other fields for making future predictions 
+based on past time series data. 
+This is a novel approach that has never been applied to 
+\glspl{NFCSim}. 
+
+\subsection{Objectives}
+\label{sec:obj}
+The main objectives of this paper are: 
+(1) to describe the demand driven deployment capabilities of 
+\Cyclus, (2) to describe the prediction methods available in 
+\deploy, (3) to demonstrate the use of \deploy in setting up 
+EG01-23, EG01-24, EG01-29, and EG01-30 transition scenarios 
+with various power demand curves.

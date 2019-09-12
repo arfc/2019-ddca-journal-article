@@ -1,0 +1,331 @@
+\section{Methodology}
+%Description of D3ploy
+In \Cyclus, developers have the option to design 
+agents using C++ or python. 
+The \deploy \texttt{Institution} agent was 
+implemented in Python to enable the use of 
+well developed time series forecasting Python packages. 
+
+In a \Cyclus \gls{NFC} simulation, at every timestep, \deploy 
+predicts supply and demand of each commodity for the next time 
+step. 
+If there is an undersupply of any commodity based 
+on the predicted values, \deploy deploys facilities to meet 
+the predicted demand.  
+Figure \ref{fig:flow} shows the logic flow of \deploy 
+at every timestep. 
+
+\begin{figure}[]
+	\centering
+	\resizebox{0.8\textwidth} {0.8\height}{
+    \begin{tikzpicture}[node distance=2.5cm]
+    \tikzstyle{every node}=[font=\large]
+	\node (Start) [bblock] {\textbf{Start of timestep ($t$).}};
+	\node (Predict) [bblock, below of=Start] {\textbf{Calculate \\ $D_p(t+1)$ and $S_p(t+1)$ for a commodity}};
+	\node (IsThere) [oblock, below of=Predict]{\textbf{$U(t+1) = S_p(t+1)-D_p(t+1)$}};
+	\node (Deploy) [bblock, below of=IsThere, xshift = -3.5cm]{\textbf{Deployment of facility}};
+    \node (NoDeploy) [bblock, right of=Deploy, xshift = 3.5cm]{\textbf{No Deployment} };
+    \node (All) [oblock, below of=Deploy, xshift = 3.5cm] {\textbf{Is this done for all commodities?}};
+    \node (End) [bblock, below of=All] {\textbf{Proceed to next timestep.}};
+	
+	\draw [arrow] (Start) -- (Predict); 
+	\draw [arrow] (Predict) -- (IsThere);
+    \draw [arrow] (IsThere) -- node[anchor=east] {$U(t+1) <$ buffer} (Deploy);
+    \draw [arrow] (IsThere) -- node[anchor=west] {$U(t+1) \geq$ buffer} (NoDeploy);
+    \draw [arrow] (Deploy) -- (All);
+    \draw [arrow] (NoDeploy) -- (All);
+    \draw [arrow] (All) -- node[anchor=west] {yes} (End);
+    \draw [arrow] (All) -- ([shift={(-3.9cm,0.7cm)}]All.south west)-- node[anchor=east] {no} ([shift={(-3.9cm,-1cm)}]Predict.north west)--(Predict);
+    \draw [arrow] (End) |-([shift={(3cm,-0.5cm)}]End.south east)-- ([shift={(3cm,0.5cm)}]Start.north east)-|(Start);
+	\end{tikzpicture}
+	}
+    \caption{\deploy logic flow at every timestep in \Cyclus \cite{chee_demonstration_2019}.}
+    \label{fig:flow}
+\end{figure}
+
+\deploy's overall objective is to minimize
+undersupply of power. 
+The sub-objectives are : (1) to minimize the number of time 
+steps of undersupply or under capacity of any 
+commodity, (2) to minimize excessive oversupply of all commodities.
+This is a reflection of reality in which it is important to 
+never have an undersupply of power on the grid by ensuring power 
+plants are never undersupplied of fuel, while not 
+having excessive over supply resulting in a burden to store unused 
+supplies. 
+One of the key issues that \gls{NFCSim}s face is that despite
+sufficient installed reactor capacity to meet the power 
+demand, there is insufficient supply of fabricated/reprocessed 
+fuel at certain timesteps, resulting in idle capacity.  
+
+\subsection{Structure}
+%Description of front end and back end of fuel cycle 
+%Demand Driven vs. Supply Driven 
+In \deploy, two different institutions were implemented for 
+front-end and back-end fuel cycle facilities: 
+\texttt{DemandDrivenDeploymentInst} and 
+\texttt{SupplyDriven} 
+\noindent
+\texttt{DeploymentInst} respectively. 
+This distinction was made because front-end facilities 
+are deployed to meet demand for the commodity they produce. 
+Whereas, back-end facility are deployed to meet supply for the 
+commodity they provide capacity for. 
+For example, for front end facilities, a reactor facility 
+demands fuel and \texttt{DemandDrivenDeploymentInst} 
+triggers deployment of fuel fabrication facilities to create 
+supply, and thus, meeting demand for fuel to prevent undersupply. 
+For back end facilities, the reactor generates spent fuel and 
+\texttt{SupplyDrivenDeploymentInst} triggers deployment of 
+waste storage facilities to create capacity meeting the supply 
+of spent fuel to prevent under capacity. 
+
+\subsection{Input Variables}
+Table \ref{tab:inputs} lists and gives examples of the input 
+variables \deploy accepts. 
+Essentially, the user must define the facilities controlled by 
+\deploy, their respective capacities, the driving commodity, 
+its demand equation, deployment driving method, and prediction method 
+for supply and demand. 
+The user also has the optional option to define supply/capacity buffers 
+for each commodity, facility preferences, and facility constraints. 
+In-depth descriptions of the deployment driving method, prediction 
+methods, and buffers are provided in the subsequent sections. 
+
+
+    \begin{table}[]
+        \centering
+        \caption{\deploy's required and optional input parameters with examples.}
+		\label{tab:inputs}
+            \footnotesize
+			\begin{tabularx}{\textwidth}{l|LL}
+			\hline
+				& \textbf{Input Parameter}                                                           & \textbf{Examples}                                                                                                          \\ \hline
+				\multirow{5}{*}{\textbf{Required}} & Demand driving commodity                                                           & Power, Fuel, Plutonium, etc.                                                                                                                      \\ \cline{2-3} 
+														  & Demand equation                                                                    & P(t) = 10000, sin(t), 10000*t                                                                                                                 \\ \cline{2-3} 
+														  & Facilities it controls                                                             & Fuel Fab, LWR reactor, SFR reactor, Waste repository, etc.                                                                                                      \\ \cline{2-3} 
+														  & Capacities of the facilities                                                       & 3000 kg, 1000 MW, 50000 kg                                                                                                     \\ \cline{2-3} 
+														  & Prediction method                                                                  & \begin{tabular}[c]{@{}l@{}}Power: fast fourier transform\\ Fuel: moving average\\ Spent fuel: moving average\end{tabular} \\ \cline{2-3} 
+														  & Deployment driven by & Installed Capacity/Supply                                                                                                                    \\ \hline
+				\multirow{4}{*}{\textbf{Optional}} & Supply/Capacity Buffer type                                                                        & Absolute                                                                                                                  \\ \cline{2-3} 
+														  & Supply/Capacity Buffer size                                                                        & \begin{tabular}[c]{@{}l@{}}Power: 3000 MW\\ Fuel: 0 kg \\ Spent fuel: 0 kg\end{tabular}                                   \\ \cline{2-3} 
+														  & Facility preferences                                                               & \begin{tabular}[c]{@{}l@{}}LWR reactor = 100-t\\ SFR reactor = t-100 \end{tabular}          \\ \cline{2-3} 
+														  & Facility constraint                                                              & SFR reactor constraint = 5000kg of Pu            \\ \hline	
+						\end{tabularx}
+    \end{table}
+
+\subsubsection{Deployment Driving Method}
+The user has the choice of deploying facilities based on the difference 
+between predicted supply and demand, or predicted demand and 
+installed capacity. 
+There are two advantages of using installed capacity over predicted 
+supply. 
+First, to prevent over deployment of facilities that have an
+intermittent supply. 
+For example, reactor facilities have a periodic refueling time. 
+A user might not want \deploy to deploy more reactor facilities 
+to make up for the lack of power supply caused by the gap in 
+supply during refueling. 
+Second, to prevent infinite deployment of a facility that uses 
+a commodity that is no longer available in the simulation. 
+For example, in a transition scenario from \glspl{LWR} to \glspl{SFR}, 
+the reprocessing plant that fabricates \gls{SFR} fuel might demand 
+Pu after the inventory accumulated by \glspl{LWR} is used up 
+and there are no more \gls{LWR} facilities to generate Pu. 
+This will result in \deploy deploying infinite reprocessing 
+facilities to generate \gls{SFR} fuel despite the lack of input Pu 
+to generate it. 
+This can be avoided by using \deploy's facility constraint capability 
+to constrain \gls{SFR} deployment until a sizable inventory of Pu 
+is accumulated in the simulation. 
+
+\subsubsection{Supply/Capacity Buffer}
+In \texttt{DemandDrivenDeploymentInst}, the user has the option 
+to provide a supply buffer for each commodity so that 
+\deploy will deploy facilities to meet predicted demand and the
+additional buffer value. 
+In \texttt{SupplyDrivenDeploymentInst}, the user has the option 
+to provide a capacity buffer to specific commodities so that 
+\deploy will deploy facilities to meet predicted supply and the
+additional buffer.
+For example, the user could set the power commodity's supply buffer 
+to be 2000 MW. 
+If predicted demand is 10000 MW, \deploy will deploy reactor 
+facilities to meet the predicted demand and supply buffer, resulting 
+in a power supply of 12000 MW.  
+The buffer can be defined as a percentage (equation \ref{eq:perc}) 
+or absolute value (equation \ref{eq:abs}). 
+
+\begin{equation}
+    \label{eq:perc}
+    S_{pwb} = S_{p}*(1+d)
+\end{equation}
+\begin{equation}
+    \label{eq:abs}
+    S_{pwb} = S_{p}+a
+\end{equation}
+where $S_{pwb}$ is predicted supply/capacity with buffer, 
+$S_p$ is the predicted supply/capacity without buffer, 
+$d$ is the percentage value in decimal form, 
+and $a$ is the absolute value of the buffer. 
+
+Using a combination of this buffer capability with the 
+installed capacity deployment driving method in a transition 
+scenario simulation is effective in minimizing undersupply of a 
+commodity without having excessive over supply. 
+This is demonstrated in section \ref{sec:demo}. 
+
+\subsection{Preferences}
+% Need to explain the order of preferences for deployment 
+% Constraint, pref, minimize number of facilities and minimize 
+% over supply 
+The user has the option to provide each facility with
+a time dependent preference equation that governs preference for 
+that facility compared to other facilities that provide the same 
+commodity. 
+In the example for facility preferences in table \ref{tab:inputs}, 
+the \gls{LWR} reactor has a preference of $100-t$ and the 
+\gls{SFR} reactor has a preference of $t-100$. 
+Thus, the \gls{LWR} is preferred before time step 100 and \gls{SFR}
+is preferred after. 
+
+The user also has the option to provide each facility with a 
+commodity constraint. 
+In the example for facility constraint in table \ref{tab:inputs}, 
+the \gls{SFR} has a commodity constraint of 5000kg of Pu. 
+This constrains \gls{SFR} deployment by the size of the Pu inventory 
+in the simulation. 
+Once, the 5000kg Pu inventory is first met, \gls{SFR} reactors can 
+henceforth be deployed. 
+
+One of the key issues faced in transition scenarios is the lack 
+of Pu in a scenario that results in idle advanced reactor capacity. 
+Therefore, the facility preferences and constraint capabilities 
+are useful and necessary for modeling transition scenarios. 
+An ideal transition year is selected using the facility 
+preferences, however the transition will only begin when there 
+is sufficient Pu inventory (set by facility constraint) 
+to avoid Pu shortages. 
+
+Therefore, when \deploy predicts an undersupply of a commodity, 
+it deploys available facilities to meet the predicted demand. 
+It will deploy the facility with the highest preference first, 
+unless it does not meet it's constrained criteria, then it will 
+deploy the second most, and so on. 
+If the facilities do not have preferences or constraints, \deploy 
+will deploy the available facilities to minimize the number of 
+deployed facilities while minimizing oversupply of the commodity.
+
+\subsection{Prediction Methods}
+\deploy records supply and demand values at every timestep for all 
+commodities. 
+This provides time series data for \deploy's time series 
+forecasting methods to predict future supply and demand for each 
+commodity.  
+Three main types of methods are investigated: non-optimizing, 
+deterministic-optimizing, and stochastic-optimizing
+time series forecasting methods.
+Non-optimizing methods are techniques that make use of 
+simple moving average and autoregression concepts that use 
+historical data to infer future supply and demand values. 
+Deterministic-optimizing and stochastic-optimizing 
+methods are techniques 
+that use an assortment of more complex time series forecasting 
+concepts to predict future supply and demand values. 
+Deterministic-optimizing methods give deterministic solutions,
+while stochastic-optimizing methods give stochastic solutions. 
+
+The reason for implementing multiple methods is that for different 
+user-defined power demand curves, \deploy input parameters
+, and types of supporting facilities in the simulation,
+\gls{NFC} transition scenario simulations will respond differently. 
+Therefore, conducting a comparison of each method for each type of 
+simulation will determine which method is most effective for 
+each type of simulation. 
+The prediction methods will be described in the following 
+sections. 
+
+\subsubsection{Non-Optimizing Methods}
+Non-optimizing methods include: Moving Average (MA), \gls{ARMA}, 
+\gls{ARCH}. 
+The MA method calculates the average of 
+a user-defined number of previous entries in a commodity's 
+time series and returns it as the predicted value 
+(equation \ref{eq:ma}).
+
+\begin{equation}
+	\label{eq:ma}
+	Predicted\ Value = \frac{V_1+V_2+...+V_n}{n}
+\end{equation}
+
+The \gls{ARMA} method combines moving average and
+autoregressive models (equation \ref{eq:arma}).
+The first term is a constant, second term is 
+white noise, third term is the autoregressive
+model, and the fourth term is the moving average
+model.
+The \gls{ARMA} method is more accurate than the MA method 
+because of the inclusion of the autoregressive term. 
+
+\begin{equation}
+	\label{eq:arma}
+	X_t = c + \epsilon_t + 
+	\sum_{i=1}^p\varphi_i X_{t-i} +	
+	\sum_{i=1}^q\theta_i\epsilon_{t-i}
+\end{equation}
+
+The \gls{ARCH} method modifies the original moving 
+average term (described in equation \ref{eq:arma}). 
+This modification makes the \gls{ARCH} method 
+better than the \gls{ARMA} method for volatile systems
+\cite{flanagan_methods_2019}. 
+Both the \gls{ARMA} and \gls{ARCH} methods are 
+implemented in \deploy using the StatsModels 
+\cite{github_community_statsmodels:_2019}
+Python package. 
+
+\subsubsection{Deterministic-Optimizing Methods}
+Deterministic methods include: \gls{FFT}, polynomial fit
+(poly), 
+exponential smoothing, and triple exponential smoothing 
+(holt-winters). 
+The FFT method computes the discrete Fourier transform 
+of the time series to predict future demand and supply 
+values (equation \ref{eq:fft}).
+This method is implemented in \deploy using the 
+SciPy \cite{jones_scipy:_2016} Python package. 
+
+\begin{equation}
+	\label{eq:fft}
+	X_k = \sum_{n=0}^{N-1}x_n e^{-i2\pi kn/N}
+\end{equation}
+
+The polynomial fit method models the time series data 
+with a nth degree (user-defined) polynomial to determine 
+future demand and supply values. 
+This method is implemented in \deploy using the 
+NumPy \cite{developers_numpy_2013} Python package. 
+The exponential smoothing and triple exponential smoothing 
+methods use a weighted average 
+of time series data with weights decaying exponentially 
+for older time series values \cite{hyndman_forecasting:_2018}
+to create a model to determine future demand and supply values. 
+The exponential smoothing method excels in 
+modeling univariate time series data without trend or seasonality, 
+whereas the triple exponential smoothing method is favorable for 
+modeling seasonal time series data \cite{flanagan_methods_2019}. 
+Both these methods are implemented in \deploy 
+using the StatsModels \cite{github_community_statsmodels:_2019}
+Python package. 
+
+\subsection{Stochastic-Optimizing Methods}
+There is one stochastic-optimizing method: step-wise 
+seasonal method. 
+The method is implemented in \deploy by the auto \gls{ARIMA} 
+method in the pmdarima \cite{noauthor_pmdarima:_2019}
+Python package. 
+The \gls{ARIMA} model is a generalization of the \gls{ARMA}
+model to make the model fit the time series data better. 
+It replaces the time series values with the difference
+between consecutive values. 
+

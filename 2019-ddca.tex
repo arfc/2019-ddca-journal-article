@@ -1,0 +1,131 @@
+\documentclass[review]{elsarticle}
+
+\usepackage{lineno}
+\usepackage{xspace}
+\modulolinenumbers[5]
+
+\journal{Journal}
+
+%% `Elsevier LaTeX' style
+\bibliographystyle{elsarticle-num}
+%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%% packages and definitions (optional)
+\usepackage{placeins}
+\usepackage{booktabs} % nice rules (thick lines) for tables
+\usepackage{microtype} % improves typography for PDF
+\usepackage{hhline}
+\usepackage{amsmath}
+
+%\usepackage[demo]{graphicx}
+%\usepackage{caption}
+%\usepackage{subcaption}
+
+\usepackage{booktabs}
+\usepackage{threeparttable, tablefootnote}
+\usepackage{floatrow}
+\usepackage{subcaption}
+\usepackage{multirow}
+
+\usepackage{tabularx}
+\newcolumntype{b}{>{\hsize=1.0\hsize}X}
+\newcolumntype{s}{>{\hsize=.5\hsize}X}
+\newcolumntype{m}{>{\hsize=.75\hsize}X}
+\newcolumntype{x}{>{\hsize=.25\hsize}X}
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
+\def\arraystretch{1}
+
+\graphicspath{{figures/}}
+
+% tikz %
+\usepackage{tikz}
+\usetikzlibrary{positioning, arrows, decorations, shapes}
+
+\usetikzlibrary{shapes.geometric,arrows}
+\tikzstyle{process} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm,text centered, draw=black, fill=blue!30]
+\tikzstyle{object} = [ellipse, rounded corners, minimum width=3cm, minimum height=1cm,text centered, draw=black, fill=green!30]
+\tikzstyle{arrow} = [thick,->,>=stealth]
+
+\definecolor{illiniblue}{HTML}{B1C6E2}
+\definecolor{illiniorange}{HTML}{f8c2a2}
+\usetikzlibrary{shapes.geometric, arrows}
+\tikzstyle{oblock} = [rectangle, draw, fill=illiniorange, 
+text width=15em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{bblock} = [rectangle, draw, fill=illiniblue, 
+text width=15em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{arrow} = [thick,->,>=stealth]
+
+% hyperref %
+\usepackage[hidelinks]{hyperref}
+% after hyperref %
+\usepackage{cleveref}
+\usepackage{datatool}
+\usepackage[acronym,toc]{glossaries}
+\include{acros}
+
+\newcommand{\Cyclus}{\textsc{Cyclus}\xspace}%
+\newcommand{\Cycamore}{\textsc{Cycamore}\xspace}%
+\newcommand{\deploy}{\texttt{d3ploy}\xspace}%
+
+\makeglossaries
+
+\begin{document}
+\begin{frontmatter}
+\title{Demand Driven Deployment Capabilities in Cyclus, a Fuel Cycle Simulator}
+
+\date{}                     %% if you don't need date to appear
+
+%% Authors
+\input{authors}
+
+% Institutes of the authors
+\input{institutions}
+	
+\begin{keyword}
+nuclear fuel cycle \sep
+python \sep 
+time series forecasting
+\end{keyword}
+
+\input{abstract}
+\end{frontmatter}
+\glsresetall
+
+\linenumbers
+
+\input{introduction}
+% Intro 
+% Context of Work 
+% Novelty 
+% Objectives
+\FloatBarrier
+\input{methods}
+% Methodology: Overall objectives of d3ploy and how it works
+% Structure (Demand/Supply Driven Inst)
+% Input variables
+% Deployment driving method (installedcap)
+% Supply/Capacity Buffer 
+% Prediction Methods
+\FloatBarrier
+\input{results}
+\input{results2}
+% demonstration of d3ploy's capabilities (basic transition cases) 
+% comparison of prediction methods
+% - Tables: table 10 from report + more buffer size steps, 
+% - Example model   
+\FloatBarrier
+\input{conclusion}
+\FloatBarrier
+\input{futurework}
+\FloatBarrier
+\input{acks}
+\FloatBarrier
+
+%\nocite{robertson_conceptual_1971} % placeholder until citations appear
+\bibliography{2019-ddca}
+
+%%% Random thoughts 
+% deploy vs Deploy?
+
+\end{document}
