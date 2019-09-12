@@ -43,7 +43,7 @@ at every timestep.
     \label{fig:flow}
 \end{figure}
 
-\deploy's overall objective is to ensure that there is no 
+\deploy's overall objective is to minimize
 undersupply of power. 
 The sub-objectives are : (1) to minimize the number of time 
 steps of undersupply or under capacity of any 
@@ -74,7 +74,7 @@ commodity they provide capacity for.
 For example, for front end facilities, a reactor facility 
 demands fuel and \texttt{DemandDrivenDeploymentInst} 
 triggers deployment of fuel fabrication facilities to create 
-supply meeting demand for fuel to prevent undersupply. 
+supply, and thus, meeting demand for fuel to prevent undersupply. 
 For back end facilities, the reactor generates spent fuel and 
 \texttt{SupplyDrivenDeploymentInst} triggers deployment of 
 waste storage facilities to create capacity meeting the supply 
@@ -93,27 +93,26 @@ In-depth descriptions of the deployment driving method, prediction
 methods, and buffers are provided in the subsequent sections. 
 
 
-\begin{table}[]
-	\resizebox{\textwidth}{!}{%
-	\begin{tabular}{|l|l|p{7cm}|}
-	\hline
-											  & \textbf{Input Parameter}                                                           & \textbf{Examples}                                                                                                          \\ \hline
-	\multirow{5}{*}{\textbf{Required}} & Demand driving commodity                                                           & Power, Fuel, Plutonium, etc.                                                                                                                      \\ \cline{2-3} 
-											  & Demand equation                                                                    & P(t) = 10000, sin(t), 10000*t                                                                                                                 \\ \cline{2-3} 
-											  & Facilities it controls                                                             & Fuel Fab, LWR reactor, SFR reactor, Waste repository, etc.                                                                                                      \\ \cline{2-3} 
-											  & Capacities of the facilities                                                       & 3000 kg, 1000 MW, 50000 kg                                                                                                     \\ \cline{2-3} 
-											  & Prediction method                                                                  & \begin{tabular}[c]{@{}l@{}}Power: fast fourier transform\\ Fuel: moving average\\ Spent fuel: moving average\end{tabular} \\ \cline{2-3} 
-											  & Deployment driven by & Installed Capacity/Supply                                                                                                                    \\ \hline
-	\multirow{4}{*}{\textbf{Optional}} & Supply/Capacity Buffer type                                                                        & Absolute                                                                                                                  \\ \cline{2-3} 
-											  & Supply/Capacity Buffer size                                                                        & \begin{tabular}[c]{@{}l@{}}Power: 3000 MW\\ Fuel: 0 kg \\ Spent fuel: 0 kg\end{tabular}                                   \\ \cline{2-3} 
-											  & Facility preferences                                                               & \begin{tabular}[c]{@{}l@{}}LWR reactor = 100-t\\ SFR reactor = t-100 \end{tabular}          \\ \cline{2-3} 
-											  & Facility constraint                                                              & SFR reactor constraint = 5000kg of Pu            \\ \hline	
-			
-											\end{tabular}%
-	}
-	\caption{\deploy's required and optional input parameters with examples.}
-	\label{tab:inputs}
-	\end{table}
+    \begin{table}[]
+        \centering
+        \caption{\deploy's required and optional input parameters with examples.}
+		\label{tab:inputs}
+            \footnotesize
+			\begin{tabularx}{\textwidth}{l|LL}
+			\hline
+				& \textbf{Input Parameter}                                                           & \textbf{Examples}                                                                                                          \\ \hline
+				\multirow{5}{*}{\textbf{Required}} & Demand driving commodity                                                           & Power, Fuel, Plutonium, etc.                                                                                                                      \\ \cline{2-3} 
+														  & Demand equation                                                                    & P(t) = 10000, sin(t), 10000*t                                                                                                                 \\ \cline{2-3} 
+														  & Facilities it controls                                                             & Fuel Fab, LWR reactor, SFR reactor, Waste repository, etc.                                                                                                      \\ \cline{2-3} 
+														  & Capacities of the facilities                                                       & 3000 kg, 1000 MW, 50000 kg                                                                                                     \\ \cline{2-3} 
+														  & Prediction method                                                                  & \begin{tabular}[c]{@{}l@{}}Power: fast fourier transform\\ Fuel: moving average\\ Spent fuel: moving average\end{tabular} \\ \cline{2-3} 
+														  & Deployment driven by & Installed Capacity/Supply                                                                                                                    \\ \hline
+				\multirow{4}{*}{\textbf{Optional}} & Supply/Capacity Buffer type                                                                        & Absolute                                                                                                                  \\ \cline{2-3} 
+														  & Supply/Capacity Buffer size                                                                        & \begin{tabular}[c]{@{}l@{}}Power: 3000 MW\\ Fuel: 0 kg \\ Spent fuel: 0 kg\end{tabular}                                   \\ \cline{2-3} 
+														  & Facility preferences                                                               & \begin{tabular}[c]{@{}l@{}}LWR reactor = 100-t\\ SFR reactor = t-100 \end{tabular}          \\ \cline{2-3} 
+														  & Facility constraint                                                              & SFR reactor constraint = 5000kg of Pu            \\ \hline	
+						\end{tabularx}
+    \end{table}
 
 \subsubsection{Deployment Driving Method}
 The user has the choice of deploying facilities based on the difference 
@@ -129,9 +128,9 @@ to make up for the lack of power supply caused by the gap in
 supply during refueling. 
 Second, to prevent infinite deployment of a facility that uses 
 a commodity that is no longer available in the simulation. 
-For example, in a transition scenario from \gls{LWR}s to \gls{SFR}s, 
+For example, in a transition scenario from \glspl{LWR} to \glspl{SFR}, 
 the reprocessing plant that fabricates \gls{SFR} fuel might demand 
-Pu after the inventory accumulated by \gls{LWR}s is used up 
+Pu after the inventory accumulated by \glspl{LWR} is used up 
 and there are no more \gls{LWR} facilities to generate Pu. 
 This will result in \deploy deploying infinite reprocessing 
 facilities to generate \gls{SFR} fuel despite the lack of input Pu 

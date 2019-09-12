@@ -1,13 +1,14 @@
 \section{Results}
 To demonstrate \deploy's capability to effectively conduct transition
 scenario analysis and meet the objectives described in section 
-\ref{sec:obj}, this section will (1) demonstrate 
-\deploy's capability in simple transition scenarios, (2) set up 
-EG01-EG23, EG01-EG24, EG01-EG29, and EG01-EG30 transition scenarios
-and compare the results of using each prediction methods for each 
-scenario. 
+\ref{sec:obj}, this section will 
+(1) demonstrate \deploy's capability in simple transition scenarios, 
+(2) compare the prediction methods for different transition scenarios, and
+(3) demonstrate using \deploy to set up successful EG01-EG23, EG01-EG24, 
+EG01-EG29, and EG01-EG30 transition scenarios. 
 The input files and scripts to produce the results and plots in this
-paper can be reproduced using \cite{d3ploy_doi_2019}. 
+paper can be reproduced using \cite{dnoauthor_d3ploy:_2018}, and 
+\cite{chee_arfc/transition-scenarios_2018}. 
 
 \subsection{Demonstration of \deploy's capabilities}
 \label{sec:demo}
@@ -37,12 +38,12 @@ that \deploy needs to deploy facilities meet for each simulation.
     \hline
     \multirow{2}{*}{}                         & \multicolumn{1}{c|}{\multirow{2}{*}{\textbf{Input Parameter}}} & \multicolumn{3}{c|}{\textbf{Simulation Description}}                                                                                                                                                                                                                                                       \\ \cline{3-5} 
                                               & \multicolumn{1}{c|}{}                                          & \multicolumn{1}{l|}{\textbf{Constant Power}}                                                                 & \textbf{\begin{tabular}[c]{@{}l@{}}Linearly Increasing \\ Power\end{tabular}}                  & \textbf{Sinusoidal Power}                                                                  \\ \hline
-    \multirow{5}{*}{\textbf{Required Inputs}} & Demand driving commodity                                       & \multicolumn{3}{c|}{Power}                                                                                                                                                                                                                                                                                 \\ \cline{2-5} 
+    \multirow{5}{*}{\textbf{Required}} & Demand driving commodity                                       & \multicolumn{3}{c|}{Power}                                                                                                                                                                                                                                                                                 \\ \cline{2-5} 
                                               & Demand equation                                                & \multicolumn{1}{l|}{10000 MW}                                                                                & \begin{tabular}[c]{@{}l@{}}t\textless 40: 10000 MW\\ t\textgreater{}=40: 250*t MW\end{tabular} & 1000*$\sin(\pi*t/3)$+10000                                                                 \\ \cline{2-5} 
                                               & Facilities it controls                                         & \multicolumn{3}{c|}{Source, reactor, sink}                                                                                                                                                                                                                                                                 \\ \cline{2-5} 
                                               & Prediction method                                              & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Power: FFT\\ Fuel: MA\\ Spent fuel: MA\end{tabular}}          & \begin{tabular}[c]{@{}l@{}}Power: FFT\\ Fuel: MA\\ Spent fuel: FFT\end{tabular}                & \begin{tabular}[c]{@{}l@{}}Power: HW\\ Fuel: MA\\ Spent fuel: FFT\end{tabular}             \\ \cline{2-5} 
                                               & Deployment Driving Method                                      & \multicolumn{3}{c|}{Installed Capacity}                                                                                                                                                                                                                                                                    \\ \hline
-    \multirow{2}{*}{\textbf{Optional Inputs}} & Buffer type                                                    & \multicolumn{3}{c|}{Absolute}                                                                                                                                                                                                                                                                              \\ \cline{2-5} 
+    \multirow{2}{*}{\textbf{Optional}} & Buffer type                                                    & \multicolumn{3}{c|}{Absolute}                                                                                                                                                                                                                                                                              \\ \cline{2-5} 
                                               & Buffer size                                                    & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Power: 3000 MW\\ Fuel: 0 kg \\ Spent fuel: 0 kg\end{tabular}} & \begin{tabular}[c]{@{}l@{}}Power: 2000 MW\\ Fuel: 1000 kg \\ Spent fuel: 0 kg\end{tabular}     & \begin{tabular}[c]{@{}l@{}}Power: 2000 MW\\ Fuel: 1000 kg \\ Spent fuel: 0 kg\end{tabular} \\ \hline
     \end{tabular}%
     }
