@@ -4,9 +4,9 @@ EG01-EG23, EG01-EG24, EG01-EG29, and EG01-EG30 transition scenarios
 are set up in \Cyclus using \deploy. 
 To determine the most effective \deploy prediction methods, a
 comparison of each prediction method for each 
-transition scenarios is conducted for constant power 
+transition scenario is conducted for constant power 
 and linearly increasing power demand. 
-Similar to the basic transition scenarios, these transition scenario 
+Similar to the simple transition scenario, these transition scenario 
 simulations begin with an initial fleet of \glspl{LWR} and after 
 80 years, the simulation progressively decommissions the \glspl{LWR}, 
 and \deploy deploys \glspl{SFR} and \gls{MOX} \glspl{LWR} to meet 
@@ -16,7 +16,7 @@ show the set up of facilities and mass flows for
 EG1-23 and EG1-29 in \Cyclus. 
 In EG1-23 and EG1-29, only plutonium is recycled from \gls{LWR}
 spent fuel to produce \gls{FR} fuel. 
-EG1-24 and EG1-30 are the same as EG1-23 and EG1-29 respectively,
+EG1-24 and EG1-30 are similar to EG1-23 and EG1-29 respectively,
 with exception that all transuranic elements are recycled.  
 
 \begin{figure}[]
@@ -52,10 +52,10 @@ Figure \ref{fig:eg23under} demonstrates that the \texttt{poly} and
 of points on the plot, indicating that they have the fewest number of time 
 steps with undersupply and under capacity of commodities. 
 Table \ref{tab:all-power} shows that the \texttt{poly} method performs slightly 
-better at minimizing under supply of power than \texttt{fft}.
+better at minimizing undersupply of power than \texttt{fft}.
 A similar analysis was done for a constant power EG1-29 scenario, and 
 it is seen in Table \ref{tab:all-power} that the \texttt{poly} also performed 
-best for minimizing under supply of power.  
+best for minimizing undersupply of power.  
 
 Figure \ref{fig:eg24under} shows the time steps in which there is undersupply 
 or under capacity of each commodity for a linearly increasing power EG01-24 
@@ -63,10 +63,10 @@ scenario for varying prediction methods.
 Similarly to Figure \ref{fig:eg23under}, the size of the points are normalized 
 to the largest undersupply value. 
 Figure \ref{fig:eg24under} demonstrates that the \texttt{fft} method 
-performs the best at minimizing under supply of all commodities.
+performs the best at minimizing undersupply of all commodities.
 A similar analysis was done for a constant power EG1-30 scenario, and 
 it is seen in Table \ref{tab:all-power} that the \texttt{fft} also performed 
-best for minimizing under supply of power. 
+best for minimizing undersupply of power. 
 
 \begin{figure}[]
 	\centering
@@ -144,15 +144,16 @@ and the \texttt{fft} method performs best for linearly increasing
 power transition scenarios. 
 Undersupply and under capacity of commodities occur two main time periods: 
 initial demand for the commodity and during the transition period.
-To further \deploy's main objective of minimizing the power under supply, 
+To further \deploy's main objective of minimizing the power undersupply, 
 sensitivity analysis of the power supply 
-buffer for each transition scenario with best performing prediction method
-is conducted to find a buffer size that will minimize power 
+buffer for each transition scenariois conducted 
+with best performing prediction method
+to find a buffer size that will minimize power 
 undersupply.  
 
 \subsection{Sensitivity Analysis}
 Sensitivity analysis of the power buffer size was conducted for 
-EG01-EG23, EG01-24, EG01-29, EG01-30 transition scenarios. 
+EG01-EG23, EG01-24, EG01-29, and EG01-30 transition scenarios. 
 It was found that varying the power buffer size does not 
 impact the number of undersupply time steps for EG01-EG23 
 and EG01-29 constant power demand transition scenario with 
@@ -260,8 +261,8 @@ a 6000MW and 8000MW power supply buffer respectively.
 Table \ref{tab:bestinputs} 
 shows \deploy input parameters for
 EG01-EG23, EG01-EG24, EG01-EG29, and EG01-EG30 transition scenarios
-that minimizes undersupply of power and minimizes 
-the undersupply and under capacity of the other facilities. 
+that minimize undersupply of power and minimize 
+the undersupply and under capacity of the other commodities. 
 The need for buffers for commodities is a reflection of reality
 in which ideally a supply cushion exists to ensure that there 
 is available supply in the case of unexpected undersupply. 
@@ -279,25 +280,25 @@ EG01-24 and EG01-29 facility deployment plots are very similar to
 EG01-23 and EG01-30 respectively, therefore they are not shown. 
 
 \begin{table}[]
-    \resizebox{\textwidth}{!}{%
-    \begin{tabular}{|l|l|c|l|l|l|}
-    \hline
-    \multirow{2}{*}{}                         & \multicolumn{1}{c|}{\multirow{2}{*}{\textbf{Input Parameter}}} & \multicolumn{4}{c|}{\textbf{Simulation Description}}                                                                                                                                                                                                                                                       \\ \cline{3-6} 
-                                              & \multicolumn{1}{c|}{}                                          & \multicolumn{1}{l|}{\textbf{EG01-23}}                                                                 & \textbf{EG01-24}                  & \textbf{EG01-29}                 &\textbf{EG01-30}                                                  \\ \hline
-    \multirow{4}{*}{\textbf{Required}} & Demand driving commodity                                       & \multicolumn{4}{c|}{Power}                                                                                                                                                                                                                                                                                 \\ \cline{2-6} 
-                                              & Demand equation [MW]                                               & \multicolumn{1}{l|}{60000}                                                                                & $60000 + 250t/12$ & 60000                     &     $60000 + 250t/12$                                       \\ \cline{2-6} 
-                                              & Prediction method                                              & \texttt{poly}       & \texttt{fft}             & \texttt{poly}         &  \texttt{fft}    \\ \cline{2-6} 
-                                              & Deployment Driving Method                                      & \multicolumn{4}{c|}{Installed Capacity}                                                                                                                                                                                                                                                                    \\ \hline
-    \multirow{2}{*}{\textbf{Optional}} & Buffer type                                                    & \multicolumn{4}{c|}{Absolute}                                                                                                                                                                                                                                                               \\ \cline{2-6} 
-                                              & Power Buffer size [MW]                                                   & 0 & 6000 & 0 & 8000 \\ \hline
-    \end{tabular}%
-    }
+	\resizebox{\textwidth}{!}{%
+	\begin{tabular}{|l|l|c|l|l|l|}
+	\hline
+	\multirow{2}{*}{}                         & \multicolumn{1}{c|}{\multirow{2}{*}{\textbf{Input Parameter}}} & \multicolumn{4}{c|}{\textbf{Simulation Description}}                                                                                                                                                                                                                                                       \\ \cline{3-6} 
+											  & \multicolumn{1}{c|}{}                                          & \multicolumn{1}{l|}{\textbf{EG01-23}}                                                                 & \textbf{EG01-24}                  & \textbf{EG01-29}                 &\textbf{EG01-30}                                                  \\ \hline
+	\multirow{4}{*}{\textbf{Required}} & Demand driving commodity                                       & \multicolumn{4}{c|}{Power}                                                                                                                                                                                                                                                                                 \\ \cline{2-6} 
+											  & Demand equation [MW]                                               & \multicolumn{1}{l|}{60000}                                                                                & $60000 + 250t/12$ & 60000                     &     $60000 + 250t/12$                                       \\ \cline{2-6} 
+											  & Prediction method                                              & \texttt{poly}       & \texttt{fft}             & \texttt{poly}         &  \texttt{fft}    \\ \cline{2-6} 
+											  & Deployment Driving Method                                      & \multicolumn{4}{c|}{Installed Capacity}                                                                                                                                                                                                                                                                    \\ \hline
+	\multirow{2}{*}{\textbf{Optional}} & Buffer type                                                    & \multicolumn{4}{c|}{Absolute}                                                                                                                                                                                                                                                               \\ \cline{2-6} 
+											  & Power Buffer size [MW]                                                   & 0 & 6000 & 0 & 8000 \\ \hline
+	\end{tabular}%
+	}
 	\caption{\deploy's input parameters for EG01-EG23, EG01-EG24, EG01-EG29, and 
 	EG01-EG30 transition scenarios
 	that minimizes undersupply of power and minimizes 
 	the undersupply and under capacity of the other facilities. }
-    \label{tab:bestinputs}
-    \end{table}
+	\label{tab:bestinputs}
+	\end{table}
 
 \begin{figure}[]
 	\centering
@@ -318,7 +319,7 @@ EG01-23 and EG01-30 respectively, therefore they are not shown.
 	\caption{Time dependent deployment of reactor and supporting facilities in 
 	the EG01-23 constant power demand transition scenario. 
 	\deploy automatically deploys reactor and supporting facilities 
-	to set up a supply chain to meet constant power demand of 60000MW 
+	to set up a supply chain to meet constant power demand of $60000$ MW
 	during a transition from \glspl{LWR} to \glspl{SFR}. }
 	\label{fig:23stack}
 \end{figure}
@@ -342,7 +343,7 @@ EG01-23 and EG01-30 respectively, therefore they are not shown.
 	\caption{Time dependent deployment of reactor and supporting facilities in 
 	the EG01-30 linearly increasing power demand transition scenario. 
 	\deploy automatically deploys reactor and supporting facilities 
-	to set up a supply chain to meet constant power demand of $60000 + 250*t/12$ MW
+	to set up a supply chain to meet constant power demand of $60000 + 250t/12$ MW
 	during a transition from \glspl{LWR} to MOX LWRs and \glspl{SFR}. }
 	\label{fig:30stack}
 \end{figure}
