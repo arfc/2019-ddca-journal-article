@@ -5,7 +5,7 @@ deployed to meet a user-defined power demand.
 However, it is up to the user to define a deployment scheme of 
 supporting facilities to ensure that there is no gap in the supply 
 chain that results in idle reactor capacity. 
-Some users choose to set support facilities to have an infinite 
+Some users choose to set supporting facilities to have an infinite 
 capacity to avoid this issue, but this is an inaccurate 
 representation of reality. 
 It is straightforward to manually determine a deployment scheme 
@@ -26,7 +26,7 @@ fuel cycle is an agent.
 and facility agents can be grouped into. 
 \texttt{Institution} agents control the 
 deployment and decommission of facility agents 
-and represents legal operating organizations such as a 
+and represent legal operating organizations such as a 
 utility, government, etc. \cite{huff_fundamental_2016}. 
 \texttt{Facility} agents represent nuclear fuel cycle facilities. 
 \Cycamore \cite{carlsen_cycamore_2014}
@@ -39,12 +39,11 @@ An evaluation and screening study of a comprehensive set of nuclear
 \gls{FCO} \cite{wigeland_nuclear_2014} was conducted to assess 
 for performance improvements compared to the existing once-through 
 fuel cycle (EG01) in the \gls{US} across a wide range of criteria. 
-It was found that fuel cycles that consistently scored high 
-overall performance involved continuous recycling
-of co-extracted U/Pu or U/TRU in fast spectrum critical reactors. 
-In the study, these fuel cycles were referred to as EG23, EG24, 
-EG29 and EG30. 
-Table \ref{tab:eg} provides a description of these fuel cycles. 
+Fuel cycles that involved continuous recycling
+of co-extracted U/Pu or U/TRU in fast spectrum critical reactors
+consistently scored high on overall performance.  
+Table \ref{tab:eg} provides a description of these fuel cycles:
+EG23, EG24, EG29, and EG30. 
 
     \begin{table}[]
         \centering
@@ -72,21 +71,18 @@ state to these promising future end-states
 To successfully conduct analysis of the time-dependent transition
 analyses, it is necessary to develop \gls{NFCSim} tools to  
 automate setting up of transition scenarios. 
-Therefore, Demand-Driven Cycamore Archetypes project
-(NEUP-FY16-10512) was initiated to develop demand-driven deployment 
-capabilities in \Cyclus. 
-
-This capability is added as a \Cyclus \texttt{Institution}
+Therefore, the Demand-Driven Cycamore Archetypes project
+(NEUP-FY16-10512) was initiated to develop 
+demand-driven deployment capabilities in \Cyclus. 
+This capability, \deploy, is a \Cyclus \texttt{Institution}
 agent that deploys facilities to meet the front-end and back-end 
 fuel cycle demands based on a user-defined commodity demand. 
-This demand-driven deployment capability is called 
-\deploy. 
 
 \subsection{Novelty}
-To effectively predict supply and demand of commodities in 
-\deploy, we looked to time series forecasting methods that are 
-commonly used in other fields for making future predictions 
-based on past time series data. 
+We utilized time series forecasting methods to effectively predict 
+future supply and demand of commodities in \deploy. 
+These methods are commonly used in other fields 
+to make future predictions based on past time series data. 
 This is a novel approach that has never been applied to 
 \glspl{NFCSim}. 
 
