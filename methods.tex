@@ -127,7 +127,7 @@ predicted demand and installed capacity.
 Using installed capacity instead of predicted supply
 has two advantages. 
 First, to prevent over-deployment of facilities with an
-intermittent supply such as reactor refueling. 
+intermittent supply such as reactors that require refueling. 
 If predicted supply is selected instead of installed capacity, 
 \deploy will deploy surplus reactors during refueling downtimes to 
 meet the temporary power undersupply.
@@ -323,9 +323,9 @@ Python package is used to implement \texttt{ARMA} and
 \subsubsection{Deterministic-Optimizing Methods}
 Deterministic methods include
 Fast Fourier Transform (\texttt{FFT}), 
-Polynomial Fit (\texttt{poly}), 
-Exponential Smoothing (\texttt{exp-smoothing}), 
-and Triple Exponential Smoothing (\texttt{holt-winters}). 
+Polynomial Fit (\texttt{POLY}), 
+Exponential Smoothing (\texttt{EXP-SMOOTHING}), 
+and Triple Exponential Smoothing (\texttt{HOLT-WINTERS}). 
 The \texttt{FFT} method computes the discrete Fourier transform 
 of the time series to predict future demand and supply 
 values (equation \ref{eq:fft}).
@@ -337,19 +337,19 @@ SciPy \cite{jones_scipy:_2016} Python package.
 	X_k = \sum_{n=0}^{N-1}x_n e^{-i2\pi kn/N}
 \end{equation}
 
-The \texttt{poly} method models the time series data 
+The \texttt{POLY} method models the time series data 
 with a user-defined nth degree polynomial to determine 
 future demand and supply values. 
 This method was implemented in \deploy using the 
 NumPy \cite{developers_numpy_2013} Python package. 
-The \texttt{exp-smoothing} and \texttt{holt-winters} 
+The \texttt{EXP-SMOOTHING} and \texttt{HOLT-WINTERS} 
 methods use a weighted average 
 of time-series data with exponentially decaying weights 
 for older time series values \cite{hyndman_forecasting:_2018}
 to create a model to determine future demand and supply values. 
-The \texttt{exp-smoothing} method excels in 
+The \texttt{EXP-SMOOTHING} method excels in 
 modeling univariate time series data without trend or seasonality, 
-whereas the \texttt{holt-winters} method applies exponential 
+whereas the \texttt{HOLT-WINTERS} method applies exponential 
 smoothing three times, resulting in higher accuracy when 
 modeling seasonal time series data. 
 The StatsModels \cite{github_community_statsmodels:_2019}
@@ -358,7 +358,7 @@ in \deploy.
 
 \subsection{Stochastic-Optimizing Methods}
 There is one stochastic-optimizing method: step-wise 
-seasonal method. 
+seasonal method (\texttt{SW-SEASONAL}). 
 The method was implemented in \deploy by the auto \gls{ARIMA} 
 method in the pmdarima \cite{noauthor_pmdarima:_2019}
 Python package. 
