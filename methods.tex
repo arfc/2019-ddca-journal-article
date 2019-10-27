@@ -24,7 +24,7 @@ at every time step.
 	\node (IsThere) [oblock, below of=Predict]{\textbf{$U(t+1) = S_p(t+1)-D_p(t+1)$}};
 	\node (Deploy) [bblock, below of=IsThere, xshift = -3.5cm]{\textbf{Deploy Facilities}};
     \node (NoDeploy) [bblock, right of=Deploy, xshift = 3.5cm]{\textbf{No Deployment} };
-    \node (All) [oblock, below of=Deploy, xshift = 3.5cm] {\textbf{Has $D_p(t+1)$ and $S_p(t+1)$ been calculated for all commodities?}};
+    \node (All) [oblock, below of=Deploy, xshift = 3.5cm] {\textbf{Has $D_p(t+1)$ and \\ $S_p(t+1)$ been calculated for all commodities?}};
     \node (End) [bblock, below of=All] {\textbf{Proceed to next time step.}};
 	
 	\draw [arrow] (Start) -- (Predict); 
