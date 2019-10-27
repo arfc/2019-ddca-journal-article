@@ -26,6 +26,8 @@
 \usepackage{floatrow}
 \usepackage{subcaption}
 \usepackage{multirow}
+\captionsetup{font=normalsize,labelfont={bf,sf}}
+\captionsetup[sub]{font=small,labelfont={bf,sf}}
 
 \usepackage{tabularx}
 \newcolumntype{b}{>{\hsize=1.0\hsize}X}
@@ -54,7 +56,21 @@
 text width=15em, text centered, rounded corners, minimum height=4em]
 \tikzstyle{bblock} = [rectangle, draw, fill=illiniblue, 
 text width=15em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{obslock} = [rectangle, draw, fill=illiniorange, 
+text width=4em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{bbslock} = [rectangle, draw, fill=illiniblue, 
+text width=4em, text centered, rounded corners, minimum height=4em]
 \tikzstyle{arrow} = [thick,->,>=stealth]
+
+\usepackage{amsmath}%
+\usepackage{MnSymbol}%
+\usepackage{wasysym}%
+
+\usepackage{array,tabularx}
+\newenvironment{conditions*}
+  {\par\vspace{\abovedisplayskip}\noindent
+   \tabularx{\columnwidth}{>{$}l<{$} @{\ : } >{\raggedright\arraybackslash}X}}
+  {\endtabularx\par\vspace{\belowdisplayskip}}
 
 % hyperref %
 \usepackage[hidelinks]{hyperref}
@@ -95,25 +111,11 @@ time series forecasting
 \linenumbers
 
 \input{introduction}
-% Intro 
-% Context of Work 
-% Novelty 
-% Objectives
 \FloatBarrier
 \input{methods}
-% Methodology: Overall objectives of d3ploy and how it works
-% Structure (Demand/Supply Driven Inst)
-% Input variables
-% Deployment driving method (installedcap)
-% Supply/Capacity Buffer 
-% Prediction Methods
 \FloatBarrier
 \input{results}
-\input{results2}
-% demonstration of d3ploy's capabilities (basic transition cases) 
-% comparison of prediction methods
-% - Tables: table 10 from report + more buffer size steps, 
-% - Example model   
+\input{results2} 
 \FloatBarrier
 \input{conclusion}
 \FloatBarrier
@@ -124,8 +126,5 @@ time series forecasting
 
 %\nocite{robertson_conceptual_1971} % placeholder until citations appear
 \bibliography{2019-ddca}
-
-%%% Random thoughts 
-% deploy vs Deploy?
 
 \end{document}
