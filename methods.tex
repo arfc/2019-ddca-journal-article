@@ -248,6 +248,7 @@ is already met.
 If a facility type does not have any preferences, \deploy 
 deploys available facilities to minimize the number of deployed 
 facilities and oversupply of the commodity.
+
 \subsection{Prediction Methods}
 \deploy records supply and demand values at each time step for all 
 commodities to provide time-series data for \deploy's time series 
@@ -281,10 +282,13 @@ a user-defined number of previous entries in a commodity's
 time series and returns it as the predicted value 
 (equation \ref{eq:ma}).
 
-\begin{equation}
+\begin{align}
 	\label{eq:ma}
-	Predicted\ Value = \frac{V_1+V_2+...+V_n}{n}
-\end{equation}
+	Predicted\ Value &= \frac{V_1+V_2+...+V_n}{n}
+	\intertext{where:}
+	V &= \mbox{Time series value} \nonumber\\
+	n &= \mbox{length of timeseries} \nonumber\\
+\end{align}
 
 The \texttt{ARMA} method combines moving average and
 autoregressive models (equation \ref{eq:arma}).
@@ -296,12 +300,17 @@ The \texttt{ARMA} method is more accurate than the
 \texttt{MA} method 
 because of the inclusion of the autoregressive term. 
 
-\begin{equation}
+\begin{align}
 	\label{eq:arma}
-	X_t = c + \epsilon_t + 
+	X_t &= c + \epsilon_t + 
 	\sum_{i=1}^p\varphi_i X_{t-i} +	
 	\sum_{i=1}^q\theta_i\epsilon_{t-i}
-\end{equation}
+	\intertext{where:}
+	c &= \mbox{constant} \nonumber\\
+	\varphi &= \mbox{parameters} \nonumber\\
+	\epsilon_t &= \mbox{white noise} \nonumber\\
+	p &= \mbox{equation order} \nonumber \\
+\end{align}
 
 The \texttt{ARCH} method modifies the original moving 
 average term (described in equation \ref{eq:arma}). 
@@ -324,10 +333,13 @@ values (equation \ref{eq:fft}).
 This method is implemented in \deploy using the 
 SciPy \cite{jones_scipy:_2016} Python package. 
 
-\begin{equation}
+\begin{align}
 	\label{eq:fft}
-	X_k = \sum_{n=0}^{N-1}x_n e^{-i2\pi kn/N}
-\end{equation}
+	X_k &= \sum_{n=0}^{N-1}x_n e^{-i2\pi kn/N}
+	\intertext{where:}
+	k &= \mbox{0,...,N-1} \nonumber\\
+	N &= \mbox{No. of data points} \nonumber\\
+\end{align}
 
 The \texttt{POLY} method models the time series data 
 with a user-defined nth degree polynomial to determine 
