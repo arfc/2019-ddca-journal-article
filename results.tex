@@ -24,9 +24,9 @@ The simulation begins with ten \texttt{reactor} facilities
 (\texttt{reactor1} to \texttt{reactor10}). 
 These reactors have staggered cycle lengths and lifetimes to prevent 
 simultaneous refueling and setup gradual decommissioning. 
-\deploy is configured to deploy \texttt{new reactor} facilities
-to meet the loss of power supply created by the decommissioning 
-of the initial \texttt{reactor} facilities. 
+\deploy deploys \texttt{new reactor} facilities
+to fill power supply gap created when the initial \texttt{reactor} 
+facilities decommision. 
 Table \ref{tab:demonstrations} shows the \deploy input parameters 
 for this simulation.  
 
@@ -49,9 +49,9 @@ for this simulation.
 
 Figures \ref{fig:growingtransition-power}, \ref{fig:growingtransition-fuel},
 and \ref{fig:growingtransition-spentfuel} demonstrate \deploy's capability 
-to deploy reactor and supporting facilities to meet the linearly increasing
-power demand and subsequently demanded secondary commodities with 
-minimal undersupply.
+to deploy reactor and supporting facilities to minimize undersupply 
+when meeting linearly increasing power demand and subsequent secondary 
+commodities demand. 
 In Figure \ref{fig:growingtransition-power} there exists no time steps 
 in which the supply of power falls under demand, meeting the main 
 objective of \deploy. 
@@ -78,24 +78,31 @@ unable to foresee this sudden drop in demand.
 
 \begin{figure}[]
     \centering
-    \begin{subfigure}[t]{0.8\textwidth}
-    \centering
-        \includegraphics[width=0.9\linewidth]{figures/growingtransition-power.png} 
-        \caption{Power demand is a user-defined equation and power is supplied by the reactors.
+    \includegraphics[width=\linewidth]{figures/growingtransition-power.png} 
+        \caption{Power demand and supply and reactor facility deployment plot for  
+        a simple linearly increasing power demand transition scenario with 
+        three facility types: \texttt{source}, \texttt{reactor}, and \texttt{sink}.
+        Power demand is a user-defined equation and power is supplied by the reactors.
         There are no time steps with undersupply of power.}
         \label{fig:growingtransition-power}
-    \end{subfigure}
-    \begin{subfigure}[t]{0.6\textwidth}
+\end{figure}
+
+\begin{figure}[]
+    \centering
+    \begin{subfigure}[t]{1\textwidth}
         \centering
         \includegraphics[width=\linewidth]{figures/growingtransition-fuel.png} 
-        \caption{Fuel is demanded by reactors and supplied by source facilities.
+        \caption{Fuel demand and supply and source facility deployment plot.
+        Fuel is demanded by reactors and supplied by source facilities.
         There is only one time step with undersupply of fuel.}
 	    \label{fig:growingtransition-fuel}
     \end{subfigure}
-    \begin{subfigure}[t]{0.6\textwidth}
+    \begin{subfigure}[t]{1\textwidth}
         \centering
         \includegraphics[width=\linewidth]{figures/growingtransition-spentfuel.png} 
-        \caption{Spent Fuel is supplied by reactors and the capacity is provided by sink facilities.
+        \caption{Spent fuel demand and supply and sink facility deployment plot.
+            Spent Fuel is supplied by reactors and the capacity is provided by sink 
+            facilities.
         There are no time steps with under-capacity of sink space.}
         \label{fig:growingtransition-spentfuel}
     \end{subfigure}
