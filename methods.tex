@@ -98,6 +98,7 @@ facility's deployment.
 
 \begin{figure}[]
 	\centering
+	\resizebox{\textwidth}{!}{
 \begin{tikzpicture}[node distance=2.5cm,auto,>=latex']
 	\tikzstyle{every node}=[font=\scriptsize]
     \node [bbslock] (a) {Source};
@@ -110,6 +111,7 @@ facility's deployment.
 	\draw[->] (c) edge node {\shortstack{Used \\ Fuel}} (d) ;
 	\draw[->] (d) edge node {\shortstack{Cooled \\ Used \\ Fuel}} (e) ;
 \end{tikzpicture}
+	}
 \resizebox{0.5\textwidth}{!}{
     \fbox{\begin{tabular}{ll}
         \textcolor{illiniblue}{$\blacksquare$} & Deployed by \texttt{DemandDrivenDeploymentInst}\\
@@ -155,7 +157,7 @@ the buffers, facility preferences, and prediction methods.
 
 
 \begin{table}[]
-    \centering
+	\centering
     \caption{\deploy's required and optional input parameters with examples.}
     \label{tab:inputs}
         \footnotesize
