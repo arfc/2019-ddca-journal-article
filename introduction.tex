@@ -1,34 +1,32 @@
 \section{Introduction}
-\gls{NFC} simulators are system analysis tools used to evaluate 
-quantitative measures of dynamic \gls{NFC} performance 
-in both high and low resolution. 
-Plutonium concentration in a single used fuel bundle and 
-total electricity produced are examples of high and low 
-resolution elements, respectively.  
-The primary purpose of \gls{NFC} simulators is to understand the 
-dependence between various input parameters and components 
-in the \gls{NFC} and the impact their variations have on 
-the system's performance. 
-The results of \gls{NFC} simulators are used to guide research 
+Nuclear fuel cycle simulators are used to evaluate the impact of 
+alternative nuclear fuel cycles at both high and low resolution. 
+These simulators track the flow of materials through the nuclear fuel cycle, 
+from enrichment to final disposal of the fuel, while also accounting for 
+decay and transmutation of isotopes. 
+By evaluating performance metrics of different fuel cycles, we gain an 
+understanding of how each facility's parameters and technology choices 
+impact the system's performance. 
+Therefore, these results can be used to guide research 
 efforts, advise future design choices, and provide 
 decision-makers with a transparent tool for evaluating \gls{FCO} 
 to inform big-picture policy decisions \cite{yacout_modeling_2005}.
 
-Many fuel cycle simulators, automatically deploy reactor facilities 
+Many fuel cycle simulators automatically deploy reactor facilities 
 to meet a user-defined power demand. 
 However, the user must define a deployment scheme of 
 supporting facilities to avoid gaps in the supply 
 chain resulting in idle reactor capacity. 
-To avoid this issue, some users choose to set infinite capacity 
-for supporting facilities but this is an inaccurate 
-representation of reality resulting in misrepresented results. 
-It is straightforward to manually determine a deployment scheme 
-for a once-through fuel cycle, however, it is not straightforward
-for complex closed fuel cycle scenarios.  
-To ease setting up realistic \gls{NFC} simulations, a \gls{NFC} simulator
-should bring demand-responsive deployment decisions into 
-the simulation logic dynamics \cite{huff_current_2017}. 
-Thus, a next-generation \gls{NFC} simulator should predictively and 
+Current simulators require the user to set infinite capacity 
+for supporting facilities but this inaccurately represents 
+reality resulting in misrepresented results. 
+Manually determining a deployment scheme for a once-through 
+fuel cycle is straightforward, however, for complex fuel cycle 
+scenarios, it is not.   
+To ease setting up realistic nuclear fuel cycle simulations, a nuclear fuel cycle simulator
+must bring dynamic demand-responsive deployment decisions into 
+the simulation logic \cite{huff_current_2017}. 
+Thus, a next-generation nuclear fuel cycle simulator must predictively and 
 automatically deploy fuel cycle facilities to meet a user-defined 
 power demand. 
 
@@ -46,8 +44,8 @@ utilities, governments, etc. \cite{huff_fundamental_2016}.
 such as mines, conversion facilities, reactors, reprocessing facilities, 
 etc. 
 \Cycamore \cite{carlsen_cycamore_2014}
-provides basic \Cyclus' \texttt{Region}, \texttt{Institution}, 
-and \texttt{Facility} archetypes. 
+provides basic \texttt{Region}, \texttt{Institution}, 
+and \texttt{Facility} archetypes compatible with \Cyclus. 
 
 \subsection{Context of Work}
 The impact of climate change on natural and human systems 
@@ -58,33 +56,32 @@ emissions \cite{noauthor_climate_2018}.
 Furthermore, as the human population increases and previously 
 under-developed nations urbanize rapidly, 
 global energy demand is forecasted to increase.  
-The types of power generation technologies used 
+Power generation technology choices 
 will heavily impact the effects of growing energy demand 
 on climate change.  
-Large scale deployment of nuclear power plants has significant 
-potential to reduce GHG production due to their low 
+Large scale nuclear power plant deployment has significant 
+potential to reduce GHG production due nuclear energy's low 
 carbon emissions \cite{noauthor_climate_2018}.  
 
-However, the nuclear power industry is facing four major challenges 
-of large scale nuclear power deployment: 
-cost, safety, proliferation, and waste 
-\cite{massachusetts_institute_of_technology_future_2003}. 
-Nuclear power has high overall lifetime costs and increases 
-risks of nuclear proliferation. 
-There is also an unresolved long-term nuclear waste management 
+However, large scale nuclear power deployment faces
+challenges of cost, safety, and used nuclear fuel  
+\cite{petti_future_2018}. 
+Nuclear power has high capital costs, 
+an unresolved long-term nuclear waste management 
 strategy and perceived adverse safety, environmental, and health 
-effects \cite{massachusetts_institute_of_technology_future_2003}. 
-The nuclear power industry must overcome these four challenges 
+effects \cite{petti_future_2018}. 
+The nuclear power industry must overcome these challenges 
 to ensure continued global use and expansion 
 of nuclear energy technology. 
 
-The four challenges described above are associated with 
+The challenges described above are associated with 
 the present once-through fuel cycle in the \gls{US}, 
 in which fabricated nuclear fuel is used once and placed into 
 storage to await disposal. 
 An evaluation and screening study of a comprehensive set of nuclear 
 fuel cycle options \cite{wigeland_nuclear_2014} was conducted to assess 
-for performance improvements compared with the existing once-through 
+for promising \glspl{EG} with performance improvements compared with 
+the existing once-through 
 fuel cycle (EG01) in the \gls{US} across a wide range of criteria. 
 Fuel cycles that involved continuous recycling
 of co-extracted U/Pu or U/TRU in fast spectrum critical reactors
@@ -111,10 +108,11 @@ EG23, EG24, EG29, and EG30.
 The evaluation and screening study assumed
 the nuclear energy systems were at equilibrium to understand 
 the end-state benefits of each \gls{EG} \cite{feng_standardized_2016}. 
-In this work, our goal is to model the transition from the initial EG01
-state to these promising future end-states. 
+In the current work, our goal is to model the transition from the initial EG01
+state to these promising future end-states without assuming equilibrium
+fuel cycles. 
 To successfully analyze time-dependent transition
-scenarios, the \gls{NFC} simulator tool must 
+scenarios, the nuclear fuel cycle simulator tool must 
 automate the transition scenario simulation setup. 
 Therefore, the Demand-Driven \Cycamore Archetypes project
 (NEUP-FY16-10512) was initiated to develop 
@@ -124,12 +122,15 @@ agent that deploys facilities to meet user-defined power demand.
 
 \subsection{Novelty}
 We utilized time series forecasting methods to effectively predict 
-future commodity supply and demand in \deploy. 
+future commodities' supply and demand in \deploy. 
 Solar and wind power generation commonly use these methods
 to make future predictions based on past time series data
 \cite{reikard_predicting_2009,diagne_review_2013,soman_review_2010,taylor_wind_2009}. 
+Industrial supply chain management use sophisticated time series 
+forecasting techniques to predict demand for quantities of goods 
+in the supply chain \cite{souza_supply_2014}.
 This is a novel approach that has never been applied to 
-\gls{NFC} simulators. 
+nuclear fuel cycle simulators. 
 
 \subsection{Objectives}
 \label{sec:obj}
