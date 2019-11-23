@@ -26,8 +26,8 @@
 \usepackage{floatrow}
 \usepackage{subcaption}
 \usepackage{multirow}
-\captionsetup{font=normalsize,labelfont={bf,sf}}
-%\captionsetup[sub]{font=small,labelfont={bf,sf}}
+\captionsetup{font=normalsize}
+\usepackage{adjustbox}
 
 \usepackage{tabularx}
 \newcolumntype{b}{>{\hsize=1.0\hsize}X}
@@ -52,6 +52,8 @@
 \definecolor{illiniblue}{HTML}{B1C6E2}
 \definecolor{illiniorange}{HTML}{f8c2a2}
 \usetikzlibrary{shapes.geometric, arrows}
+\tikzstyle{olblock} = [rectangle, draw, fill=illiniorange, 
+text width=18em, text centered, rounded corners, minimum height=4em]
 \tikzstyle{oblock} = [rectangle, draw, fill=illiniorange, 
 text width=15em, text centered, rounded corners, minimum height=4em]
 \tikzstyle{bblock} = [rectangle, draw, fill=illiniblue, 
@@ -59,7 +61,11 @@ text width=15em, text centered, rounded corners, minimum height=4em]
 \tikzstyle{obslock} = [rectangle, draw, fill=illiniorange, 
 text width=4em, text centered, rounded corners, minimum height=4em]
 \tikzstyle{bbslock} = [rectangle, draw, fill=illiniblue, 
-text width=4em, text centered, rounded corners, minimum height=4em]
+text width=4.5em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{bbmmlock} = [rectangle, draw, fill=illiniblue, 
+text width=12em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{bbmlock} = [rectangle, draw, fill=illiniblue, 
+text width=11em, text centered, rounded corners, minimum height=4em]
 \tikzstyle{arrow} = [thick,->,>=stealth]
 
 \usepackage{amsmath}%

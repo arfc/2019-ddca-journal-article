@@ -44,9 +44,10 @@ with the exception that all transuranic elements are recycled.
 In Figure \ref{fig:eg23under}, each histogram represents 
 the number of time steps with undersupply or 
 under capacity for all commodities for each prediction method.  
-Table \ref{tab:all-power} shows the number of time steps with power 
-undersupply for constant power EG01-EG23 and EG01-29, 
-linearly increasing power EG01-24 and EG01-30 transition scenarios. 
+Table \ref{tab:all-power} shows the total number of time steps with power 
+undersupply for constant power EG01-23 and EG01-29 transition scenarios and
+linearly increasing power EG01-24 and EG01-30 transition scenarios
+for each prediction method. 
 Figure \ref{fig:eg23under} demonstrates that the \texttt{POLY} method
 perform the best for the EG01-23 transition scenario,
 with the smallest bars on the plot, indicating that they have the 
@@ -73,8 +74,7 @@ also performed best for minimizing undersupply of power.
 	EG01-23 transition scenario with constant power demand. 
 	Each subplot shows the total number of time steps in which there exists 
 	undersupply and under capacity of commodities for each prediction method. 
-	The different colors represent different commodities, and each time bin 
-	refers to a specific time periods in the simulation.
+	The different colors represent different commodities.
 	The \texttt{POLY} method performs the best, with the least number of 
 	time steps with undersupply and under capacity.}
 	\label{fig:eg23under}
@@ -87,8 +87,7 @@ also performed best for minimizing undersupply of power.
 	EG01-24 transition scenario with linearly increasing power demand. 
 	Each subplot shows the total number of time steps in which there exists 
 	undersupply and under capacity of commodities for each prediction method. 
-	The different colors represent different commodities, and each time bin 
-	refers to a specific time periods in the simulation.
+	The different colors represent different commodities.
 	The \texttt{FFT} method performs the best, with the least number of 
 	time steps with undersupply and under capacity.}
 	\label{fig:eg24under}
@@ -117,8 +116,8 @@ also performed best for minimizing undersupply of power.
 	\end{tabularx}
 \end{table}
 
-From Figures \ref{fig:eg23under}, \ref{fig:eg24under}, and Table 
-\ref{tab:all-power}, we can see that the \texttt{POLY} method 
+Figures \ref{fig:eg23under}, \ref{fig:eg24under}, and Table 
+\ref{tab:all-power} show that the \texttt{POLY} method 
 performs best for constant power transition scenarios, 
 and the \texttt{FFT} method performs best for linearly increasing 
 power transition scenarios. 
@@ -156,11 +155,8 @@ We varied the power buffer size for the EG01-24 and EG01-30
 linearly increasing power demand transition scenarios. 
 Figures \ref{fig:eg24-bufplot}, \ref{fig:eg30-bufplot}, 
 and Table \ref{tab:buff_size} 
-show that increasing the buffer size decreases the number of 
-power undersupply time steps. 
-For EG01-24, the cumulative undersupply plateaus at 6000MW, 
-and for EG01-30, the cumulative undersupply is smallest 
-for a buffer size of 8000MW.
+show that increasing the buffer size increases the robustness 
+of the supply chain by minimizing power undersupply. 
 These undersupply time 
 steps occur at the beginning of the simulation and for one 
 time step when the transition begins. 
@@ -176,13 +172,13 @@ the power undersupply for EG01-EG24 and EG01-EG30, respectively.
 	\centering
 	\begin{subfigure}[t]{\textwidth}
 		\centering
-		\includegraphics[width=1.1\linewidth]{24-sens-buffer.png} 
+		\includegraphics[width=1\linewidth]{24-sens-buffer.png} 
 		\caption{EG01-24: Power buffer size vs. cumulative undersupply}
 		\label{fig:eg24-bufplot}
 	\end{subfigure}
 	\begin{subfigure}[t]{\textwidth}
 		\centering
-		\includegraphics[width=1.1\linewidth]{30-sens-buffer.png} 
+		\includegraphics[width=1\linewidth]{30-sens-buffer.png} 
 		\caption{EG01-30: Power buffer size vs. cumulative undersupply}
 		\label{fig:eg30-bufplot}
 	\end{subfigure}

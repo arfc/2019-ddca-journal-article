@@ -6,13 +6,27 @@ The \deploy \texttt{Institution} agent was
 implemented in Python to enable the use of 
 well-developed time series forecasting Python packages. 
 
-In a \Cyclus \gls{NFC} simulation, at every time step, \deploy 
+In a \Cyclus simulation, at every time step, \deploy 
 predicts the supply and demand of each commodity for the next time 
 step. 
-When there exists undersupply for any commodity, 
+Commodities refer to materials in the nuclear fuel cycle such as 
+reactor fuel. 
+Upon undersupply for any commodity, 
 \deploy deploys facilities to meet its predicted demand.
-Figure \ref{fig:flow} shows the logic flow of \deploy 
+Therefore, if the simulation begins with user-defined power 
+demand, \deploy deploys reactors to meet power demand, 
+followed by enrichment facilities to meet fuel demand, and so on,
+to create the supply chain.
+Based on the demand and supply trends of each commodity, 
+\deploy predicts their 
+future demand and supply, and deploys facilities 
+accordingly to meet the future demand to prevent demand 
+from surpassing supply. 
+Figure \ref{fig:flow} shows the logical flow of \deploy 
 at every time step. 
+In subsequent subsections, we describe how to set up a 
+transition scenario using \deploy and the input parameters 
+\deploy accepts. 
 
 \begin{figure}[]
 	\centering
@@ -42,34 +56,34 @@ at every time step.
     \label{fig:flow}
 \end{figure}
 
-\deploy aims to minimize the undersupply of power (Equation \ref{eq:pow}).
+\deploy aims to minimize the undersupply of power:
 \begin{align}
 	\label{eq:pow}
-	obj = min \sum_{t=1}^{t_{end}} |D_{t,power}-S_{t,power}|
+	obj &= min \sum_{t=1}^{t_{f}} |D_{t,p}-S_{t,p}|.
+	\intertext{where:}
+	D &= \mbox{Demand} \nonumber\\
+	S &= \mbox{Supply} \nonumber\\
+	p &= \mbox{power} \nonumber \\
+	t_f &= \mbox{Number of time steps} \nonumber \\
+	M &= \mbox{Number of commmodities} \nonumber
 \end{align} 
-The sub-objectives are (1) to minimize the number of time 
+The sub-objectives are to minimize the number of time 
 steps of undersupply or under-capacity of any 
 commodity: 
 \begin{align}
 	\label{eq:sub1}
-	obj = min \sum_{i=c_1}^{c_M}\sum_{t=1}^{t_N} |D_{t,i}-S_{t,i}|,
+	obj = min \sum_{i=1}^{M}\sum_{t=1}^{t_f} |D_{t,i}-S_{t,i}|,
 \end{align}
-(2) to minimize excessive oversupply of all commodities: 
+and to minimize excessive oversupply of all commodities: 
 \begin{align}
 	\label{eq:sub2}
-	obj &= min \sum_{i=c_1}^{c_M}\sum_{t=1}^{t_N} |S_{t,i}-D_{t,i}|.
-	\intertext{where:}
-	D &= \mbox{Demand} \nonumber\\
-	S &= \mbox{Supply} \nonumber\\
-	c &= \mbox{Commodity type} \nonumber\\
-	M &= \mbox{Number of commmodities} \nonumber\\
-	N &= \mbox{Number of time steps} \nonumber
+	obj &= min \sum_{i=1}^{M}\sum_{t=1}^{t_f} |S_{t,i}-D_{t,i}|.
 \end{align} 
 Minimizing excessive oversupply 
 reflects reality in which utilities avoid 
 undersupply of power on the grid by ensuring power 
 plants are never short of fuel while avoiding expensive oversupply.
-\gls{NFC} simulators often face power undersupplies 
+Nuclear fuel cycle simulators often face power undersupplies 
 due to lack of viable fuel, despite having sufficient installed 
 reactor capacity.  
 Using \deploy to automate the deployment of supporting 
@@ -99,19 +113,21 @@ facility's deployment.
 \begin{figure}[]
 	\centering
 	\resizebox{\textwidth}{!}{
-\begin{tikzpicture}[node distance=2.5cm,auto,>=latex']
+	\trimbox{0cm -.5cm 0cm 0cm}{ 
+\begin{tikzpicture}[node distance=2.8cm,auto,>=latex']
 	\tikzstyle{every node}=[font=\scriptsize]
-    \node [bbslock] (a) {Source};
-    \node [bbslock] (b) [right of=a] {Enrichment \\ Facility};
-	\node [bbslock] (c) [right of=b] {Reactor};
-	\node [obslock] (d) [right of=c] {Cooling \\ Pool};
-	\node [obslock] (e) [right of=d] {Sink};
-    \path[->] (a) edge node {Natl U} (b);
+    \node [bbslock] (a) {\textbf{Source}};
+    \node [bbslock] (b) [right of=a] {\textbf{Enrichment \\ Facility}};
+	\node [bbslock] (c) [right of=b] {\textbf{Reactor}};
+	\node [obslock] (d) [right of=c] {\textbf{Cooling \\ Pool}};
+	\node [obslock] (e) [right of=d] {\textbf{Sink}};
+    \path[->] (a) edge node {\shortstack{Natl \\ U}} (b);
 	\draw[->] (b) edge node {Fuel} (c) ;
 	\draw[->] (c) edge node {\shortstack{Used \\ Fuel}} (d) ;
 	\draw[->] (d) edge node {\shortstack{Cooled \\ Used \\ Fuel}} (e) ;
 \end{tikzpicture}
-	}
+	}}
+
 \resizebox{0.5\textwidth}{!}{
     \fbox{\begin{tabular}{ll}
         \textcolor{illiniblue}{$\blacksquare$} & Deployed by \texttt{DemandDrivenDeploymentInst}\\
@@ -172,7 +188,7 @@ the buffers, facility preferences, and prediction methods.
                                                       & Deployment driven by & Installed Capacity                                                                                                                    \\ \hline
             \multirow{4}{*}{\textbf{Optional}} & Supply/Capacity Buffer type                                                                        & Absolute                                                                                                                  \\ \cline{2-3} 
                                                       & Supply/Capacity Buffer size                                                                        & \begin{tabular}[c]{@{}l@{}}Power: 3000 MW\\ Fuel: 0 kg \\ Spent fuel: 0 kg\end{tabular}                                   \\ \cline{2-3} 
-                                                      & Facility preferences                                                               & \begin{tabular}[c]{@{}l@{}}LWR reactor = 100-t\\ SFR reactor = t-100 \end{tabular}          \\ \cline{2-3} 
+                                                      & Facility preferences                                                               & \begin{tabular}[c]{@{}l@{}}LWR reactor = 100-t\\ SFR reactor = t-99 \end{tabular}          \\ \cline{2-3} 
                                                       & Fleet share percentage                                                            & \begin{tabular}[c]{@{}l@{}}MOX LWR = 85\%\\ SFR = 15\% \end{tabular}          \\ \hline
                     \end{tabular}
 \end{table}
@@ -194,12 +210,12 @@ or absolute value (equation \ref{eq:abs}).
     \label{eq:perc}
 	S_{pwb} &= S_{p}(1+d)\\
 	\label{eq:abs}
-	S_{pwb} &= S_{p}+a \\
+	S_{pwb} &= S_{p}+b \\
 	\intertext{where:}
 	S_{pwb} &= \mbox{predicted supply/capacity with buffer} \nonumber\\
-	S_p &= \mbox{predicted supply/capacity without buffer} \nonumber\\
+	S_p &= \mbox{predicted supply/capacity} \nonumber\\
 	d &= \mbox{percentage value in decimal form} \nonumber\\
-    a &= \mbox{absolute value of the buffer} \nonumber
+    b &= \mbox{absolute value of the buffer} \nonumber
 \end{align}
 For example, the user sets the power commodity's absolute supply buffer 
 to be 2000 MW and predicted demand is 10000 MW, \deploy deploys reactor 
@@ -210,34 +226,40 @@ in a power supply of:
 	S_{pwb} &= 10000 \mbox{MW}+2000 \mbox{MW} \\
 	&= 12000\mbox{MW}
 \end{align*}
-Using a combination of the buffer capability and  
-installed capacity deployment driving method in a transition 
-scenario simulation effectively minimizes undersupply of a 
+Using the buffer capability and  
+installed capacity to drive facility deployment in a transition 
+scenario simulation will effectively minimize undersupply of a 
 commodity while avoiding excessive oversupply. 
-This is demonstrated in section \ref{sec:demo}. 
+This is demonstrated in Section \ref{sec:demo}. 
 
 \subsection{Facility Preference and Fleet Share}
-The user has the option to give preferences to facilities' 
-that supply the same commodity. 
-These preferences are in the form of a time-dependent 
-equation so that the preferences can be dynamic with time. 
-\deploy uses these equations to determine which facility 
-to deploy during a commodity shortage.  
+
+The user has the option to give time-dependent preference 
+equations to facilities' that supply the same commodity. 
+If there are two reactor types, \glspl{LWR} and \glspl{SFR}, in a simulation, 
+the user can make use of time-dependent 
+preferences to make the simulation deploy LWRs at earlier times 
+in the simulation, and deploy SFRs at later times in the 
+simulation when there is a power demand. 
 In table \ref{tab:inputs}, 
-the \gls{LWR} reactor has a preference of $100-t$, and the 
-\gls{SFR} reactor has a preference of $t-100$. 
-At time step 1, LWR preference is 99, while SFR preference is -99; 
+the LWR has a preference of $100-t$, and the 
+SFR has a preference of $t-99$. 
+$t$ refers to the month timestep. 
+At time step 1, LWR preference becomes 99, while SFR preference becomes -98; 
 therefore a LWR is deployed if there is a commodity shortage. 
-At time step 105, LWR preference is -5, while SFR preference is 5; 
+At time step 100, LWR preference becomes 0, while SFR preference becomes 1; 
 therefore a SFR is deployed if there is a commodity shortage. 
+Thus, the transition occurs at the $100^{th}$ time step.
 
 The user also has the option to specify percentage-share for facilities 
-that provide the same commodity.   
-In table \ref{tab:inputs}, 
-the \gls{MOX} \gls{LWR} has a share of 85\%, while 
-the \gls{SFR} has a share of 15\%. 
-This constrains \gls{SFR} deployment to 85\% of total power demand 
-and \gls{MOX} \gls{LWR} deployment to 15\% of total power demand.  
+that provide the same commodity. 
+For example, if there are two reactor types, \gls{MOX} LWRs and SFRs, in a simulation,
+the user can make use of percentage-share specifications to determine the 
+percentage of power supplied by each reactor.   
+When MOX LWR has a share of $s\%$ and 
+\gls{SFR} has a share of $(100-s)\%$, 
+MOX LWR deployment constrains to $s\%$ of total power demand 
+and SFR deployment constrains to $(100-s)\%$ of total power demand.  
 
 The year the transition begins is selected by customizing facility 
 preferences to begin preference for advanced reactors at a certain year,
@@ -250,6 +272,37 @@ is already met.
 If a facility type does not have any preferences, \deploy 
 deploys available facilities to minimize the number of deployed 
 facilities and oversupply of the commodity.
+
+
+Figure \ref{fig:deployflow} shows the logical flow of how \deploy 
+selects which facility to deploy when there are multiple facilities 
+offering the same commodity. 
+
+\begin{figure}[]
+	\centering
+	\resizebox{\textwidth} {0.8\height}{
+    \begin{tikzpicture}[node distance=2.5cm]
+    \tikzstyle{every node}=[font=\large]
+	\node (pref)[olblock]{\textbf{Are there facility preferences?}};
+	\node (fs1) [oblock, below of=pref, xshift = -3.5cm]{\textbf{Are there fleet share constraints?}};
+	\node (fs2) [oblock, right of=fs1, xshift = 3.5cm]{\textbf{Are there fleet share constraints?} };
+	\node (fs2yes) [bbmlock, below of=fs2, xshift = -2cm] {\textbf{Deploy facilities to meet fleet share $\%$}};
+	\node (fs2no) [bbmlock, right of=fs2yes, xshift = 2cm, yshift=-1.07cm] {\textbf{Deploy facilities to minimize total no. of facilities and minimize oversupply.}};
+	\node (fs1yes) [bbmmlock, below of=fs1, xshift = -2cm, yshift=-3cm] {\textbf{Deploy facilities in preference order to meet their fleet share \%}};
+	\node (fs1no) [bbmlock, right of=fs1yes, xshift = 2cm] {\textbf{Deploy facility with highest preference}};
+    \draw [arrow] (pref) -- node[anchor=east] {yes} (fs1);
+	\draw [arrow] (pref) -- node[anchor=west] {no} (fs2);
+	\draw [arrow] (fs2) -- node[anchor=east] {yes} (fs2yes);
+	\draw [arrow] (fs2) -- node[anchor=west] {no} (fs2no);
+	\draw [arrow] (fs1) -- node[anchor=east] {yes} (fs1yes);
+	\draw [arrow] (fs1) -- node[anchor=west] {no} (fs1no);
+	\end{tikzpicture}
+	}
+    \caption{Logical flow of how \deploy 
+	selects which facility to deploy when there are multiple facilities 
+	offering the same commodity.}
+	\label{fig:deployflow}
+\end{figure}
 
 \subsection{Prediction Methods}
 \deploy records supply and demand values at each time step for all 
@@ -340,7 +393,7 @@ SciPy \cite{jones_scipy:_2016} Python package.
 	X_k &= \sum_{n=0}^{N-1}x_n e^{-i2\pi kn/N}
 	\intertext{where:}
 	k &= 0, ..., N-1 \nonumber\\
-	N &= \mbox{No. of data points} \nonumber\\
+	N &= \mbox{No. of data points} \nonumber
 \end{align}
 
 The \texttt{POLY} method models the time series data 
