@@ -1,9 +1,19 @@
 \section{Introduction}
-Nuclear fuel cycle simulators are used to evaluate the impact of 
-alternative nuclear fuel cycles at both high and low resolution. 
+The nuclear fuel cycle represents the nuclear fuel life cycle from initial
+extraction through processing, use in reactors, and, eventually, 
+final disposal.
+This complex system of facilities and mass flows 
+collectively provide nuclear energy 
+in the form of electricity \cite{yacout_modeling_2005}.
+Nuclear fuel cycle simulator tools were introduced to investigate 
+nuclear fuel cycle dynamics at a local and global level. 
 These simulators track the flow of materials through the nuclear fuel cycle, 
 from enrichment to final disposal of the fuel, while also accounting for 
 decay and transmutation of isotopes. 
+The impacts are evaluated in the form of `metrics', quantitative measures 
+of performance \cite{huff_fundamental_2016}. 
+These metrics are calculated from mass balances and facility operation 
+histories calculated by a fuel cycle simulator \cite{huff_fundamental_2016}. 
 By evaluating performance metrics of different fuel cycles, we gain an 
 understanding of how each facility's parameters and technology choices 
 impact the system's performance. 
@@ -19,13 +29,17 @@ supporting facilities to avoid gaps in the supply
 chain resulting in idle reactor capacity. 
 Current simulators require the user to set infinite capacity 
 for supporting facilities but this inaccurately represents 
-reality resulting in misrepresented results. 
+reality and obfuscates required capacities. 
 Manually determining a deployment scheme for a once-through 
 fuel cycle is straightforward, however, for complex fuel cycle 
 scenarios, it is not.   
 To ease setting up realistic nuclear fuel cycle simulations, a nuclear fuel cycle simulator
 must bring dynamic demand-responsive deployment decisions into 
 the simulation logic \cite{huff_current_2017}. 
+This means the nuclear fuel cycle simulator decides how many mines, 
+mills, enrichment facilities,
+reprocessing facilities, etc are deployed to support dynamically 
+changing power demand and reactor types.  
 Thus, a next-generation nuclear fuel cycle simulator must predictively and 
 automatically deploy fuel cycle facilities to meet a user-defined 
 power demand. 
@@ -34,12 +48,12 @@ In \Cyclus, an agent-based nuclear fuel cycle simulation framework
 \cite{huff_fundamental_2016}, 
 each entity (i.e. \texttt{Region}, \texttt{Institution}, or \texttt{Facility}) in the 
 fuel cycle is an agent. 
-\texttt{Region} agents represent geographical or political areas that \texttt{Institution}
+\texttt{Region} agents represent geographical or political areas in which \texttt{Institution}
 and \texttt{Facility} agents reside. 
-\texttt{Institution} agents control the 
-deployment and decommission of \texttt{Facility} agents 
-and represent legal operating organizations such ass
-utilities, governments, etc. \cite{huff_fundamental_2016}. 
+\texttt{Institution} agents represent legal operating organizations such as
+utilities, governments, and control the 
+deployment and decommissioning of \texttt{Facility} agents
+\cite{huff_fundamental_2016}.
 \texttt{Facility} agents represent nuclear fuel cycle facilities
 such as mines, conversion facilities, reactors, reprocessing facilities, 
 etc. 
@@ -54,14 +68,13 @@ The production and use of energy contribute to
 two-thirds of the total Green House Gas (GHG) 
 emissions \cite{noauthor_climate_2018}.
 Furthermore, as the human population increases and previously 
-under-developed nations urbanize rapidly, 
-global energy demand is forecasted to increase.  
-Power generation technology choices 
-will heavily impact the effects of growing energy demand 
-on climate change.  
-Large scale nuclear power plant deployment has significant 
-potential to reduce GHG production due nuclear energy's low 
-carbon emissions \cite{noauthor_climate_2018}.  
+under-developed nations rapidly urbanize, 
+global energy demand is forecasted to increase. 
+Energy generation technology selection 
+profoundly impacts climate change via growing energy demand. 
+Large scale deployment of emissions free nuclear power plants 
+could significantly reduce GHG production 
+\cite{noauthor_climate_2018}.    
 
 However, large scale nuclear power deployment faces
 challenges of cost, safety, and used nuclear fuel  
@@ -97,17 +110,17 @@ EG23, EG24, EG29, and EG30.
             \begin{tabular}{llll}
                 \hline
             \textbf{Fuel Cycle}                                               & \textbf{Open or Closed} & \textbf{Fuel Type}                                                              & \textbf{Reactor Type}                                                                           \\ \hline
-            \textbf{\begin{tabular}[c]{@{}l@{}}EG01\\ (current)\end{tabular}} & Open                                                               & Enriched-U                                                                      & Thermal Critical                                                                       \\ 
-            \textbf{EG23}                                                     & Closed                                                             & \begin{tabular}[c]{@{}l@{}}Recycled U/Pu \\ + Natural-U\end{tabular}  & Fast Critical                                                                         \\ 
-            \textbf{EG24}                                                     & Closed                                                             & \begin{tabular}[c]{@{}l@{}}Recycled U/TRU \\ + Natural-U\end{tabular} & Fast Critical                                                                   \\ 
-            \textbf{EG29}                                                     & Closed                                                             & \begin{tabular}[c]{@{}l@{}}Recycled U/Pu \\ + Natural-U\end{tabular}  & Fast Critical \& Thermal Critical  \\ 
-            \textbf{EG30} & Closed                                                             & \begin{tabular}[c]{@{}l@{}}Recycled U/TRU \\ + Natural-U\end{tabular} & Fast Critical \& Thermal Critical  \\ \hline
+            \textbf{\begin{tabular}[c]{@{}l@{}}EG01\\ (current)\end{tabular}} & Open                                                               & Enriched-U                                                                      & Thermal                                                                       \\ 
+            \textbf{EG23}                                                     & Closed                                                             & \begin{tabular}[c]{@{}l@{}}Recycled U/Pu \\ + Natural-U\end{tabular}  & Fast                                                                        \\ 
+            \textbf{EG24}                                                     & Closed                                                             & \begin{tabular}[c]{@{}l@{}}Recycled U/TRU \\ + Natural-U\end{tabular} & Fast                                                                  \\ 
+            \textbf{EG29}                                                     & Closed                                                             & \begin{tabular}[c]{@{}l@{}}Recycled U/Pu \\ + Natural-U\end{tabular}  & Fast \& Thermal  \\ 
+            \textbf{EG30} & Closed                                                             & \begin{tabular}[c]{@{}l@{}}Recycled U/TRU \\ + Natural-U\end{tabular} & Fast \& Thermal  \\ \hline
         \end{tabular}
     \end{table}
 
 The evaluation and screening study assumed
 the nuclear energy systems were at equilibrium to understand 
-the end-state benefits of each \gls{EG} \cite{feng_standardized_2016}. 
+the end-state benefits of each evaluation group \cite{feng_standardized_2016}. 
 In the current work, our goal is to model the transition from the initial EG01
 state to these promising future end-states without assuming equilibrium
 fuel cycles. 
