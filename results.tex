@@ -2,8 +2,8 @@
 To demonstrate \deploy's capability conduct transition
 scenario analysis effectively and meet the objectives described in section 
 \ref{sec:obj}, this section 
-(1) demonstrates \deploy's capability in simple transition scenarios, 
-(2) compares the use of different prediction methods in  EG01-EG23, EG01-EG24, 
+(1) demonstrates \deploy's capability in a simple transition scenario, 
+(2) compares the use of different \deploy prediction methods in EG01-EG23, EG01-EG24, 
 EG01-EG29, and EG01-EG30 transition scenarios, and
 (3) demonstrates successful \deploy setup of EG01-EG23, EG01-EG24, 
 EG01-EG29, and EG01-EG30 transition scenarios. 
@@ -17,16 +17,17 @@ We conducted a simple transition scenario simulation with
 linearly increasing power demand
 to demonstrate \deploy's capabilities and inform input parameter 
 choices when setting up complex many-facility transition scenarios. 
-This simulation only includes
+This simulation is defined as \textit{simple} since 
+it only includes
 three facility types: \texttt{source}, \texttt{reactor}, and 
 \texttt{sink}. 
 The simulation begins with ten \texttt{reactor} facilities 
 (\texttt{reactor1} to \texttt{reactor10}). 
 These reactors have staggered cycle lengths and lifetimes to prevent 
 simultaneous refueling and setup gradual decommissioning. 
-\deploy deploys \texttt{new reactor} facilities
-to fill power supply gap created when the initial \texttt{reactor} 
-facilities decommision. 
+\deploy is configured to deploy \texttt{new reactor} facilities
+to meet the loss of power supply created by the decommissioning 
+of the initial \texttt{reactor} facilities. 
 Table \ref{tab:demonstrations} shows the \deploy input parameters 
 for this simulation.  
 
@@ -49,7 +50,7 @@ for this simulation.
 
 Figures \ref{fig:growingtransition-power}, \ref{fig:growingtransition-fuel},
 and \ref{fig:growingtransition-spentfuel} demonstrate \deploy's capability 
-to deploy reactor and supporting facilities to minimize undersupply 
+to deploy reactors and supporting facilities to minimize undersupply 
 when meeting linearly increasing power demand and subsequent secondary 
 commodities demand. 
 In Figure \ref{fig:growingtransition-power} there exists no time steps 
@@ -64,17 +65,13 @@ In figure \ref{fig:growingtransition-fuel},
 a large-throughput source facility is initially
 deployed to meet the large initial fuel demand for the commissioning 
 of ten reactors. 
-By having a large-throughput source facility exist for the 
-first few time steps, \deploy does not deploy supporting
+Deployment of a large-throughput source facility for the 
+first few time steps ensures \deploy does not deploy supporting
 facilities that become redundant at later times in  
 the simulation.
 This reflects reality in which reactor manufacturers accumulate
 an appropriate amount of fuel inventory before starting 
 up reactors. 
-There is one time step in which a power undersupply exists after the 
-decommissioning of the large initial facility; 
-this is unavoidable as the prediction methods in \deploy are 
-unable to foresee this sudden drop in demand. 
 
 \begin{figure}[]
     \centering

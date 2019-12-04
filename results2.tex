@@ -2,12 +2,11 @@
 
 EG01-EG23, EG01-EG24, EG01-EG29, and EG01-EG30 transition scenarios
 are set up in \Cyclus using \deploy. 
-EG01-23 and EG01-29 transition scenario simulations have a constant 
-power demand, while EG01-24 and EG01-30 have a linearly increasing
-power demand. 
-We identified the most effective d3ploy prediction method 
-for each scenario by comparing the results of using each 
-prediction method in each scenario. 
+We ran each transition scenario with different prediction 
+methods to determine the prediction method that best minimizes 
+power undersupply for that scenario. 
+We defined the EG01-23 and EG01-29 transition scenario simulations to have a constant 
+power demand, while EG01-24 and EG01-30 have a linearly increasing power demand. 
 Similar to the simple transition scenario, these transition scenario 
 simulations begin with an initial fleet of \glspl{LWR} 
 that start progressively decommissioning at the 80-year mark, 
@@ -25,19 +24,85 @@ with the exception that all transuranic elements are recycled.
 	\centering
 	\begin{subfigure}[t]{\textwidth}
 		\centering
-		\includegraphics[width=0.8\linewidth]{23flow.pdf} 
+		\resizebox{0.7\textwidth}{!}{%
+		\begin{tikzpicture}[node distance=2.5cm]
+		\tikzstyle{every node}=[font=\normalsize]
+		\node (source)[ollblock]{\texttt{Source}};
+		\node (enrich)[ollblock, below of=source]{\texttt{Enrichment}};
+		\node (lwr)[ollblock, below of=enrich]{\texttt{LWR}};
+		\node (lwrsto)[ollblock, below of=lwr]{\texttt{LWR Cooling Pool}};
+		\node (lwrrep)[ollblock, below of=lwrsto]{\texttt{LWR Reprocessing}};
+		\node (lwrrepo)[ollblock, below of=lwrrep]{\texttt{LWR Waste Repository}};
+		\node (lwrmix)[ollblock, right of=enrich, xshift=3cm]{\texttt{LWR Mixer}};
+		\node (frmix)[ollblock, right of=lwrmix, xshift=3cm]{\texttt{FR Mixer}};
+		\node (fr)[ollblock, right of=lwr, xshift=5.8cm]{\texttt{FR}};
+		\node (frsto)[ollblock, right of=lwrsto, xshift=5.8cm]{\texttt{FR Cooling Pool}};
+		\node (frrep)[ollblock, right of=lwrrep, xshift=5.8cm]{\texttt{FR Reprocessing}};
+		\node (frrepo)[ollblock, right of=lwrrepo, xshift=5.8cm]{\texttt{FR Waste Repository}};
+		\path[->] (source) edge[line width=0.5mm] node[ fill=white, anchor=center, pos=0.5] {natl-U} (enrich);
+		\path[->] (enrich) edge[line width=0.5mm] node[ fill=white, anchor=center, pos=0.5] {LWR fuel} (lwr);
+		\path[->] (lwr) edge[line width=0.5mm] node[ fill=white, anchor=center, pos=0.5] {LWR used fuel} (lwrsto);
+		\path[->] (lwrsto) edge[line width=0.5mm] node[ fill=white, anchor=center, pos=0.5] {\shortstack{cooled used \\ LWR fuel}} (lwrrep);
+		\path[->] (lwrrep) edge[line width=0.5mm] node[ fill=white, anchor=center, pos=0.5] {\shortstack{LWR reprocessing \\ waste}} (lwrrepo);
+		\path[->] (lwrmix) edge[line width=0.5mm] node[ fill=white, anchor=center, pos=0.5] {FR fuel} (fr);
+		\path[->] (frmix) edge[line width=0.5mm] node[ fill=white, anchor=center, pos=0.5] {FR fuel} (fr);
+		\path[->] (fr) edge[line width=0.5mm] node[ fill=white, anchor=center, pos=0.5] {FR used fuel} (frsto);
+		\path[->] (frsto) edge[line width=0.5mm] node[ fill=white, anchor=center, pos=0.5] {\shortstack{cooled used \\ FR fuel}} (frrep);
+		\path[->] (frrep) edge[line width=0.5mm] node[ fill=white, anchor=center, pos=0.5] {\shortstack{FR reprocessing \\ waste}} (frrepo);
+		\draw [arrow] (lwrrep) -- ([shift={(0.7cm,0cm)}]lwrrep.east)-- node[ fill=white, anchor=center, pos=0.5] {U/Pu} ([shift={(-1.05cm,0cm)}]lwrmix.west)--(lwrmix);
+		\draw [arrow] (frrep) -- ([shift={(0.9cm,0cm)}]frrep.east)-- node[ fill=white, anchor=center, pos=0.5] {U/Pu} ([shift={(0.1cm,-0.1cm)}]frmix.south)--(frmix);
+	\end{tikzpicture}}
 		\caption{EG01-EG23.}
 		\label{fig:23flow}
 	\end{subfigure}
 	\vspace{1cm}
 	\begin{subfigure}[t]{\textwidth}
 		\centering
-		\includegraphics[width=0.8\linewidth]{29flow.pdf} 
+		\resizebox{0.7\textwidth}{!}{%
+		\begin{tikzpicture}[node distance=2.5cm]
+		\tikzstyle{every node}=[font=\normalsize]
+		\node (source)[ollblock]{\texttt{Source}};
+		\node (enrich)[ollblock, below of=source]{\texttt{Enrichment}};
+		\node (lwr)[ollblock, below of=enrich]{\texttt{LWR}};
+		\node (lwrsto)[ollblock, below of=lwr]{\texttt{LWR Cooling Pool}};
+		\node (lwrrep)[ollblock, below of=lwrsto]{\texttt{LWR Reprocessing}};
+		\node (lwrrepo)[ollblock, below of=lwrrep]{\texttt{LWR Waste Repository}};
+		\node (frmix)[ollblock, right of=enrich, xshift=3cm]{\texttt{FR Mixer}};
+		\node (fr)[ollblock, right of=lwr, xshift=3cm]{\texttt{FR}};
+		\node (frsto)[ollblock, right of=lwrsto, xshift=3cm]{\texttt{FR Cooling Pool}};
+		\node (frrep)[ollblock, right of=lwrrep, xshift=3cm]{\texttt{FR Reprocessing}};
+		\node (frrepo)[ollblock, right of=lwrrepo, xshift=3cm]{\texttt{FR Waste Repository}};
+		\node (moxmix)[ollblock, right of=frmix, xshift=3cm]{\texttt{MOX Mixer}};
+		\node (mox)[ollblock, right of=fr, xshift=3cm]{\texttt{MOX LWR}};
+		\node (moxsto)[ollblock, right of=frsto, xshift=3cm]{\texttt{MOX Cooling Pool}};
+		\node (moxrep)[ollblock, right of=frrep, xshift=3cm]{\texttt{MOX Reprocessing}};
+		\node (moxrepo)[ollblock, right of=frrepo, xshift=3cm]{\texttt{MOX Waste Repository}};
+		\path[->] (source) edge[line width=0.5mm] node[ fill=white, anchor=center, pos=0.5] {natl-U} (enrich);
+		\path[->] (enrich) edge[line width=0.5mm] node[ fill=white, anchor=center, pos=0.5] {LWR fuel} (lwr);
+		\path[->] (lwr) edge[line width=0.5mm] node[ fill=white, anchor=center, pos=0.5] {LWR used fuel} (lwrsto);
+		\path[->] (lwrsto) edge[line width=0.5mm] node[ fill=white, anchor=center, pos=0.5] {\shortstack{cooled used \\ LWR fuel}} (lwrrep);
+		\path[->] (lwrrep) edge[line width=0.5mm] node[ fill=white, anchor=center, pos=0.5] {\shortstack{LWR reprocessing \\ waste}} (lwrrepo);
+		\path[->] (frmix) edge[line width=0.5mm] node[ fill=white, anchor=center, pos=0.5] {FR fuel} (fr);
+		\path[->] (fr) edge[line width=0.5mm] node[ fill=white, anchor=center, pos=0.5] {FR used fuel} (frsto);
+		\path[->] (frsto) edge[line width=0.5mm] node[ fill=white, anchor=center, pos=0.5] {\shortstack{cooled used \\ FR fuel}} (frrep);
+		\path[->] (frrep) edge[line width=0.5mm] node[ fill=white, anchor=center, pos=0.5] {\shortstack{FR reprocessing \\ waste}} (frrepo);
+		\path[->] (moxmix) edge[line width=0.5mm] node[ fill=white, anchor=center, pos=0.5] {MOX fuel} (mox);
+		\path[->] (mox) edge[line width=0.5mm] node[ fill=white, anchor=center, pos=0.5] {MOX used fuel} (moxsto);
+		\path[->] (moxsto) edge[line width=0.5mm] node[ fill=white, anchor=center, pos=0.5] {\shortstack{cooled used \\ MOX fuel}} (moxrep);
+		\path[->] (moxrep) edge[line width=0.5mm] node[ fill=white, anchor=center, pos=0.5] {\shortstack{MOX reprocessing \\ waste}} (moxrepo);
+		\draw [arrow] (lwrrep) -- ([shift={(0.7cm,0cm)}]lwrrep.east)-- node[ fill=white, anchor=center, pos=0.5] {U/Pu} ([shift={(-1.05cm,0cm)}]frmix.west)--(frmix);
+		\draw [arrow] (frmix) -- ([shift={(-1.05cm,0cm)}]frmix.west) |- ([shift={(0cm,0.7cm)}]moxmix.north)--(moxmix);
+		\draw [arrow] (frrep) -- ([shift={(0.7cm,0cm)}]frrep.east)-- node[ fill=white, anchor=center, pos=0.5] {U/Pu} ([shift={(0.7cm,0cm)}]frmix.east)--(frmix);
+		\draw [arrow] (frmix) -- ([shift={(0.7cm,0cm)}]frmix.east) |- ([shift={(-0.7cm,0cm)}]moxmix.west)--(moxmix);
+		\draw [-,thick] (moxrep) -- ([shift={(-0.7cm,0cm)}]moxrep.west)-- ([shift={(0.7cm,0cm)}]frrep.east)--(frrep);
+	\end{tikzpicture}}
 		\caption{EG01-EG29.}
 		\label{fig:29flow}
 	\end{subfigure}
-	\hfill
-	\caption{Facility and mass flow of the transition scenarios EG01-EG23 and EG01-EG29 in \Cyclus.}
+	\vspace{-1.5cm}
+	\caption{Facility and mass flow of the transition scenarios EG01-EG23 and EG01-EG29 in \Cyclus.
+	EG23 and EG29 are closed fuel cycles with continuous recycling of U/Pu. EG23 consists of fast reactors, 
+	while EG29 consists of both fast and thermal reactors.}
 	\label{fig:eg2329}
 \end{figure}
 
@@ -69,12 +134,13 @@ also performed best for minimizing undersupply of power.
 
 \begin{figure}[]
 	\centering
-	\includegraphics[width=1.2\linewidth]{eg01-23-histogram.png} 
+	\includegraphics[width=1\linewidth]{eg01-23-histogram.png} 
 	\caption{
 	EG01-23 transition scenario with constant power demand. 
 	Each subplot shows the total number of time steps in which there exists 
 	undersupply and under capacity of commodities for each prediction method. 
-	The different colors represent different commodities.
+	The different colors represent different commodities and each vertical bar refers 
+	to 50 time steps in the simulation.
 	The \texttt{POLY} method performs the best, with the least number of 
 	time steps with undersupply and under capacity.}
 	\label{fig:eg23under}
@@ -82,12 +148,13 @@ also performed best for minimizing undersupply of power.
 
 \begin{figure}[]
 	\centering
-	\includegraphics[width=1.2\linewidth]{eg01-24-histogram.png} 
+	\includegraphics[width=1\linewidth]{eg01-24-histogram.png} 
 	\caption{
 	EG01-24 transition scenario with linearly increasing power demand. 
 	Each subplot shows the total number of time steps in which there exists 
 	undersupply and under capacity of commodities for each prediction method. 
-	The different colors represent different commodities.
+	The different colors represent different commodities and each vertical bar refers 
+	to 50 time steps in the simulation.
 	The \texttt{FFT} method performs the best, with the least number of 
 	time steps with undersupply and under capacity.}
 	\label{fig:eg24under}
@@ -127,12 +194,14 @@ To further \deploy's primary objective of minimizing the power undersupply,
 sensitivity analysis of the power supply buffer is conducted 
 with the best-performing prediction method for each transition scenario.  
 
-\subsection{Sensitivity Analysis}
-We conducted a sensitivity analysis of the power buffer size for the
-EG01-EG23, EG01-24, EG01-29, and EG01-30 transition scenarios. 
+\subsection{Comparison of Power Buffer Sizes}
+For the EG01-EG23, EG01-24, EG01-29, and EG01-30 transition scenarios, 
+the power buffer size is varied for the best-performing prediction method, 
+which is the \texttt{POLY} method for EG01-23 and EG01-29, and the 
+\texttt{FFT} method for EG01-24 and EG01-30. 
 Varying the power buffer size does not impact the number of 
-undersupply time steps for the EG01-EG23 and EG01-EG29 constant 
-power demand transition scenarios with the \texttt{POLY} prediction method.
+undersupplied time steps for the EG01-EG23 and EG01-EG29 constant 
+power demand transition scenarios.
 In Table \ref{tab:all-power}, there are 6 and 4 time steps
 in which there is power undersupply for the EG01-EG23 and EG01-29 
 transition scenarios, respectively. 
@@ -157,16 +226,21 @@ Figures \ref{fig:eg24-bufplot}, \ref{fig:eg30-bufplot},
 and Table \ref{tab:buff_size} 
 show that increasing the buffer size increases the robustness 
 of the supply chain by minimizing power undersupply. 
-These undersupply time 
-steps occur at the beginning of the simulation and for one 
-time step when the transition begins. 
-We expected this since without time-series data 
-at the beginning of the simulation, \deploy takes a few 
-time steps to collect time-series data about power demand 
-to predict and start deploying reactor and supporting 
-fuel cycle facilities. 
-Therefore, a buffer of 6000MW and 8000MW minimizes 
-the power undersupply for EG01-EG24 and EG01-EG30, respectively.
+The cumulative undersupply is minimized with an 6000MW and 8000MW 
+buffer for EG01-24 and EG01-30 respectively.
+However, this means 6 or 8 extra reactors are required, which 
+is unrealistic.
+In Figure \ref{fig:eg24-bufplot}, a 4000MW buffer size has 
+8 time steps with undersupply, while a 6000MW buffer size has 
+7 time steps with undersupply. 
+In Figure \ref{fig:eg30-bufplot}, a 2000MW buffer size has 
+6 time steps with undersupply, while a 8000MW buffer size has 
+5 time steps with undersupply. 
+The extra commissioning of multiple reactors does not justify the 1 time 
+step. 
+Therefore, a buffer of 4000MW and 2000MW minimizes 
+the power undersupply for EG01-EG24 and EG01-EG30 transition 
+scenarios, respectively.
 
 \begin{figure}[]
 	\centering
@@ -252,7 +326,7 @@ EG01-23 and EG01-30, respectively, therefore they are not shown.
 	\textbf{Fleet Share} &  MOX: 85\% &  MOX: 85\% &  MOX: 85\% &  MOX :85\%     \\
 	\textbf{Percentage} &SFR: 15\%&SFR: 15\%&SFR: 15\%&SFR: 15\%\\ \hline
 	\textbf{Buffer type}                                                    & \multicolumn{4}{c}{Absolute}                                                                                                                                                                                                                                                               \\ \hline
-	\textbf{Power Buffer}                                                  & 0 & 6000 & 0 & 8000 \\ 
+	\textbf{Power Buffer}                                                  & 0 & 4000 & 0 & 2000 \\ 
 	\textbf{Size [MW]} \\ \hline \end{tabular}
 	\caption{\deploy's input parameters for EG01-EG23, EG01-EG24, EG01-EG29, and 
 	EG01-EG30 transition scenarios
