@@ -72,16 +72,14 @@ steps of undersupply or under-capacity of any
 commodity: 
 \begin{align}
 	\label{eq:sub1}
-	obj = min \sum_{c=1}^{M}\sum_{t=1}^{t_f} |D_{t,c}-S_{t,c}|,
-\end{align}
-and to minimize excessive oversupply of all commodities: 
-\begin{align}
-	\label{eq:sub2}
-    obj &= min \sum_{c=1}^{M}\sum_{t=1}^{t_f} |S_{t,c}-D_{t,c}|.
-\intertext{where:}
+    obj &= min \sum_{c=1}^{M}\sum_{t=1}^{t_f} |D_{t,c}-S_{t,c}|, \\
+    \intertext{and to minimize excessive oversupply of all commodities: }
+    obj &= min \sum_{c=1}^{M}\sum_{t=1}^{t_f} |S_{t,c}-D_{t,c}|. \\
+    \intertext{where:}
     c &= \mbox{commodity type} \nonumber \\
 	M &= \mbox{Number of commmodities} \nonumber
-\end{align} 
+\end{align}
+
 Minimizing excessive oversupply 
 reflects reality, in which utilities ensure grid availability 
 by ensuring power plants are never short of fuel while 
@@ -101,7 +99,7 @@ front-end and back-end fuel cycle facilities:
 \texttt{DemandDrivenDeploymentInst} and 
 \texttt{SupplyDrivenDeploymentInst}, respectively. 
 For example, when a reactor facility 
-demands fuel, \texttt{DemandDriven}
+demands fuel, \texttt{DemandDriven-}
 
 \noindent
 \texttt{DeploymentInst}
@@ -159,7 +157,7 @@ between predicted demand and predicted supply, \textit{or}
 predicted demand and installed capacity. 
 For example, a reprocessing plant that fabricates Sodium-Cooled Fast Reactor 
 (SFR) fuel demands for Pu after depletion of the existing Pu inventory and 
-decommissioning of the LWR reactors that produce it. 
+decommissioning of the LWRs that produce it. 
 If we used the deployment-driving method driven by 
 the difference in predicted demand and predicted supply, this results in 
 infinite deployment of reprocessing facilities in a futile attempt 
@@ -201,13 +199,13 @@ section \ref{sec:buf}.
             & \textbf{Input Parameter}                                                           & \textbf{Examples}                                                                                                          \\ \hline
             \multirow{5}{*}{\textbf{Required}} & Demand driving commodity                                                           & Power                                                                                                                      \\ \cline{2-3} 
                                                       & Demand equation [MW]                                                                   & P(t) = $10000, sin(t), 10000t$                                                                                                                 \\ \cline{2-3} 
-                                                      & Available Facilities                                                             & Mine, LWR reactor, Repository, etc.                                                                                                      \\ \cline{2-3} 
+                                                      & Available Facilities                                                             & Mine, LWR, Repository, etc.                                                                                                      \\ \cline{2-3} 
                                                       & Capacities of the facilities                                                       & 3000 kg, 1000 MW, 50000 kg                                                                                                     \\ \cline{2-3} 
-                                                      & Prediction method                                                                  & \begin{tabular}[c]{@{}l@{}}Power: fast fourier transform\\ Fuel: moving average\\ Spent fuel: moving average\end{tabular} \\ \cline{2-3} 
+                                                      & Prediction method                                                                  & \begin{tabular}[c]{@{}l@{}}Power: Fast Fourier Transform\\ Fuel: Moving Average\\ Spent fuel: Moving Average\end{tabular} \\ \cline{2-3} 
                                                       & Deployment driven by & Installed Capacity                                                                                                                    \\ \hline
             \multirow{4}{*}{\textbf{Optional}} & Supply/Capacity Buffer type                                                                        & Absolute                                                                                                                  \\ \cline{2-3} 
                                                       & Supply/Capacity Buffer size                                                                        & \begin{tabular}[c]{@{}l@{}}Power: 3000 MW\\ Fuel: 0 kg \\ Spent fuel: 0 kg\end{tabular}                                   \\ \cline{2-3} 
-                                                      & Facility preferences [month]                                                              & \begin{tabular}[c]{@{}l@{}}LWR reactor = 100-t\\ SFR reactor = t-99 \end{tabular}          \\ \cline{2-3} 
+                                                      & Facility preferences [month]                                                              & \begin{tabular}[c]{@{}l@{}}LWR = 100-t\\ SFR = t-99 \end{tabular}          \\ \cline{2-3} 
                                                       & Fleet share percentage [\%]                                                            & \begin{tabular}[c]{@{}l@{}}MOX LWR = 85\%\\ SFR = 15\% \end{tabular}          \\ \hline
                     \end{tabular}
 \end{table}
@@ -255,7 +253,7 @@ with time.
 When there is a power undersupply, \deploy will deploy the reactor that has a
 larger preference at that time step.
 At time step 100, LWR preference is 0, while SFR preference is 1; 
-therefore a SFR is deployed if there is a power shortage. 
+therefore an SFR is deployed if there is a power shortage. 
 Thus, the transition occurs at the $100^{th}$ time step.
 
 \begin{figure}[]
@@ -346,13 +344,13 @@ time series and returns it as the predicted value
 	\label{eq:ma}
 	Predicted\ Value &= \frac{\sum_{n=1}^N V_n}{n}
 	\intertext{where:}
-	V_n &= \mbox{Time series value} \nonumber\\
-	N &= \mbox{length of timeseries} \nonumber\\
+	V_n &= \mbox{time series value} \nonumber\\
+	N &= \mbox{length of time series} \nonumber\\
 \end{align}
 
 The \texttt{ARMA} method combines moving average and
 autoregressive models (equation \ref{eq:arma}).
-The first term is a constant, second term is 
+The first term is a constant, the second term is 
 white noise, the third term is the autoregressive
 model, and the fourth term is the moving average
 model.
@@ -393,14 +391,14 @@ Fast Fourier Transform (\texttt{FFT}),
 Polynomial Fit (\texttt{POLY}), 
 Exponential Smoothing (\texttt{EXP-SMOOTHING}), 
 and Triple Exponential Smoothing (\texttt{HOLT-WINTERS}). 
-The \texttt{FFT} method uses the fast fourier transform
+The \texttt{FFT} method uses the fast Fourier transform
 algorithm to map a time series into the frequency domain. 
 The algorithm returns complex numbers from which frequency, 
 amplitude, and phase is extracted. 
 Future demand and supply values are predicted by summing 
 the significant components, then using the inverse 
-fourier transform method to return it into a usable form. 
-The discrete fourier transform (DFT) transforms a sequence of 
+Fourier transform method to return it into a usable form. 
+The discrete Fourier transform (DFT) transforms a sequence of 
 N complex numbers ($X_k$) into another sequence of complex numbers
 ($x_n$) \cite{rao_fast_2011}:
 \begin{align}
@@ -427,7 +425,8 @@ supply values:
     \intertext{where:}
     t &= \mbox{time index} \nonumber \\
     n &= \mbox{polynomial order} \nonumber \\
-    \beta &= \mbox{fitted parameters} \nonumber 
+    \beta &= \mbox{fitted parameters} \nonumber \\
+    \varepsilon &= \mbox{unobserved random error} \nonumber
 \end{align}
 
 This method was implemented in \deploy using the 
@@ -475,8 +474,8 @@ and \texttt{HOLT-WINTERS} methods in \deploy.
 
 \subsection{Stochastic-Optimizing Methods}
 We implemented one stochastic-optimizing method: step-wise 
-seasonal method (\texttt{SW-SEASONAL}
-The method was implemented in \deploy by the auto \gls{ARIMA} 
+seasonal method (\texttt{SW-SEASONAL}).
+The method was implemented in \deploy by the \gls{ARIMA} 
 method in the pmdarima \cite{smith_pmdarima:_2017}
 Python package. 
 The \gls{ARIMA} model is a dependent time series that is 
