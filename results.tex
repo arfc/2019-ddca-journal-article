@@ -9,9 +9,9 @@ EG01-EG29, and EG01-EG30 transition scenarios, and
 EG01-EG29, and EG01-EG30 transition scenarios. 
 The input files and scripts to reproduce the results and plots in this
 paper are found in \cite{noauthor_arfc/d3ploy:_2019} and 
-\cite{chee_arfc/transition-scenarios_2018}. 
+\cite{chee_arfc/transition-scenarios_2019}. 
 
-\subsection{Demonstration of \deploy's capabilities}
+\subsection{Demonstration of \deploy's Capabilities}
 \label{sec:demo}
 We conducted a simple transition scenario simulation with
 linearly increasing power demand
@@ -24,7 +24,7 @@ three facility types: \texttt{source}, \texttt{reactor}, and
 The simulation begins with ten \texttt{reactor} facilities 
 (\texttt{reactor1} to \texttt{reactor10}). 
 These reactors have staggered cycle lengths and lifetimes to prevent 
-simultaneous refueling and setup gradual decommissioning. 
+simultaneous refueling and set up gradual decommissioning. 
 \deploy is configured to deploy \texttt{new reactor} facilities
 to meet the loss of power supply created by the decommissioning 
 of the initial \texttt{reactor} facilities. 
@@ -79,7 +79,8 @@ up reactors.
         \caption{Power demand and supply, and reactor facility deployment plot for  
         a simple linearly increasing power demand transition scenario with 
         three facility types: \texttt{source}, \texttt{reactor}, and \texttt{sink}.
-        Power demand is a user-defined equation and power is supplied by the reactors.
+        The simulation begins with \texttt{reactor1} to \texttt{reactor10} and \deploy 
+        deploys \texttt{newreactors} to meet increasing power demand. 
         Power undersupply was avoided entirely.}
         \label{fig:growingtransition-power}
 \end{figure}
@@ -97,8 +98,8 @@ up reactors.
     \begin{subfigure}[t]{1\textwidth}
         \centering
         \includegraphics[width=\linewidth]{figures/growingtransition-spentfuel.png} 
-        \caption{Spent fuel demand and supply, and sink facility deployment plot.
-            Spent Fuel is supplied by reactors and the capacity to store them 
+        \caption{Spent fuel capacity and supply, and sink facility deployment plot.
+            Spent fuel is supplied by reactors and the capacity to store them 
             is provided by sink facilities.
         There are no time steps with under-capacity of sink space.}
         \label{fig:growingtransition-spentfuel}
