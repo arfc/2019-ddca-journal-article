@@ -59,7 +59,7 @@ transition scenario using \deploy and the input parameters
 \deploy aims to minimize the undersupply of power:
 \begin{align}
 	\label{eq:pow}
-	obj &= min \sum_{t=1}^{t_{f}} |D_{t,p}-S_{t,p}|.
+	\textrm{obj} &= \min \sum_{t=1}^{t_{f}} |D_{t,p}-S_{t,p}|.
     \intertext{where:}
     t_f &= \mbox{Number of time steps [months]} \nonumber \\ 
     t &= \mbox{time [month]} \nonumber \\
@@ -175,7 +175,7 @@ Table \ref{tab:inputs} lists and gives examples of the input
 variables \deploy accepts. 
 The user must define the following input variables:
 (1) \textbf{The available facilities for \deploy to deploy in the simulation and their respective capacities.}
-The user must define the facilities he/she wants \deploy to deploy. It is the user's responsibility to 
+Users must define the facilities they want \deploy to deploy. It is the user's responsibility to 
 ensure the defined facilities create a supply chain to produce the demand driving commodity.
 (2) \textbf{The demand driving commodity and its demand equation.} For most simulations, the demand driving 
 commodity is power. The demand equation is defined by a mathematical equation with units of MW. For example, 
