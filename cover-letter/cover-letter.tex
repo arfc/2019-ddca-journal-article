@@ -1,0 +1,106 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Plain Cover Letter
+% LaTeX Template
+%
+% This template has been downloaded from:
+% http://www.latextemplates.com
+%
+% Original author:
+% Rensselaer Polytechnic Institute (http://www.rpi.edu/dept/arc/training/latex/resumes/)
+% It was modified by Katy Huff
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%    PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[11pt]{letter} % Default font size of the document, change to 10pt to fit more text
+\usepackage{graphicx}
+%\usepackage{newcent} % Default font is the New Century Schoolbook PostScript font
+%\usepackage{helvet} % Uncomment this (while commenting the above line) to use the Helvetica font
+
+% Margins
+\usepackage[left=1.25in,right=1.25in,top=1in,bottom=1in]{geometry}
+%\let\raggedleft\raggedright % Pushes the date (at the top) to the left, comment this line to have the date on the right
+
+\usepackage{eso-pic,graphicx}
+
+
+%--------------------------------------------------------------------------------------
+%--------INPUT DATA
+%--------------------------------------------------------------------------------------
+\usepackage{xspace}
+\newcommand{\StudentFirstName}{Andrei\xspace}
+\newcommand{\StudentLastName}{Rykhlevskii\xspace}
+\newcommand{\RecipientName}{Profs. Noor and Topping\xspace}
+\newcommand{\RecipientAddress}{Executive Editors\\Advances in Engineering Software}
+%\newcommand{\<++>}{<++>\xspace}
+
+\begin{document}
+\AddToShipoutPictureBG*{\includegraphics[width=\paperwidth,height=\paperheight]{background.pdf}}
+
+
+%----------------------------------------------------------------------------------------
+%    ADDRESSEE SECTION
+%----------------------------------------------------------------------------------------
+\small
+\begin{letter}{\RecipientName\\
+        \RecipientAddress\xspace}
+
+%-------------------------------------------------------------------------------
+%    YOUR NAME & ADDRESS SECTION
+%-------------------------------------------------------------------------------
+\address{Gwendolyn J. Chee\\
+gchee2@illinois.edu\\
+226 Talbot Laboratory\\
+104 Wright Street, MC-234\\
+Urbana, IL 61801}
+
+%-------------------------------------------------------------------------------
+%    LETTER CONTENT SECTION
+%-------------------------------------------------------------------------------
+
+\opening{To \RecipientName,}
+
+Please find enclosed a manuscript entitled: ``Demand Driven Deployment Capabilities in Cyclus, 
+a Fuel Cycle Simulator'' which I and my 
+coauthors (Mr. Roberto E. Fairhurst Agosta, Mr. Jin Whan Bae, 
+Dr. Robert R. Flanagan, Dr. Anthony M. Scopatz, and Dr. Kathryn D. Huff) are submitting for 
+exclusive consideration of publication as a research article in Advances in Engineering Software. 
+
+This manuscript describes and demonstrates the capability to automatically deploy fuel cycle 
+facilities to create a supply chain to meet user-defined power demand in Cyclus, 
+a nuclear fuel cycle simulator.
+This new capability, d3ploy, successfully deployed fuel cycle facilities in
+multiple transition scenarios from the current light water reactor 
+fleet to a closed fuel cycle with continuous recycling in fast and thermal reactors.
+Using d3ploy to set up transition scenarios results in a more
+efficient method than previous efforts that required a user to manually calculate
+and use trial and error to set up the deployment scheme for the supporting
+fuel cycle facilities. By automating this process, when the user varies input
+parameters in the simulation, d3ploy automatically adjusts the deployment
+scheme to meet the new constraints.
+
+Thank you for your consideration of our work.  I expect it will be of interest
+to a broad readership concerned with environmental issues and nuclear fuel
+cycle simulation.  Please address all correspondence concerning this manuscript to me at the University of Illinois.
+
+
+
+\closing{Sincere regards,
+\includegraphics[height=2.4cm]{sign}\\
+        \fromsig{Gwendolyn Chee\\
+PhD Student\\
+Nuclear, Plasma, \& Radiological Eng.\\
+U. Illinois at Urbana-Champaign}
+}
+
+%-------------------------------------------------------------------------------
+
+\end{letter}
+
+\end{document}
+
+
+
