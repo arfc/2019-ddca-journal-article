@@ -92,6 +92,10 @@
 \usepackage{color}
 \usepackage[hyphens]{url}
 
+\newcommand{\Cyclus}{\textsc{Cyclus}\xspace}%
+\newcommand{\Cycamore}{\textsc{Cycamore}\xspace}%
+\newcommand{\deploy}{\texttt{d3ploy}\xspace}%
+
 %\journal{Annals of Nuclear Energy}
 
 \begin{document}
@@ -143,13 +147,93 @@ this paper.
 \section*{Reviewer 1}
 \begin{questions}
 
-\question hello 
+\question General. This paper applies the well-known fuel cycle simulator Cyclus to analyze the DOE nuclear
+fuel cycle options. Cyclus is widely recognized as a flexible, fuel cycle analysis computational tool designed for problems such as this. The literature review is satisfactory for the scope of the work. Thank
+you for including line numbers. It’s surprising how many manuscripts do not include them especially
+since inclusion is not particularly labor intensive. This is a minor criticism, but this reads like a thesis/report. A journal paper is a little more streamlined and focused since the authors do not have to
+prepare a defense for their work.
 
 \begin{solution}
         Thank you for your kind review.
-        The statement concerning `unmatched' fidelity has been removed
-        entirely and the bibliography has been expanded significantly. See the
-        responses below for more detail..
+        I have streamlined the paper to make it more focused to read less like a thesis/report. 
+        See the responses below for more detail..
+\end{solution}
+
+\question Section 3. This section turned into largely an information dump. Again, possibly due to the report v
+journal paper issue. There is a lack of the ‘so what’ that is needed for journal papers. It’s not easy,
+especially with so many figures. There is a lot of ‘performs best’ being thrown around, but not really
+what that means. I don’t know if it would be better to segregate the results into further subsections, but
+the impact of the work risks being lost. Don’t assume the reader is going to understand the implications
+just because
+
+\begin{solution}
+\end{solution}
+
+\question Figures. This might be a bit picky, but is there a way to line the figures up more with the text? For
+instance, Figures 7,8,9 are referenced on p21, but you have to scroll down several pages to see them. As
+someone who includes lots of graphs in their research too, this is understandably a challenge.
+
+\begin{solution}
+\end{solution}
+
+\question Conclusion. This section is rather glib, given what seems like a quite a body of work that was produced.
+I would recommend to include major findings and implications clearly.
+
+\begin{solution}
+\end{solution}
+
+\question Future work. Similarly, after all this work, only a sensitivity analysis is suggested. Is there anything
+more? What is envisioned the long term use of d3ploy?
+
+\begin{solution}
+\end{solution}
+
+\question Acknowledgments. I don’t know if it’s necessary to include author contributions. Given that Prof. Huff
+is the author of record; i.e., listed last, it is known she directed the work, and given her reputation, there
+is no doubt anyone listed as an author contributed meaningfully to the work. I’ve never really seen that
+in journal papers anyway, but authors’ discretion.
+
+\begin{solution}
+\end{solution}
+
+\question Line Items (Abstract)
+
+1) Abstract - Not everyone is going to know what d3ploy is. Either elaborate (a short sentence) or
+remove it and just explain it later on in the paper. \\
+2) Abstract - The claim of ‘more efficient’ should be supported by a clearer context; i.e., efficient in
+what way?
+
+
+\begin{solution}
+The abstract has been modified to read: \\
+The demand-driven deployment capabilities are refered to as \deploy. 
+We demonstrate \deploy's capability to predict future commodities' 
+supply and demand, and automatically deploy fuel 
+cycle facilities to meet the predicted demand in four transition scenarios. 
+Using \deploy to set up transition scenarios saves the user 
+simulation set-up time compared to previous efforts that
+required a user to manually calculate and use trial and error 
+to set up the deployment scheme for the supporting fuel cycle 
+facilities. 
+\end{solution}
+
+\question Line Items (Non-quick fixes)
+3) 3-30 - While there are certainly many people familiar with the capabilities of Cyclus, there may be
+some who are not. It might be instructive for some more description of it, either here or in a separate
+section. Only a paragraph or two, maximum. Some newer readers might not know what agent-based
+means.
+
+\question Line Items (Non-quick fixes)
+5) 3-58 - Ref. 7 is now 6 years old. Are these fuel cycle options still considered DOE policy? In and of
+themselves, these are acceptable options for study with Cyclus, but it still begs the comment as to its
+status.
+
+\question Line Items (Non-quick fixes)
+6) 4-63 - What does performance mean in this context?
+
+\question Line Items (Non-quick fixes)
+
+\begin{solution}
 \end{solution}
 
 \end{questions}
@@ -157,7 +241,18 @@ this paper.
 \section*{Reviewer 2}
 \begin{questions}
 
-\question hello 
+\question Comments on Content.
+You make no mention of the impact of the issue of dynamic fuel compositions. 
+The commodity that the reactors are demanding and the one being supplied 
+by the reprocessing plants is constantly in flux during a transition 
+scenario with unlimited recycle. Other applications that use forecasting 
+methods don't have this concern.  So effectively what you need to predict 
+isn't just the capacities needed based on the mass of SNF, but also its 
+post-reprocessing worth. When using reprocessed fuel, the necessary fissile 
+loading fraction of MOX or TRU in a fast reactor may be as much as 50\% 
+higher for material sourced from a MOX LWR than from a UOX LWR. 
+This difference will significantly impact your reprocessing capacity 
+required to supply that material.
 
 \begin{solution}
         Thank you for your kind review.
@@ -165,6 +260,36 @@ this paper.
         entirely and the bibliography has been expanded significantly. See the
         responses below for more detail..
 \end{solution}
+
+\question 
+
+Pg 2. Fuel cycle options doesn't need to be capitalized. \\
+Pg 3. Greenhouse is one word and greenhouse gas doesn't need to be capitalized. \\
+Pg 3. Line 50-52. This sentence is hard to follow with nested lists and clunky grammar.\\
+Pg 3. Line 59 Evaluation groups doesn't need to be capitalized. \\
+Pg 9. This section might be easier to follow if it was an enumerated list rather than forcing a paragraph structure.\\
+Pg 9. You use the acronym LWR but don't define it until page 11.\\
+Pg 10. Please use the same indentation for both equations 4 and 5.\\
+Pg 12. Numbers on axes for figure 3 are small.\\
+Pg 13. The definition of terms in an equation shouldn't have its own equation number. Equation 7 should be a list or part of equation 6. Also, please match indentation.\\
+Pg 15. Please fix indentation after equation 9.\\
+Pg 15. The sentence after an equation does not always start a new paragraph, so it shouldn't be indented if it doesn't.\\
+Pg 16. Equation 12 should be a list or part of equation 11. \\
+Pg 16. You do not define what the "L" term is in equation 13.\\
+Pg 17. You do not define what the "d" or "Y" terms are in equation 14.\\
+Pg 18. Rather than starting the results section with a sentence 7 lines long, it would improve readability to make it into an enumerated list.\\
+Pg 19. You don't need to state in the caption to figure 5 that power undersupply is avoided. You state that in the preceding paragraph
+Pg 23. The labels and axes are too small in figure 8. You also don't need to state results in your caption that are already stated in the main text.\\
+Pg 24. The labels and axes are too small in figure 9. You also don't need to state results in your caption that are already stated in the main text.\\
+\begin{solution}
+All these comments have been addressed and fixed. 
+\end{solution}
+
+\question
+Pg 5. It is unclear if d3ploy runs before the simulation or if it is 
+doing these calculation on-the-fly. If you are only predicting the 
+necessary capacity a single time-step in advance does that mean that 
+there is no deployment or process times?
 
 \end{questions}
 \bibliographystyle{unsrt}
