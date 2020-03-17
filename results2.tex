@@ -20,11 +20,11 @@ produces  \gls{SFR} fuel.
 EG01-EG24 and EG01-EG30 are similar to EG01-EG23 and EG01-EG29, respectively, 
 with the exception that all transuranic elements are recycled.
 
-\begin{figure}[]
+\begin{figure}[H]
 	\centering
 	\begin{subfigure}[t]{\textwidth}
 		\centering
-		\resizebox{0.7\textwidth}{!}{%
+		\resizebox{0.6\textwidth}{!}{%
 		\begin{tikzpicture}[node distance=2.5cm]
 		\tikzstyle{every node}=[font=\normalsize]
 		\node (source)[ollblock]{\texttt{Source}};
@@ -58,7 +58,7 @@ with the exception that all transuranic elements are recycled.
 	\vspace{1cm}
 	\begin{subfigure}[t]{\textwidth}
 		\centering
-		\resizebox{0.7\textwidth}{!}{%
+		\resizebox{0.6\textwidth}{!}{%
 		\begin{tikzpicture}[node distance=2.5cm]
 		\tikzstyle{every node}=[font=\normalsize]
 		\node (source)[ollblock]{\texttt{Source}};
@@ -134,29 +134,25 @@ also performed best for minimizing undersupply of power.
 
 \begin{figure}[]
 	\centering
-	\includegraphics[width=0.95\linewidth]{eg01-23-histogram.png} 
+	\includegraphics[width=\linewidth]{eg01-23-histogram.png} 
 	\caption{
 	EG01-EG23 transition scenario with constant power demand. 
 	Each subplot shows the total number of time steps in which there exists 
 	undersupply and under capacity of commodities for each prediction method. 
 	The different colors represent different commodities and each vertical bar refers 
-	to 50 time steps in the simulation.
-	The \texttt{POLY} method performs the best, with the least number of 
-	time steps with undersupply and under capacity.}
+	to 50 time steps in the simulation.}
 	\label{fig:eg23under}
 \end{figure}
 
 \begin{figure}[]
 	\centering
-	\includegraphics[width=0.95\linewidth]{eg01-24-histogram.png} 
+	\includegraphics[width=\linewidth]{eg01-24-histogram.png} 
 	\caption{
 	EG01-EG24 transition scenario with linearly increasing power demand. 
 	Each subplot shows the total number of time steps in which there exists 
 	undersupply and under capacity of commodities for each prediction method. 
 	The different colors represent different commodities and each vertical bar refers 
-	to 50 time steps in the simulation.
-	The \texttt{FFT} method performs the best, with the least number of 
-	time steps with undersupply and under capacity.}
+	to 50 time steps in the simulation.}
 	\label{fig:eg24under}
 \end{figure}
 
@@ -228,31 +224,55 @@ show that increasing the buffer size increases the robustness
 of the supply chain by minimizing power undersupply. 
 The cumulative undersupply is minimized with a 6000MW and 8000MW 
 buffer for EG01-EG24 and EG01-EG30 respectively.
-However, this means 6 or 8 extra reactors are required, which 
-is unrealistic.
 In Figure \ref{fig:eg24-bufplot}, a 4000MW buffer size has 
 8 time steps with undersupply, while a 6000MW buffer size has 
 7 time steps with undersupply. 
 In Figure \ref{fig:eg30-bufplot}, a 2000MW buffer size has 
 6 time steps with undersupply, while a 8000MW buffer size has 
 5 time steps with undersupply. 
-The extra commissioning of multiple reactors does not justify the 1 time 
-step. 
+We determined that extra commissioning of multiple reactors does not 
+justify a single time step with no undersupply. 
+This type of logic is difficult to program into a NFC simulator, 
+therefore, even though NFC simulators can help inform policy decisions, 
+decision-makers must still evaluate NFC simulator results to determine if 
+they are valid and logical. 
 Therefore, a buffer of 4000MW and 2000MW minimizes 
 the power undersupply for EG01-EG24 and EG01-EG30 transition 
 scenarios, respectively.
+
+\begin{table}[]
+	\centering
+        \caption{Undersupply/capacity of key commodities for the best performing EG01-EG23, EG24, EG29, EG30 transition scenarios.}
+		\label{tab:all-power-fin}
+		\footnotesize
+        \begin{tabular}{lcccc}
+		\hline
+		& \multicolumn{3}{c}{\textbf{No. of Time Steps with Undersupply}} \\ \hline
+		\textbf{Transition Scenario} & EG01-EG23 & 
+		EG01-EG24 & EG01-EG29 & EG01-EG30 \\ \hline 
+		\textbf{Commodities} \\ 
+		Natural Uranium		    & 2 	& 3  &  1  & 1 \\ 
+		\gls{LWR} Fuel     	    & 4 	& 6  &  1  & 2\\ 
+		\gls{SFR} Fuel     	    &  0 	& 0  &  2  & 2\\ 
+		\gls{MOX} \gls{LWR} Fuel &-&-&2&2 \\
+		Power      				&  6 	& 7  &  4 &  5\\ 
+		\gls{LWR} Spent Fuel	& 1 	& 1  & 1 & 1\\ 
+		\gls{SFR} Spent Fuel     	    &  1 	& 1  &  1  & 1\\ 
+		\gls{MOX} \gls{LWR} Spent Fuel &-&-&1&1 \\ \hline 
+	\end{tabular}
+\end{table}
 
 \begin{figure}[]
 	\centering
 	\begin{subfigure}[t]{\textwidth}
 		\centering
-		\includegraphics[width=1\linewidth]{24-sens-buffer.png} 
+		\includegraphics[width=0.75\linewidth]{24-sens-buffer.png} 
 		\caption{EG01-EG24: Power buffer size vs. cumulative undersupply}
 		\label{fig:eg24-bufplot}
 	\end{subfigure}
 	\begin{subfigure}[t]{\textwidth}
 		\centering
-		\includegraphics[width=1\linewidth]{30-sens-buffer.png} 
+		\includegraphics[width=0.75\linewidth]{30-sens-buffer.png} 
 		\caption{EG01-EG30: Power buffer size vs. cumulative undersupply}
 		\label{fig:eg30-bufplot}
 	\end{subfigure}
@@ -295,7 +315,8 @@ undersupply and under-capacity of the other commodities
 in the simulation. 
 The need for commodity supply buffers is a reflection of reality
 in which a supply buffer is usually maintained to ensure 
-continuity in the event of an unexpected failure in the supply chain.
+continuity in the event of an unexpected failure in the supply chain
+\cite{united_nations_institute_for_disarmament_research_multilateralization_2013}.
 
 Figures \ref{fig:23stack} and \ref{fig:30stack} show
 time-dependent deployment of reactor and supporting facilities for 
@@ -381,25 +402,3 @@ EG01-EG23 and EG01-EG30, respectively, therefore they are not shown.
 	during a transition from \glspl{LWR} to MOX LWRs and \glspl{SFR}. }
 	\label{fig:30stack}
 \end{figure}
-
-\begin{table}[]
-	\centering
-        \caption{Undersupply/capacity of key commodities for the best performing EG01-EG23, EG24, EG29, EG30 transition scenarios.}
-		\label{tab:all-power-fin}
-		\footnotesize
-        \begin{tabular}{lcccc}
-		\hline
-		& \multicolumn{3}{c}{\textbf{No. of Time Steps with Undersupply}} \\ \hline
-		\textbf{Transition Scenario} & EG01-EG23 & 
-		EG01-EG24 & EG01-EG29 & EG01-EG30 \\ \hline 
-		\textbf{Commodities} \\ 
-		Natural Uranium		    & 2 	& 3  &  1  & 1 \\ 
-		\gls{LWR} Fuel     	    & 4 	& 6  &  1  & 2\\ 
-		\gls{SFR} Fuel     	    &  0 	& 0  &  2  & 2\\ 
-		\gls{MOX} \gls{LWR} Fuel &-&-&2&2 \\
-		Power      				&  6 	& 7  &  4 &  5\\ 
-		\gls{LWR} Spent Fuel	& 1 	& 1  & 1 & 1\\ 
-		\gls{SFR} Spent Fuel     	    &  1 	& 1  &  1  & 1\\ 
-		\gls{MOX} \gls{LWR} Spent Fuel &-&-&1&1 \\ \hline 
-	\end{tabular}
-\end{table}

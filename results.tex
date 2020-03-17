@@ -1,12 +1,18 @@
 \section{Results}
 To demonstrate \deploy's capability conduct transition
 scenario analysis effectively and meet the objectives described in section 
-\ref{sec:obj}, this section 
-(1) demonstrates \deploy's capability in a simple transition scenario, 
-(2) compares the use of different \deploy prediction methods in EG01-EG23, EG01-EG24, 
+\ref{sec:obj}, this section will: 
+\begin{enumerate}
+\item demonstrate \deploy's capabilities in a simple transition scenario, 
+\item compare the use of different \deploy prediction methods in EG01-EG23, EG01-EG24, 
+EG01-EG29, and EG01-EG30 transition scenarios, 
+\item compare the use of varied power buffer sizes in EG01-EG23, EG01-EG24, 
 EG01-EG29, and EG01-EG30 transition scenarios, and
-(3) demonstrates successful \deploy setup of EG01-EG23, EG01-EG24, 
-EG01-EG29, and EG01-EG30 transition scenarios. 
+\item demonstrate successful \deploy setup of EG01-EG23, EG01-EG24, 
+EG01-EG29, and EG01-EG30 transition scenarios using the prediction method and 
+power buffer size that proved best in the previous sections. 
+These will be referred to as "best performance models". 
+\end{enumerate}
 The input files and scripts to reproduce the results and plots in this
 paper are found in \cite{noauthor_arfc/d3ploy:_2019} and 
 \cite{chee_arfc/transition-scenarios_2019}. 
@@ -80,8 +86,7 @@ up reactors.
         a simple linearly increasing power demand transition scenario with 
         three facility types: \texttt{source}, \texttt{reactor}, and \texttt{sink}.
         The simulation begins with \texttt{reactor1} to \texttt{reactor10} and \deploy 
-        deploys \texttt{newreactors} to meet increasing power demand. 
-        Power undersupply was avoided entirely.}
+        deploys \texttt{newreactors} to meet increasing power demand. }
         \label{fig:growingtransition-power}
 \end{figure}
 

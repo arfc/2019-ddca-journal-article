@@ -167,6 +167,8 @@ the impact of the work risks being lost. Don’t assume the reader is going to u
 just because
 
 \begin{solution}
+?? I don't really know what I should fix here. I made the description of this section more 
+clear (pg 18).
 \end{solution}
 
 \question Figures. This might be a bit picky, but is there a way to line the figures up more with the text? For
@@ -174,6 +176,9 @@ instance, Figures 7,8,9 are referenced on p21, but you have to scroll down sever
 someone who includes lots of graphs in their research too, this is understandably a challenge.
 
 \begin{solution}
+I shrunk Figure 7 to line it more with its text. Now, Figure 7 and its associated text are 
+found on pg 22, Figure 8 and 9 and their associated text are found on pg 24, 25, and 23 
+respectively. 
 \end{solution}
 
 \question Conclusion. This section is rather glib, given what seems like a quite a body of work that was produced.
@@ -186,6 +191,24 @@ I would recommend to include major findings and implications clearly.
 more? What is envisioned the long term use of d3ploy?
 
 \begin{solution}
+The future works passage has been modified to read: 
+
+We simulate transition scenarios to predict the future; 
+however, when implemented in the real world, the transition 
+scenario tends to deviate from the optimal scenario.
+Therefore, nuclear fuel cycle simulators must be used to conduct
+sensitivity analysis studies to understand the subtleties of 
+a transition scenario better to reliably inform policy decisions.
+Previously it was difficult to conduct sensitivity analysis with \Cyclus 
+as users have to manually calculate the deployment scheme for a 
+single change in an input parameter. 
+By using the \deploy capability,
+sensitivity analysis studies are more efficiently 
+conducted as facility deployment in transition scenarios 
+are automatically set up. \\
+\deploy will also be open-source and available for the forseeable future on github 
+\cite{noauthor_arfc/d3ploy:_2019}, to be used with \Cyclus for conducting any 
+transition scenario analysis. 
 \end{solution}
 
 \question Acknowledgments. I don’t know if it’s necessary to include author contributions. Given that Prof. Huff
@@ -194,6 +217,7 @@ is no doubt anyone listed as an author contributed meaningfully to the work. I�
 in journal papers anyway, but authors’ discretion.
 
 \begin{solution}
+        I will leave it as is. 
 \end{solution}
 
 \question Line Items (Abstract)
@@ -205,8 +229,9 @@ what way?
 
 
 \begin{solution}
-The abstract has been modified to read: \\
-The demand-driven deployment capabilities are refered to as \deploy. 
+The abstract has been modified to read: 
+
+The demand-driven deployment capabilities are referred to as \deploy. 
 We demonstrate \deploy's capability to predict future commodities' 
 supply and demand, and automatically deploy fuel 
 cycle facilities to meet the predicted demand in four transition scenarios. 
@@ -217,23 +242,146 @@ to set up the deployment scheme for the supporting fuel cycle
 facilities. 
 \end{solution}
 
-\question Line Items (Non-quick fixes)
+\question Line Items \\
 3) 3-30 - While there are certainly many people familiar with the capabilities of Cyclus, there may be
 some who are not. It might be instructive for some more description of it, either here or in a separate
 section. Only a paragraph or two, maximum. Some newer readers might not know what agent-based
 means.
 
-\question Line Items (Non-quick fixes)
+\begin{solution}
+\end{solution}
+
+\question Line Items \\
+4) 3-51 - It’s not clear why the perceived adverse safety, etc., needs to be included. Is Cyclus going
+to address these issues? (rhetorical) The point being if the paper isn’t going to show the research,
+there really isn’t a need to include it since this is a nuclear engineering journal. The nuclear power
+industry may not necessarily have to overcome the perceived problems if there was a coherent energy
+policy established in the USA, and while that is a good discussion to have, it’s probably not part of
+this paper.
+
+\begin{solution}
+Excellent point. I have removed the sentence about perceived adverse safety. You're right, the real purpose 
+of these tools is not interaction with the public so much as providing a tool to potentially drive the 
+R\&D directions that are taken by our leadership (DOE) as stated in 1-15. 
+\end{solution}
+
+\question Line Items \\
 5) 3-58 - Ref. 7 is now 6 years old. Are these fuel cycle options still considered DOE policy? In and of
 themselves, these are acceptable options for study with Cyclus, but it still begs the comment as to its
 status.
 
-\question Line Items (Non-quick fixes)
+\begin{solution}
+More recent citations can be found to bolster this. We have added the following text: 
+`Recent statements from Rita Baranwal \cite{noauthor_new_2019}, the Nuclear Energy Innovation 
+Capabilities Act \cite{crapo_s97_2018}, and the Advanced Nuclear Technology Development Act \cite{latta_hr590_2017} 
+show that there continues to be national interest in pursuing spent fuel recycling and advanced nuclear power 
+technology.'
+\end{solution}
+
+\question Line Items \\
 6) 4-63 - What does performance mean in this context?
 
-\question Line Items (Non-quick fixes)
+\begin{solution}
+We have added description for the meaning of performance. 
+
+Fuel cycles that involved continuous recycling
+of co-extracted U/Pu or U/TRU in fast spectrum critical reactors
+consistently scored high on overall performance based on the nine 
+DOE-specified evaluation criteria: nuclear waste management, 
+financial risk and economics, 
+proliferation risk, nuclear material security risk, safety, 
+environmental impact, resource utilization, development and deployment 
+risk, and institutional issues \cite{wigeland_nuclear_2014}. 
+\end{solution}
+
+\question Line Items \\
+7) 5-92 - Just curious, what are the CPU demands on using d3ploy?
 
 \begin{solution}
+\deploy's CPU demands vary based on the size of the simulation (no. of facilities, etc.) 
+and the prediction method used. We did not record the amount of CPU demands of our simulations 
+because they were not large enough to impact our productivity in producing results. 
+For the complex transition scenarios (`best performance models') discussed in the paper, 
+the simulations took on average 2-3 hours. These simulations were performed on 32 core 
+Dell desktops, not on a supercomputer. 
+\end{solution}
+
+\question Line Items \\
+8) 5-93 - Do commodities include coolant or reflector materials? Control rods?
+\begin{solution}
+Commodities do not include coolant, reflector, or control rod materials. The commodity associated 
+with each reactor is reactor fuel. However, in \deploy, a user could easily add these other 
+materials as commodities and set up a supply chain for each of them.  
+\end{solution}
+
+\question Line Items \\
+9) 8-Fig 2 - Again, just curiosity, are there plans to include consolidated interim storage or onsite dry
+storage in Cyclus? Does the model include outages?
+
+\begin{solution}
+A storage facility archetype is available in \Cyclus. The archetype can be customized by the user to be a 
+consolidated interim storage or onsite dry storage. This model does not include outages. 
+\end{solution}
+
+\question Line Items \\
+10) 11-Sec 2.3 - Could d3ploy be used for hybrid systems; e.g., used with renewables or industrial product?
+
+\begin{solution}
+Yes, \deploy can be used for hybrid systems. \deploy is used with any assortment of 
+\Cyclus archetypes. However, there are currently no \Cyclus archetypes for modeling hybrid 
+systems. An interested user could design \Cyclus archetypes that represent various facilities 
+in a hybrid system and then use them with \deploy.
+\end{solution}
+
+\question Line Items \\
+11) 13-Sec 2.4 - Why were these time series methods selected? (There isn’t any dispute with the selection.)
+
+\begin{solution}
+We chose an assortment of non-optimizing, deterministic-optimizing, and stochastic 
+optimizing time series methods that are commonly used and readily available in Python 
+packages for quick and easy implementation. 
+\end{solution}
+
+\question Line Items \\
+12) 28-333 cf. Section 3. Why is 6 or 8 extra reactors unrealistic?
+
+\begin{solution}
+This passage has been modified to explain why 6 to 8 extra 
+reactor unrealistic. It reads: 
+
+We varied the power buffer size for the EG01-EG24 and EG01-EG30 
+linearly increasing power demand transition scenarios. 
+Figures \ref{fig:eg24-bufplot}, \ref{fig:eg30-bufplot}, 
+and Table \ref{tab:buff_size} 
+show that increasing the buffer size increases the robustness 
+of the supply chain by minimizing power undersupply. 
+The cumulative undersupply is minimized with a 6000MW and 8000MW 
+buffer for EG01-EG24 and EG01-EG30 respectively.
+In Figure \ref{fig:eg24-bufplot}, a 4000MW buffer size has 
+8 time steps with undersupply, while a 6000MW buffer size has 
+7 time steps with undersupply. 
+In Figure \ref{fig:eg30-bufplot}, a 2000MW buffer size has 
+6 time steps with undersupply, while a 8000MW buffer size has 
+5 time steps with undersupply. 
+We determined that extra commissioning of multiple reactors does not 
+justify a single time step with no undersupply. 
+This type of logic is difficult to program into a NFC simulator, 
+therefore, even though NFC simulators can help inform policy decisions, 
+decision-makers must still evaluate NFC simulator results to determine if 
+they are valid and logical. 
+Therefore, a buffer of 4000MW and 2000MW minimizes 
+the power undersupply for EG01-EG24 and EG01-EG30 transition 
+scenarios, respectively.
+\end{solution}
+
+\question 
+Aside.Why does the manuscript have 2 inch margins? I’m assuming this was prepared in LaTeX, where
+a4paper would have been sufficient. This doesn’t have any bearing on the recommendation to publish
+the paper, but it just makes it harder to read. I’m actually surprised NT didn’t insist on the standard
+format prior to sending it out to reviewers. I think they have a template.
+
+\begin{solution}
+I have updated the submission to follow the Nuclear Technology Latex template. 
 \end{solution}
 
 \end{questions}
@@ -281,6 +429,10 @@ Pg 18. Rather than starting the results section with a sentence 7 lines long, it
 Pg 19. You don't need to state in the caption to figure 5 that power undersupply is avoided. You state that in the preceding paragraph
 Pg 23. The labels and axes are too small in figure 8. You also don't need to state results in your caption that are already stated in the main text.\\
 Pg 24. The labels and axes are too small in figure 9. You also don't need to state results in your caption that are already stated in the main text.\\
+Pg 25. Why is table 7 placed on page 31, if it's only mention is here and before table 5 and 6 are referenced?\\
+Pg 27. The font size used for figure 10a and b is good, but does not match the rest of your figures. All figure titles and labels should use the same font and font size. \\
+Pg 28. Please provide a citation for "The need for commodity supply buffers is a reflection of reality in which a supply buffer is usually maintained to ensure continuity in the event of an unexpected failure in the supply chain." \\
+Pg 29. The axes' font is too small in figure 11 and 12.\\
 \begin{solution}
 All these comments have been addressed and fixed. 
 \end{solution}
@@ -290,6 +442,34 @@ Pg 5. It is unclear if d3ploy runs before the simulation or if it is
 doing these calculation on-the-fly. If you are only predicting the 
 necessary capacity a single time-step in advance does that mean that 
 there is no deployment or process times?
+
+\begin{solution}
+\end{solution}
+
+\question
+Pg 24. In section 3.2 you state what methods provide the best results, but why do the 
+POLY and FFT methods perform best when they do? What is it about those methods that 
+causes them to outperform the others so significantly?
+
+\begin{solution}
+\end{solution}
+
+\question 
+Pg 29. Figure 11b and 12b shows that facilities remain in the simulation after 
+they are created regardless of time and need. Is this the expected behavior, 
+and if it is, is there no facility decommissioning?
+
+\begin{solution}
+\end{solution}
+
+\question
+Pg 29. Please include descriptions of your facilities, or at least their capacities. 
+Showing the number of agents deployed in figure 11 and 12 doesn't have much meaning 
+otherwise (e.g., it could be misinterpreted in figure 11 that power supplied is 
+increasing since you are deploying significantly more reactors).
+
+\begin{solution}
+\end{solution}
 
 \end{questions}
 \bibliographystyle{unsrt}
