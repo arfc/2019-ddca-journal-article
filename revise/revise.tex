@@ -155,7 +155,7 @@ prepare a defense for their work.
 
 \begin{solution}
         Thank you for your kind review.
-        I have streamlined the paper to make it more focused to read less like a thesis/report. 
+        We have restructured section III of the paper to make it more streamlined and focused. 
         See the responses below for more detail..
 \end{solution}
 
@@ -167,8 +167,36 @@ the impact of the work risks being lost. Don’t assume the reader is going to u
 just because
 
 \begin{solution}
-?? I don't really know what I should fix here. I made the description of this section more 
-clear (pg 18).
+We have rearranged Section III to more clearly define how the results are broken down in each subsection. 
+We clarified and enhanced the beginning description of the results section. The description has been 
+modified to read: 
+
+`This section aims to demonstrate \deploy's capability to completely automate the setup of 
+transition scenarios and meet the objectives described in section 
+I.C. 
+This section is split into two subsections. 
+The first subsection (section III.A) will demonstrate \deploy's capabilities 
+to set up a simple transition scenario with only three facility types. 
+The second subsection (section III/B) will demonstrate \deploy's capabilities to
+set up complex EG01-23, EG01-24, EG01-29, EG01-30 transition scenarios and is further 
+subdivided into:  
+\begin{enumerate}
+\item Section III.B.1: compare the use of different \deploy prediction methods in EG01-EG23, EG01-EG24, 
+EG01-EG29, and EG01-EG30 transition scenarios, 
+\item Section III.B.2: compare the use of varied power buffer sizes in EG01-EG23, EG01-EG24, 
+EG01-EG29, and EG01-EG30 transition scenarios, and
+\item Section III.B.3: demonstrate successful \deploy setup of EG01-EG23, EG01-EG24, 
+EG01-EG29, and EG01-EG30 transition scenarios using the prediction method and 
+power buffer size that proved to best minimize power undersupply in the Sections 
+III.B.1 and III.B.2. 
+These will be referred to as `best performance models'. 
+\end{enumerate}
+The input files and scripts to reproduce the results and plots in this
+paper are found in \cite{chee_arfc/d3ploy:_2019} and 
+\cite{bae_arfctransition-scenarios_2019}. '
+\\
+
+We have also removed instances of `performs best' and replaced them with specifics. 
 \end{solution}
 
 \question Figures. This might be a bit picky, but is there a way to line the figures up more with the text? For
@@ -176,15 +204,57 @@ instance, Figures 7,8,9 are referenced on p21, but you have to scroll down sever
 someone who includes lots of graphs in their research too, this is understandably a challenge.
 
 \begin{solution}
-I shrunk Figure 7 to line it more with its text. Now, Figure 7 and its associated text are 
-found on pg 22, Figure 8 and 9 and their associated text are found on pg 24, 25, and 23 
-respectively. 
+As a result of the rearrangement of the results section, Figure 7 has been moved to pg 23, after 
+it is mentioned on pg 22. Figure 8 and 9 are mentioned on pg 24, and are shown on pg 25 and 26.  
 \end{solution}
 
 \question Conclusion. This section is rather glib, given what seems like a quite a body of work that was produced.
 I would recommend to include major findings and implications clearly.
 
 \begin{solution}
+We have extended the conclusion to more clearly describe the major findings and implications of 
+\deploy: 
+
+The present nuclear fuel cycle in the United States is a once-through 
+fuel cycle of LWRs with no used fuel reprocessing. 
+This nuclear fuel cycle faces cost, safety, proliferation, and spent 
+nuclear fuel challenges that hinder large-scale nuclear power deployment. 
+The U.S Department of Energy identified future 
+nuclear fuel cycles, involving continuous recycling of co-extracted U/Pu or 
+U/TRU in fast and thermal spectrum reactors, that may overcome these challenges.
+These transition scenarios have been modeled previously in the following 
+nuclear fuel cycle simulators \cite{feng_standardized_2016,bae_standardized_2019}: 
+ORION, DYMOND, VISION, MARKAL, and \Cyclus. 
+However, for many nuclear fuel cycle simulators, the user is required to 
+define a deployment scheme for all supporting facilities to avoid any 
+supply chain gaps or resulting idle reactor capacity. 
+Manually determining a deployment scheme for a once-through 
+fuel cycle is straightforward; however, for complex fuel cycle 
+scenarios, it is not. 
+In this paper, we introduce the capability, \deploy, in \Cyclus 
+that automatically deploys 
+fuel cycle facilities to meet user-defined power demand.     
+In this paper, we demonstrate that with careful selection of 
+\deploy parameters, we can 
+completely automate the setup of constant and 
+linearly increasing power demand transition scenarios
+for EG01-23, EG01-24, EG01-29, and EG01-30 with minimal 
+power undersupply. 
+Using \deploy to set up transition scenarios 
+saves the user simulation set-up time, making it more efficient 
+than the previous efforts that
+required a user to manually calculate and use trial and error 
+to set up the deployment scheme for the supporting fuel cycle 
+facilities. 
+Transition scenario simulations set up manually are sensitive 
+to changes in the input parameters resulting in an 
+arduous setup process since a slight change in one 
+input parameter would result in the need to recalculate 
+the deployment scheme to ensure no undersupply 
+of power.   
+Therefore, by automating this process, when the user varies input parameters 
+in the simulation, \deploy automatically adjusts the
+deployment scheme to meet the new constraints. 
 \end{solution}
 
 \question Future work. Similarly, after all this work, only a sensitivity analysis is suggested. Is there anything
@@ -205,10 +275,17 @@ single change in an input parameter.
 By using the \deploy capability,
 sensitivity analysis studies are more efficiently 
 conducted as facility deployment in transition scenarios 
-are automatically set up. \\
+are automatically set up. 
 \deploy will also be open-source and available for the forseeable future on github 
-\cite{noauthor_arfc/d3ploy:_2019}, to be used with \Cyclus for conducting any 
+\cite{chee_arfc/d3ploy:_2019}, to be used with \Cyclus for conducting any 
 transition scenario analysis. 
+The transition scenario simulations in this work assumed recipe reactors, 
+however, complexity introduced by the reprocessing plants cause the reactor's 
+incoming and outgoing material composition to be dynamic. Therefore, making simple static 
+assumptions such as recipe method is a poor approximation 
+\cite{bae_neural_2019,peterson-droogh_value_2018}. 
+In future transition scenario work with \deploy, a \Cyclus 
+reactor archetype that uses dynamic fuel compositions could be used. 
 \end{solution}
 
 \question Acknowledgments. I don’t know if it’s necessary to include author contributions. Given that Prof. Huff
@@ -217,7 +294,7 @@ is no doubt anyone listed as an author contributed meaningfully to the work. I�
 in journal papers anyway, but authors’ discretion.
 
 \begin{solution}
-        I will leave it as is. 
+        We will leave it as is. 
 \end{solution}
 
 \question Line Items (Abstract)
@@ -249,6 +326,31 @@ section. Only a paragraph or two, maximum. Some newer readers might not know wha
 means.
 
 \begin{solution}
+Excellent point. We have expanded the \Cyclus description. The passage now reads: 
+
+\Cyclus is an agent-based nuclear fuel cycle simulation framework 
+\cite{huff_fundamental_2016}, 
+each entity (i.e. \texttt{Region}, \texttt{Institution}, or \texttt{Facility}) in the 
+fuel cycle is an agent. 
+An agent-based model enables model development to take place at an agent level 
+rather than a system level \cite{huff_fundamental_2016}. 
+For example, an analyst can design a reactor agent that is entirely independent 
+from an fuel fabrication agent. Each agent's behavior is designed according to the 
+application interface contract, giving them the capability to interact with each 
+other in the simulation \cite{huff_fundamental_2016}.  
+\texttt{Region} agents represent geographical or political areas in which \texttt{Institution}
+and \texttt{Facility} agents reside. 
+\texttt{Institution} agents represent legal operating organizations such as
+utilities, governments, and control the 
+deployment and decommissioning of \texttt{Facility} agents
+\cite{huff_fundamental_2016}.
+\texttt{Facility} agents represent nuclear fuel cycle facilities
+such as mines, conversion facilities, reactors, reprocessing facilities, 
+etc. 
+\Cycamore \cite{carlsen_cycamore_2014}
+provides basic \texttt{Region}, \texttt{Institution}, 
+and \texttt{Facility} archetypes compatible with \Cyclus. 
+A complete introduction to \Cyclus can be found in \cite{huff_fundamental_2016}. 
 \end{solution}
 
 \question Line Items \\
@@ -260,7 +362,7 @@ policy established in the USA, and while that is a good discussion to have, it�
 this paper.
 
 \begin{solution}
-Excellent point. I have removed the sentence about perceived adverse safety. You're right, the real purpose 
+Excellent point. We have removed the sentence about perceived adverse safety. You're right, the real purpose 
 of these tools is not interaction with the public so much as providing a tool to potentially drive the 
 R\&D directions that are taken by our leadership (DOE) as stated in 1-15. 
 \end{solution}
@@ -299,11 +401,12 @@ risk, and institutional issues \cite{wigeland_nuclear_2014}.
 
 \begin{solution}
 \deploy's CPU demands vary based on the size of the simulation (no. of facilities, etc.) 
-and the prediction method used. We did not record the amount of CPU demands of our simulations 
-because they were not large enough to impact our productivity in producing results. 
+and the prediction method used. 
 For the complex transition scenarios (`best performance models') discussed in the paper, 
-the simulations took on average 2-3 hours. These simulations were performed on 32 core 
-Dell desktops, not on a supercomputer. 
+the simulations' CPU demand was very dependent on the prediction method used. It varied from 
+10 minutes for the simple \texttt{Moving Average} prediction method to 20 hours for 
+\texttt{Stepwise Seasonal}. These simulations were performed on a quad-core Intel Xeon Processor 
+E3-1225 V5 work station, not on a supercomputer. 
 \end{solution}
 
 \question Line Items \\
@@ -351,16 +454,16 @@ reactor unrealistic. It reads:
 
 We varied the power buffer size for the EG01-EG24 and EG01-EG30 
 linearly increasing power demand transition scenarios. 
-Figures \ref{fig:eg24-bufplot}, \ref{fig:eg30-bufplot}, 
-and Table \ref{tab:buff_size} 
+Figures 10(a), 10(b), 
+and Table VI 
 show that increasing the buffer size increases the robustness 
 of the supply chain by minimizing power undersupply. 
 The cumulative undersupply is minimized with a 6000MW and 8000MW 
 buffer for EG01-EG24 and EG01-EG30 respectively.
-In Figure \ref{fig:eg24-bufplot}, a 4000MW buffer size has 
+In Figure 10(a), a 4000MW buffer size has 
 8 time steps with undersupply, while a 6000MW buffer size has 
 7 time steps with undersupply. 
-In Figure \ref{fig:eg30-bufplot}, a 2000MW buffer size has 
+In Figure 10(b), a 2000MW buffer size has 
 6 time steps with undersupply, while a 8000MW buffer size has 
 5 time steps with undersupply. 
 We determined that extra commissioning of multiple reactors does not 
@@ -403,10 +506,42 @@ This difference will significantly impact your reprocessing capacity
 required to supply that material.
 
 \begin{solution}
-        Thank you for your kind review.
-        The statement concerning `unmatched' fidelity has been removed
-        entirely and the bibliography has been expanded significantly. See the
-        responses below for more detail..
+Thank you for your kind review.
+This paper focuses on \deploy's capabilities, we have clarified that we use recipe reactors 
+and constant reprocessing buffer sizes and isotope efficiencies in this paper on pg 22. It reads: 
+`The \texttt{reactor} facility used in the \Cyclus simulation 
+is a recipe reactor; it accepts a fresh fuel recipe and outputs 
+a spent fuel recipe. 
+The recipes used for the LWR, MOX LWR, and 
+SFR are based on recipes generated by VISION 
+\cite{bae_arfctransition-scenarios_2019}
+that closely match EG30 scenario specifications in 
+Appendix B of the DOE Evaluation and Screening Study 
+(E\&S study) \cite{wigeland_nuclear_2014}. 
+The LWR, FR, and MOX LWR cooling pools have a residence time of 36 months, and a max 
+inventory size of 1e8kg of fuel. 
+The reprocessing segment for each reactor type has a reprocessing and mixer facility. 
+Each reprocessing facility has a throughput of 1e8kg and separates U/Pu or U/TRU from 
+other isotope in spent fuel. 
+Each mixer facility mixes the U/Pu or U/TRU to fabricate new reprocessed fuel.  
+\deploy will deploy reprocessing facilities based on the demand of reprocessed fuel 
+from the MOX LWRs and FRs to ensure that sufficient fissile material 
+feeds the reprocessing facilities to make sufficient reprocessed fuel 
+for each reactor type. ' 
+
+We agree that for closed NFCs, loops created by the reprocessing plant cause the reactor's 
+incoming and outgoing material composition to be dynamic. Therefore, making simple static 
+assumptions such as recipe method is a poor approximation 
+\cite{bae_neural_2019,peterson-droogh_value_2018}. 
+We added this statement to the future work section: 
+`The transition scenario simulations in this work assumed recipe reactors, 
+however, complexity introduced by the reprocessing plants cause the reactor's 
+incoming and outgoing material composition to be dynamic. Therefore, making simple static 
+assumptions such as recipe method is a poor approximation 
+\cite{bae_neural_2019,peterson-droogh_value_2018}. 
+In future transition scenario work with \deploy, a \Cyclus 
+reactor archetype that uses dynamic fuel compositions could be used. '
+
 \end{solution}
 
 \question 
@@ -444,6 +579,15 @@ necessary capacity a single time-step in advance does that mean that
 there is no deployment or process times?
 
 \begin{solution}
+\deploy does these calculations on-the-fly. Yes it is assumed that deployment occurs 
+within one time step (month). The passage on Pg 5 has been edited to clarify these 
+questions: 
+
+During a \Cyclus simulation, at every time step, \deploy 
+predicts the supply and demand of each commodity for the next time 
+step. 
+It is assumed that facility deployment occurs 
+within one time step (month). 
 \end{solution}
 
 \question
@@ -452,6 +596,32 @@ POLY and FFT methods perform best when they do? What is it about those methods t
 causes them to outperform the others so significantly?
 
 \begin{solution}
+A good question. The following passage on pg 27 has been enhanced to explain 
+why the \texttt{POLY} and \texttt{FFT} methods outperform the others: 
+
+Figures 8, 9, and Table 
+IV show that the \texttt{POLY} method 
+minimizes power undersupply for constant power transition scenarios, 
+and the \texttt{FFT} method minimizes power undersupply for linearly increasing 
+power transition scenarios. 
+Undersupply and under-capacity of commodities occur during two main time periods: 
+initial demand for the commodity and during the transition period (month 950 onwards).
+The \texttt{POLY} method minimizes commodity undersupply during the transition period, 
+and does especially well during the start of the simulation in Figure 8 
+We hypothesize that it is because a first order polynomial was used, and thus, \texttt{POLY}
+could best predict the future demand of each commodity. 
+The \texttt{FFT} method struggled with predicting the demand at the start of the simulation
+in both Figures 8 and 9, 
+but did very well during the transition period for both simulations. 
+The reason why it is so effective is that is able to capture the significant features 
+of the time series data and uses it to predict future demand values. 
+It is weaker at the beginning of the simulation because there is a lack of time series data. 
+Different methods perform well for different power demand curves. In 
+\cite{chee_demonstration_2019}, we demonstrate that the \texttt{HOLT-WINTERS} method 
+minimizes undersupply of all commodities for a sinusoidal power demand curve. 
+This is because the triple exponential smoothing
+method excels in forecasting data points for repetitive seasonal
+series of data \cite{chee_demonstration_2019}.
 \end{solution}
 
 \question 
@@ -460,6 +630,10 @@ they are created regardless of time and need. Is this the expected behavior,
 and if it is, is there no facility decommissioning?
 
 \begin{solution}
+This is not the expected behavior, however, we ran these simulations before the 
+decommissioning option was developed. Now, \deploy \cite{chee_arfc/d3ploy:_2019} 
+has decommissioning capabilities, 
+and future transition scenario analyses using \deploy have the option to use it.  
 \end{solution}
 
 \question
@@ -469,6 +643,36 @@ otherwise (e.g., it could be misinterpreted in figure 11 that power supplied is
 increasing since you are deploying significantly more reactors).
 
 \begin{solution}
+We have added the following passage on pg 22 to address this concern: 
+
+The facilities used in the transition scenario simulations are described below. 
+The source facility has a throughput of 1e8kg of natural uranium, and the enrichment 
+facility has a SWU capacity of 1e100. The LWRs have an 
+assembly size of 29863.3kg with 3 assemblies per core, and a power capacity of 1000 MW. 
+The FRs have an assembly size  of 3950kg and power capacity of 333.34 MW.
+The MOX LWRs have an assembly size of 33130kg and power capacity of 1000 MW. 
+The \texttt{reactor} facility used in the \Cyclus simulation 
+is a recipe reactor; it accepts a fresh fuel recipe and outputs 
+a spent fuel recipe. 
+The recipes used for the LWR, MOX LWR, and 
+SFR are based on recipes generated by VISION 
+\cite{bae_arfctransition-scenarios_2019}
+that closely match EG30 scenario specifications in 
+Appendix B of the DOE Evaluation and Screening Study 
+(E\&S study) \cite{wigeland_nuclear_2014}. 
+The LWR, FR, and MOX LWR cooling pools have a residence time of 36 months, and a max 
+inventory size of 1e8kg of fuel. 
+The reprocessing segment for each reactor type has a reprocessing and mixer facility. 
+Each reprocessing facility has a throughput of 1e8kg and separates U/Pu or U/TRU from 
+other isotope in spent fuel. 
+Each mixer facility mixes the U/Pu or U/TRU to fabricate new reprocessed fuel.  
+\deploy will deploy reprocessing facilities based on the demand of reprocessed fuel 
+from the MOX LWRs and FRs to ensure that sufficient fissile material 
+feeds the reprocessing facilities to make sufficient reprocessed fuel 
+for each reactor type. 
+Each waste repository is assumed to have infinite capacity. 
+For more details about each simulation, the input files can be found at 
+\cite{bae_arfctransition-scenarios_2019}. 
 \end{solution}
 
 \end{questions}

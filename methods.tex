@@ -6,9 +6,11 @@ The \deploy \texttt{Institution} agent was
 implemented in Python to enable the use of 
 well-developed time series forecasting Python packages. 
 
-In a \Cyclus simulation, at every time step, \deploy 
+During a \Cyclus simulation, at every time step, \deploy 
 predicts the supply and demand of each commodity for the next time 
 step. 
+It is assumed that facility deployment occurs 
+within one time step (month). 
 Commodities refer to materials in the nuclear fuel cycle such as 
 reactor fuel. 
 Upon undersupply for any commodity, 
@@ -48,7 +50,7 @@ transition scenario using \deploy and the input parameters
     \draw [arrow] (Deploy) -- (All);
     \draw [arrow] (NoDeploy) -- (All);
     \draw [arrow] (All) -- node[anchor=west] {yes} (End);
-    \draw [arrow] (All) -- ([shift={(-4cm,1cm)}]All.south west)-- node[anchor=east] {no} ([shift={(-4cm,-1cm)}]Predict.north west)--(Predict);
+    \draw [arrow] (All) -- ([shift={(-4cm,0.8cm)}]All.south west)-- node[anchor=east] {no} ([shift={(-4cm,-0.8cm)}]Predict.north west)--(Predict);
     \draw [arrow] (End) |-([shift={(3cm,-0.5cm)}]End.south east)-- ([shift={(3cm,0.5cm)}]Start.north east)-|(Start);
 	\end{tikzpicture}
 	}
@@ -194,7 +196,6 @@ section \ref{sec:buf}.
 	\centering
     \caption{\deploy's required and optional input parameters with examples.}
     \label{tab:inputs}
-        \footnotesize
         \begin{tabular}{l|ll}
         \hline
             & \textbf{Input Parameter}                                                           & \textbf{Examples}                                                                                                          \\ \hline
