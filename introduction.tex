@@ -20,7 +20,7 @@ impact the system's performance.
 Therefore, these results can be used to guide research 
 efforts, advise future design choices, and provide 
 decision-makers with a transparent tool for evaluating 
-Fuel Cycle Options to inform policy decisions 
+fuel cycle options to inform policy decisions 
 \cite{yacout_modeling_2005}.
 
 Many fuel cycle simulators automatically deploy reactor facilities 
@@ -45,28 +45,11 @@ Thus, a next-generation nuclear fuel cycle simulator must predictively and
 automatically deploy fuel cycle facilities to meet a user-defined 
 power demand. 
 
-In \Cyclus, an agent-based nuclear fuel cycle simulation framework 
-\cite{huff_fundamental_2016}, 
-each entity (i.e. \texttt{Region}, \texttt{Institution}, or \texttt{Facility}) in the 
-fuel cycle is an agent. 
-\texttt{Region} agents represent geographical or political areas in which \texttt{Institution}
-and \texttt{Facility} agents reside. 
-\texttt{Institution} agents represent legal operating organizations such as
-utilities, governments, and control the 
-deployment and decommissioning of \texttt{Facility} agents
-\cite{huff_fundamental_2016}.
-\texttt{Facility} agents represent nuclear fuel cycle facilities
-such as mines, conversion facilities, reactors, reprocessing facilities, 
-etc. 
-\Cycamore \cite{carlsen_cycamore_2014}
-provides basic \texttt{Region}, \texttt{Institution}, 
-and \texttt{Facility} archetypes compatible with \Cyclus. 
-
 \subsection{Context of Work}
 The impact of climate change on natural and human systems 
 is increasingly apparent \cite{noauthor_climate_2018}.
 The production and use of energy contribute to 
-two-thirds of the total Green House Gas (GHG) 
+two-thirds of the total greenhouse gas (GHG) 
 emissions \cite{noauthor_climate_2018}.
 Furthermore, as the human population increases and previously 
 under-developed nations rapidly industrialize, 
@@ -78,12 +61,8 @@ could significantly reduce GHG production
 \cite{noauthor_climate_2018}.    
 
 However, large scale nuclear power deployment faces
-challenges of cost, safety, and used nuclear fuel  
-\cite{petti_future_2018}. 
-Nuclear power has high capital costs, 
-an unresolved long-term nuclear waste management 
-strategy and perceived adverse safety, environmental, and health 
-effects \cite{petti_future_2018}. 
+challenges of safety, cost, and used nuclear fuel  
+\cite{noauthor_future_2018}. 
 The nuclear power industry must overcome these challenges 
 to ensure continued global use and expansion 
 of nuclear energy technology. 
@@ -99,15 +78,24 @@ the existing once-through
 fuel cycle (EG01) in the \gls{US} across a wide range of criteria. 
 Fuel cycles that involved continuous recycling
 of co-extracted U/Pu or U/TRU in fast spectrum critical reactors
-consistently scored high on overall performance.  
+consistently scored high on overall performance based on the nine 
+DOE-specified evaluation criteria: nuclear waste management, 
+financial risk and economics, 
+proliferation risk, nuclear material security risk, safety, 
+environmental impact, resource utilization, development and deployment 
+risk, and institutional issues \cite{wigeland_nuclear_2014}. 
 Table \ref{tab:eg} describes these fuel cycles:
 EG23, EG24, EG29, and EG30. 
+Recent statements from Rita Baranwal \cite{noauthor_new_2019}, the Nuclear 
+Energy Innovation Capabilities Act \cite{crapo_s97_2018}, and the 
+Advanced Nuclear Technology Development Act \cite{latta_hr590_2017} 
+show that there continues to be national interest in pursuing spent 
+fuel recycling and advanced nuclear power technology. 
 
     \begin{table}[]
         \centering
         \caption{Descriptions of the current and other high performing nuclear fuel cycle evaluation groups described in the evaluation and screening study \cite{wigeland_nuclear_2014}.}
         \label{tab:eg}
-            \footnotesize
             \begin{tabular}{llll}
                 \hline
             \textbf{Fuel Cycle}                                               & \textbf{Open or Closed} & \textbf{Fuel Type}                                                              & \textbf{Reactor Type}                                                                           \\ \hline
@@ -130,9 +118,34 @@ scenarios, the nuclear fuel cycle simulator tool must
 automate the transition scenario simulation setup. 
 Therefore, the Demand-Driven \Cycamore Archetypes project
 (NEUP-FY16-10512) was initiated to develop 
-demand-driven deployment capabilities in \Cyclus. 
+demand-driven deployment capabilities in \Cyclus, 
+a nuclear fuel cycle simulator. 
 This capability, \deploy, is a \Cyclus \texttt{Institution}
 agent that deploys facilities to meet user-defined power demand. 
+
+\Cyclus is an agent-based nuclear fuel cycle simulation framework 
+\cite{huff_fundamental_2016}, 
+each entity (i.e. \texttt{Region}, \texttt{Institution}, or \texttt{Facility}) in the 
+fuel cycle is an agent. 
+An agent-based model enables model development to take place at an agent level 
+rather than a system level \cite{huff_fundamental_2016}. 
+For example, an analyst can design a reactor agent that is entirely independent 
+from an fuel fabrication agent. Each agent's behavior is designed according to the 
+application interface contract, giving them the capability to interact with each 
+other in the simulation \cite{huff_fundamental_2016}.  
+\texttt{Region} agents represent geographical or political areas in which \texttt{Institution}
+and \texttt{Facility} agents reside. 
+\texttt{Institution} agents represent legal operating organizations such as
+utilities, governments, and control the 
+deployment and decommissioning of \texttt{Facility} agents
+\cite{huff_fundamental_2016}.
+\texttt{Facility} agents represent nuclear fuel cycle facilities
+such as mines, conversion facilities, reactors, reprocessing facilities, 
+etc. 
+\Cycamore \cite{carlsen_cycamore_2014}
+provides basic \texttt{Region}, \texttt{Institution}, 
+and \texttt{Facility} archetypes compatible with \Cyclus. 
+A complete introduction to \Cyclus can be found in \cite{huff_fundamental_2016}. 
 
 \subsection{Novelty}
 We utilized time series forecasting methods to effectively predict 

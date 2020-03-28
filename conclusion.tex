@@ -1,16 +1,36 @@
 \section{Conclusion}
+The present nuclear fuel cycle in the United States is a once-through 
+fuel cycle of LWRs with no used fuel reprocessing. 
+This nuclear fuel cycle faces cost, safety, proliferation, and spent 
+nuclear fuel challenges that hinder large-scale nuclear power deployment. 
+The U.S Department of Energy identified future 
+nuclear fuel cycles, involving continuous recycling of co-extracted U/Pu or 
+U/TRU in fast and thermal spectrum reactors, that may overcome these challenges.
+These transition scenarios have been modeled previously in the following 
+nuclear fuel cycle simulators \cite{feng_standardized_2016,bae_standardized_2019}: 
+ORION, DYMOND, VISION, MARKAL, and \Cyclus. 
+However, for many nuclear fuel cycle simulators, the user is required to 
+define a deployment scheme for all supporting facilities to avoid any 
+supply chain gaps or resulting idle reactor capacity. 
+Manually determining a deployment scheme for a once-through 
+fuel cycle is straightforward; however, for complex fuel cycle 
+scenarios, it is not. 
+In this paper, we introduce the capability, \deploy, in \Cyclus 
+that automatically deploys 
+fuel cycle facilities to meet user-defined power demand.     
 In this paper, we demonstrate that with careful selection of 
 \deploy parameters, we can 
-effectively automate the setup of constant and 
+completely automate the setup of constant and 
 linearly increasing power demand transition scenarios
 for EG01-23, EG01-24, EG01-29, and EG01-30 with minimal 
 power undersupply. 
 Using \deploy to set up transition scenarios 
-is more efficient than the previous efforts that
+saves the user simulation set-up time, making it more efficient 
+than the previous efforts that
 required a user to manually calculate and use trial and error 
 to set up the deployment scheme for the supporting fuel cycle 
 facilities. 
-Transition scenario simulations set up this way are sensitive 
+Transition scenario simulations set up manually are sensitive 
 to changes in the input parameters resulting in an 
 arduous setup process since a slight change in one 
 input parameter would result in the need to recalculate 

@@ -1,17 +1,29 @@
 \section{Results}
-To demonstrate \deploy's capability conduct transition
-scenario analysis effectively and meet the objectives described in section 
-\ref{sec:obj}, this section 
-(1) demonstrates \deploy's capability in a simple transition scenario, 
-(2) compares the use of different \deploy prediction methods in EG01-EG23, EG01-EG24, 
+This section aims to demonstrate \deploy's capability to completely automate the setup of 
+transition scenarios and meet the objectives described in section 
+\ref{sec:obj}. 
+This section is split into two subsections. 
+The first subsection (section \ref{sec:demo}) will demonstrate \deploy's capabilities 
+to automate set up a simple transition scenario with only three facility types. 
+The second subsection (section \ref{sec:complex}) will demonstrate \deploy's capabilities to
+automate set up of complex EG01-23, EG01-24, EG01-29, EG01-30 transition scenarios and is further 
+subdivided into:  
+\begin{enumerate}
+\item Section \ref{sec:complex1}: compare the use of different \deploy prediction methods in EG01-EG23, EG01-EG24, 
+EG01-EG29, and EG01-EG30 transition scenarios, 
+\item Section \ref{sec:complex2}: compare the use of varied power buffer sizes in EG01-EG23, EG01-EG24, 
 EG01-EG29, and EG01-EG30 transition scenarios, and
-(3) demonstrates successful \deploy setup of EG01-EG23, EG01-EG24, 
-EG01-EG29, and EG01-EG30 transition scenarios. 
+\item Section \ref{sec:complex3}: demonstrate successful \deploy setup of EG01-EG23, EG01-EG24, 
+EG01-EG29, and EG01-EG30 transition scenarios using the prediction method and 
+power buffer size that proved to best minimize power undersupply in the Sections 
+\ref{sec:complex1} and \ref{sec:complex2}. 
+These will be referred to as `best performance models'. 
+\end{enumerate}
 The input files and scripts to reproduce the results and plots in this
-paper are found in \cite{noauthor_arfc/d3ploy:_2019} and 
-\cite{chee_arfc/transition-scenarios_2019}. 
+paper are found in \cite{chee_arfc/d3ploy:_2019} and 
+\cite{bae_arfctransition-scenarios_2019}. 
 
-\subsection{Demonstration of \deploy's Capabilities}
+\subsection{Simple Transition Scenario}
 \label{sec:demo}
 We conducted a simple transition scenario simulation with
 linearly increasing power demand
@@ -75,14 +87,15 @@ up reactors.
 
 \begin{figure}[]
     \centering
+    \begin{subfigure}[t]{1\textwidth}
     \includegraphics[width=\linewidth]{figures/growingtransition-power.png} 
         \caption{Power demand and supply, and reactor facility deployment plot for  
         a simple linearly increasing power demand transition scenario with 
         three facility types: \texttt{source}, \texttt{reactor}, and \texttt{sink}.
         The simulation begins with \texttt{reactor1} to \texttt{reactor10} and \deploy 
-        deploys \texttt{newreactors} to meet increasing power demand. 
-        Power undersupply was avoided entirely.}
+        deploys \texttt{newreactors} to meet increasing power demand. }
         \label{fig:growingtransition-power}
+    \end{subfigure}
 \end{figure}
 
 \begin{figure}[]

@@ -6,9 +6,11 @@ The \deploy \texttt{Institution} agent was
 implemented in Python to enable the use of 
 well-developed time series forecasting Python packages. 
 
-In a \Cyclus simulation, at every time step, \deploy 
+During a \Cyclus simulation, at every time step, \deploy 
 predicts the supply and demand of each commodity for the next time 
 step. 
+It is assumed that facility deployment occurs 
+within one time step (month). 
 Commodities refer to materials in the nuclear fuel cycle such as 
 reactor fuel. 
 Upon undersupply for any commodity, 
@@ -48,7 +50,7 @@ transition scenario using \deploy and the input parameters
     \draw [arrow] (Deploy) -- (All);
     \draw [arrow] (NoDeploy) -- (All);
     \draw [arrow] (All) -- node[anchor=west] {yes} (End);
-    \draw [arrow] (All) -- ([shift={(-4cm,1cm)}]All.south west)-- node[anchor=east] {no} ([shift={(-4cm,-1cm)}]Predict.north west)--(Predict);
+    \draw [arrow] (All) -- ([shift={(-4cm,0.8cm)}]All.south west)-- node[anchor=east] {no} ([shift={(-4cm,-0.8cm)}]Predict.north west)--(Predict);
     \draw [arrow] (End) |-([shift={(3cm,-0.5cm)}]End.south east)-- ([shift={(3cm,0.5cm)}]Start.north east)-|(Start);
 	\end{tikzpicture}
 	}
@@ -157,7 +159,7 @@ between predicted demand and predicted supply, \textit{or}
 predicted demand and installed capacity. 
 For example, a reprocessing plant that fabricates Sodium-Cooled Fast Reactor 
 (SFR) fuel demands for Pu after depletion of the existing Pu inventory and 
-decommissioning of the LWRs that produce it. 
+decommissioning of the \glspl{LWR} that produce it. 
 If we used the deployment-driving method driven by 
 the difference in predicted demand and predicted supply, this results in 
 infinite deployment of reprocessing facilities in a futile attempt 
@@ -174,39 +176,39 @@ transition scenarios.
 Table \ref{tab:inputs} lists and gives examples of the input 
 variables \deploy accepts. 
 The user must define the following input variables:
-(1) \textbf{The available facilities for \deploy to deploy in the simulation and their respective capacities.}
+\begin{enumerate}
+\item \textbf{The available facilities for \deploy to deploy in the simulation and their respective capacities.}
 Users must define the facilities they want \deploy to deploy. It is the user's responsibility to 
 ensure the defined facilities create a supply chain to produce the demand driving commodity.
-(2) \textbf{The demand driving commodity and its demand equation.} For most simulations, the demand driving 
+\item \textbf{The demand driving commodity and its demand equation.} For most simulations, the demand driving 
 commodity is power. The demand equation is defined by a mathematical equation with units of MW. For example, 
 a constant power demand equation is $10000$, while a linearly increasing power demand equation is $100t$.
-(3) \textbf{The deployment driving method}. This input variable is described in Section \ref{sec:ddm}.
-(4) \textbf{The prediction method}. This input variable is described in Section \ref{sec:pm}.
+\item \textbf{The deployment driving method}. This input variable is described in Section \ref{sec:ddm}. 
+\item \textbf{The prediction method}. This input variable is described in Section \ref{sec:pm}.
 There are also optional input variables: 
-(5) \textbf{Supply/capacity buffers for individual commodities.} This input variable is described in 
+\item \textbf{Supply/capacity buffers for individual commodities.} This input variable is described in 
 section \ref{sec:buf}.
-(6) \textbf{Facility preferences.} This input variable is described in section \ref{sec:pref}.
-(7) \textbf{Facility fleet shares.} This input variable is described in section \ref{sec:pref}.
-
+\item \textbf{Facility preferences.} This input variable is described in section \ref{sec:pref}.
+\item \textbf{Facility fleet shares.} This input variable is described in section \ref{sec:pref}.
+\end{enumerate}
 
 \begin{table}[]
 	\centering
     \caption{\deploy's required and optional input parameters with examples.}
     \label{tab:inputs}
-        \footnotesize
         \begin{tabular}{l|ll}
         \hline
             & \textbf{Input Parameter}                                                           & \textbf{Examples}                                                                                                          \\ \hline
             \multirow{5}{*}{\textbf{Required}} & Demand driving commodity                                                           & Power                                                                                                                      \\ \cline{2-3} 
                                                       & Demand equation [MW]                                                                   & P(t) = $10000, sin(t), 10000t$                                                                                                                 \\ \cline{2-3} 
-                                                      & Available Facilities                                                             & Mine, LWR, Repository, etc.                                                                                                      \\ \cline{2-3} 
+                                                      & Available Facilities                                                             & Mine, \gls{LWR}, Repository, etc.                                                                                                      \\ \cline{2-3} 
                                                       & Capacities of the facilities                                                       & 3000 kg, 1000 MW, 50000 kg                                                                                                     \\ \cline{2-3} 
                                                       & Prediction method                                                                  & \begin{tabular}[c]{@{}l@{}}Power: Fast Fourier Transform\\ Fuel: Moving Average\\ Spent fuel: Moving Average\end{tabular} \\ \cline{2-3} 
                                                       & Deployment driven by & Installed Capacity                                                                                                                    \\ \hline
             \multirow{4}{*}{\textbf{Optional}} & Supply/Capacity Buffer type                                                                        & Absolute                                                                                                                  \\ \cline{2-3} 
                                                       & Supply/Capacity Buffer size                                                                        & \begin{tabular}[c]{@{}l@{}}Power: 3000 MW\\ Fuel: 0 kg \\ Spent fuel: 0 kg\end{tabular}                                   \\ \cline{2-3} 
-                                                      & Facility preferences [month]                                                              & \begin{tabular}[c]{@{}l@{}}LWR = 100-t\\ SFR = t-99 \end{tabular}          \\ \cline{2-3} 
-                                                      & Fleet share percentage [\%]                                                            & \begin{tabular}[c]{@{}l@{}}MOX LWR = 85\%\\ SFR = 15\% \end{tabular}          \\ \hline
+                                                      & Facility preferences [month]                                                              & \begin{tabular}[c]{@{}l@{}}\gls{LWR} = 100-t\\ SFR = t-99 \end{tabular}          \\ \cline{2-3} 
+                                                      & Fleet share percentage [\%]                                                            & \begin{tabular}[c]{@{}l@{}}MOX \gls{LWR} = 85\%\\ SFR = 15\% \end{tabular}          \\ \hline
                     \end{tabular}
 \end{table}
 \subsubsection{Supply/Capacity Buffer}
@@ -216,13 +218,11 @@ supply buffer for each commodity; \deploy accounts for the buffer when
 calculating predicted demand and deploys facilities accordingly.
 The buffer is defined as a percentage: 
 \begin{align}
-	\label{eq:perc}
 	S_{pwb} &= S_{p}(1+d)
+\intertext{or an absolute value:}
+    S_{pwb} &= S_{p}+b 
 \end{align}
-or an absolute value: 
-\begin{align}
-	\label{eq:abs}
-	S_{pwb} &= S_{p}+b 
+    \begin{align}
 	\intertext{where:}
 	S_{pwb} &= \mbox{predicted supply/capacity with buffer} \nonumber\\
 	S_p &= \mbox{predicted supply/capacity} \nonumber\\
@@ -242,17 +242,17 @@ The user can define time-dependent preference equations to facilities'
 that supply the same commodity. 
 If there are two reactor types, \glspl{LWR} and \glspl{SFR}, in a simulation, 
 the user can make use of time-dependent 
-preferences to make the simulation deploy LWRs at earlier times 
+preferences to make the simulation deploy \glspl{LWR} at earlier times 
 in the simulation, and deploy SFRs at later times in the 
 simulation when there is a power demand. 
 In Table \ref{tab:inputs}, 
-the user defined that the LWR has a preference of $100-t$, while 
+the user defined that the \gls{LWR} has a preference of $100-t$, while 
 the SFR has a preference of $t-99$. 
 Figure \ref{fig:prefplot} depicts how the preference for each reactor changes 
 with time. 
 When there is a power undersupply, \deploy will deploy the reactor that has a
 larger preference at that time step.
-At time step 100, LWR preference is 0, while SFR preference is 1; 
+At time step 100, \gls{LWR} preference is 0, while SFR preference is 1; 
 therefore an SFR is deployed if there is a power shortage. 
 Thus, the transition occurs at the $100^{th}$ time step.
 
@@ -260,7 +260,7 @@ Thus, the transition occurs at the $100^{th}$ time step.
 	\begin{center}
 		\includegraphics[width=\linewidth]{./figures/prefplot}
 	\end{center}	
-		\caption{\deploy has a $100-t$ preference for LWRs and a $t-99$ preference for SFRs.
+		\caption{\deploy has a $100-t$ preference for \glspl{LWR} and a $t-99$ preference for SFRs.
 		When there is a power undersupply, \deploy will deploy the reactor that has a
 		larger preference at that time step.}
 	\label{fig:prefplot}
@@ -268,12 +268,12 @@ Thus, the transition occurs at the $100^{th}$ time step.
 
 The user also has the option to specify percentage-share for facilities 
 that provide the same commodity. 
-For example, if there are two reactor types, \gls{MOX} LWRs and SFRs, in a simulation,
+For example, if there are two reactor types, \gls{MOX} \glspl{LWR} and SFRs, in a simulation,
 the user can make use of percentage-share specifications to determine the 
 percentage of power supplied by each reactor.   
-When MOX LWR has a share of $s\%$ and 
+When MOX \gls{LWR} has a share of $s\%$ and 
 \gls{SFR} has a share of $(100-s)\%$, 
-MOX LWR deployment constrains to $s\%$ of total power demand 
+MOX \gls{LWR} deployment constrains to $s\%$ of total power demand 
 and SFR deployment constrains to $(100-s)\%$ of total power demand.  
 
 The transition year is selected by customizing facility 
@@ -342,10 +342,11 @@ time series and returns it as the predicted value
 
 \begin{align}
 	\label{eq:ma}
-	Predicted\ Value &= \frac{\sum_{n=1}^N V_n}{n}
-	\intertext{where:}
+	PV &= \frac{\sum_{n=1}^N V_n}{n}
+    \intertext{where:}
+    PV &= \mbox{predicted value} \nonumber \\
 	V_n &= \mbox{time series value} \nonumber\\
-	N &= \mbox{length of time series} \nonumber\\
+	N &= \mbox{length of time series} \nonumber
 \end{align}
 
 The \texttt{ARMA} method combines moving average and
@@ -412,6 +413,7 @@ N complex numbers ($X_k$) into another sequence of complex numbers
     n &= 0,...,N-1 \nonumber
 \end{align}
 
+\noindent
 This method is implemented in \deploy using the 
 SciPy \cite{jones_scipy:_2016} Python package. 
 
@@ -429,8 +431,10 @@ supply values:
     \varepsilon &= \mbox{unobserved random error} \nonumber
 \end{align}
 
+\noindent
 This method was implemented in \deploy using the 
 NumPy \cite{oliphant_guide_2006} Python package. 
+
 The \texttt{EXP-SMOOTHING} and \texttt{HOLT-WINTERS} 
 methods use a weighted average 
 of time-series data with exponentially decaying weights 
@@ -445,9 +449,10 @@ modeling univariate time series data without trend or seasonality
     y_{t+1} &= \alpha y_i + (1-\alpha)y_t. \\ 
     \intertext{where:}
     y &= \mbox{timeseries value} \nonumber \\
-    \alpha &= \mbox{smoothing factor } (0 < \alpha < 1)
+    \alpha &= \mbox{smoothing factor } (0 < \alpha < 1) \nonumber
 \end{align}
 
+\noindent
 The \texttt{HOLT-WINTERS} method applies triple exponential 
 smoothing, resulting in higher accuracy when 
 modeling seasonal time series data 
@@ -461,6 +466,7 @@ modeling seasonal time series data
     \intertext{where:}
     F &= \mbox{forecast at m periods ahead} \nonumber \\
     t &= \mbox{time period index} \nonumber \\
+    L &= \mbox{periods in a season} \nonumber \\
     S &= \mbox{smoothed observation} \nonumber \\
     y &= \mbox{the observation} \nonumber \\
     b &= \mbox{trend factor} \nonumber \\
@@ -468,6 +474,7 @@ modeling seasonal time series data
     \alpha, \beta, \gamma &= \mbox{constants} \nonumber
 \end{align}
 
+\noindent
 The StatsModels \cite{seabold_statsmodels:_2010}
 Python package was used to implement the \texttt{EXP-SMOOTHING} 
 and \texttt{HOLT-WINTERS} methods in \deploy. 
@@ -488,6 +495,8 @@ and past values of an error series \cite{institute_sas_1985}:
     t &= \mbox{time index} \nonumber \\
     \mu &= \mbox{mean term} \nonumber \\
     B &= \mbox{backshift operator, such that } BX_t = X_{t-1} \nonumber \\
+    d &= \mbox{no. of roots} \nonumber \\
+    Y &= \mbox{timeseries data} \nonumber \\
     \phi(B) &= \mbox{autoregressive operator} \nonumber \\
     \theta(B) &= \mbox{moving average operator} \nonumber \\
     a_t &= \mbox{random error} \nonumber 

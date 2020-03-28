@@ -1,15 +1,12 @@
-\documentclass[review]{elsarticle}
+% Document template for ANS Journals
+% Options: footnoteAtEnd - Places all footnotes at the end of document
+%               Usage: \documentclass[footnoteAtEnd]{style/nseJournal}
+\documentclass{style/nseJournal}
 
 \usepackage{lineno}
 \usepackage{xspace}
-\modulolinenumbers[5]
-
-\journal{Journal}
-
-%% `Elsevier LaTeX' style
-\bibliographystyle{elsarticle-num}
-%%%%%%%%%%%%%%%%%%%%%%%
-
+\linenumbers
+%\modulolinenumbers[5]
 %%%% packages and definitions (optional)
 \usepackage{placeins}
 \usepackage{booktabs} % nice rules (thick lines) for tables
@@ -82,12 +79,14 @@ text width=10em, text centered, rounded corners, minimum height=3em]
   {\endtabularx\par\vspace{\belowdisplayskip}}
 
 % hyperref %
-\usepackage[hidelinks]{hyperref}
+\usepackage{hyperref}
+\hypersetup{colorlinks,urlcolor=black}
 % after hyperref %
 \usepackage{cleveref}
 \usepackage{datatool}
 \usepackage[acronym,toc]{glossaries}
 \include{acros}
+\renewcommand*{\glstextformat}[1]{\textcolor{black}{#1}}
 
 \newcommand{\Cyclus}{\textsc{Cyclus}\xspace}%
 \newcommand{\Cycamore}{\textsc{Cycamore}\xspace}%
@@ -96,33 +95,39 @@ text width=10em, text centered, rounded corners, minimum height=3em]
 \makeglossaries
 
 \begin{document}
-\begin{frontmatter}
-\title{Demand Driven Deployment Capabilities in Cyclus, a Fuel Cycle Simulator}
 
-\date{}                     %% if you don't need date to appear
+\title{Demand Driven Deployment Capabilities in Cyclus, a Fuel Cycle Simulator} %title of paper
 
-%% Authors
-\input{authors}
+% Use the \addAuthor macro to add authors in the order they should appear. The second argument corresponds to
+% the affiliation declared below.
+% The corresponding author should be wrapped in \correspondingAuthor
+\addAuthor{\correspondingAuthor{Gwendolyn J. Chee}}{a}
+% The corresponding author's email can be specified using \correspondingEmail
+\correspondingEmail{gchee2@illinois.edu}
+\addAuthor{Roberto E. Fairhurst Agosta}{a}
+\addAuthor{Jin Whan Bae}{b}
+\addAuthor{Robert R. Flanagan}{c}
+\addAuthor{Anthony M. Scopatz}{d}
+\addAuthor{Kathryn D. Huff}{a}
 
-% Institutes of the authors
-\input{institutions}
-	
-\begin{keyword}
-nuclear engineering \sep 
-nuclear fuel cycle \sep
-nuclear fuel cycle simulator \sep
-time series forecasting \sep 
-automated deployment 
-\end{keyword}
+% Affiliations can be added in the order they should appear. For breaks in addresses, use either \\ or \tabularnewline
+\addAffiliation{a}{Dept. of Nuclear, Plasma, and Radiological Engineering, \\ University of Illinois at Urbana-Champaign, Urbana, IL 61801}
+\addAffiliation{b}{Oak Ridge National Laboratory, Oak Ridge, TN, United States}
+\addAffiliation{c}{Nuclear Engineering Program, University of South Carolina}
+\addAffiliation{d}{Quansight, LLC}
+
+% Add keywords to appear in Abstract in the order they should appear
+\addKeyword{nuclear engineering}
+\addKeyword{nuclear fuel cycle}
+\addKeyword{nuclear fuel cycle simulator}
+\addKeyword{time series forecasting}
+\addKeyword{automated deployment}
+
+\titlePage
 
 \input{abstract}
 
-\end{frontmatter}
-\glsresetall
-
-\linenumbers
-
-\input{introduction}
+\input{introduction.tex}
 \FloatBarrier
 \input{methods}
 \FloatBarrier
@@ -136,7 +141,10 @@ automated deployment
 \input{acks}
 \FloatBarrier
 
-%\nocite{robertson_conceptual_1971} % placeholder until citations appear
-\bibliography{2019-d3ploy-transition}
+\pagebreak
+\bibliographystyle{style/ans_js}                                                                           %custom ANS journal submission template bibliography style
+\bibliography{2019-d3ploy-transition.bib}
 
 \end{document}
+
+
